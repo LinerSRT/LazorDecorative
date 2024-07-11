@@ -1,0 +1,78 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://maven.fabricmc.net" }
+        maven { url "https://repo.sleeping.town" }
+    }
+    dependencies {
+        classpath "agency.highlysuspect:voldeloom:2.4-SNAPSHOT"
+    }
+}
+
+apply plugin: "agency.highlysuspect.voldeloom"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+compileJava {
+    options.release.set(7)
+    options.encoding = 'UTF-8'
+}
+
+archivesBaseName = project.modid
+version = project.mod_version
+
+volde {
+    runs {
+        client {
+            programArg "liner"
+        }
+    }
+}
+
+dependencies {
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.slick2d:slick2d-core:1.0.0'
+    implementation 'net.jcip:jcip-annotations:1.0'
+    implementation 'org.jetbrains:annotations-java5:24.0.0'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'org.apache.logging.log4j:log4j-api:2.23.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.23.0'
+    implementation 'net.sourceforge.streamsupport:streamsupport:1.7.4'
+    minecraft "com.mojang:minecraft:${project.minecraft}"
+    forge "net.minecraftforge:forge:${project.minecraft_forge}:universal@zip"
+    mappings "net.minecraftforge:forge:${project.minecraft_forge}:src@zip"
+    modImplementation files("libs/industrialcraft-2_1.117.385-lf.jar")
+    modImplementation files("libs/buildcraft-A-3.7.2.jar")
+    modImplementation files("libs/CraftGuide-1.6.7.3-forge.zip")
+    modImplementation files("libs/appeng-rv14-dev2-mc15x.zip")
+    modImplementation files("libs/LazorPanel.zip")
+    modImplementation files("libs/IC2NuclearControl-1.5.1e.zip")
+    compileOnly files("libs/remapped_CustomNPCs.jar")
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs'src/main/java'
+        }
+    }
+}
+
+task clearBuild {
+    doFirst {
+        delete {
+            delete fileTree(dir: '.gradle/voldeloom-cache')
+            delete fileTree(dir: 'run/coremods')
+            delete fileTree(dir: 'run/crash-reports')
+            delete fileTree(dir: 'build/libs')
+            delete fileTree(new File(System.getProperty("user.dir"), "run")) {
+                include '**/*.log', '**/*.1', '**/*.2', '**/*.lck'
+            }
+        }
+        logger.log(LogLevel.INFO, "Clean complete")
+    }
+}
