@@ -8,12 +8,12 @@ Blocks:
 
 ## Minecraft 1.7 
 Blocks:
-- [ ] Stained glass (16 colors)
-- [ ] Stained glass panels (16 colors)
-- [ ] Acacia wood (planks, stairs, slabs)
-- [ ] Dark oak wood (planks, stairs, slabs)
-- [ ] Podzol
-- [ ] Coarse dirt
+- [x] Stained glass (16 colors)
+- [x] Stained glass panels (16 colors)
+- [x] Acacia wood (planks, stairs, slabs)
+- [x] Dark oak wood (planks, stairs, slabs)
+- [x] Podzol
+- [ ] Coarse dirt ???
 - [ ] Red sand
 
 Flowers:

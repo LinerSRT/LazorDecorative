@@ -4,7 +4,6 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -13,12 +12,17 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import org.lwjgl.opengl.GL11;
+import ru.liner.decorative.blocks.BlockColoredPane;
+import ru.liner.decorative.render.Renderers;
 import ru.liner.decorative.utils.ColoredText;
+
+import java.awt.*;
 
 @Mod(modid = "lazor_decorative", version = "1.0", name = "Lazor Decorative")
 public class DecorativeMod {
@@ -28,6 +32,7 @@ public class DecorativeMod {
     @Mod.PreInit
     public void preInit(FMLPreInitializationEvent e) {
         Decorative.init();
+        Renderers.init();
     }
 
     @Mod.Init
@@ -63,7 +68,17 @@ public class DecorativeMod {
                         .append("Look coordinates: ").format("x:%s y:%s z:%s", lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ, EnumChatFormatting.GOLD).newLine()
                         .append("Block: ").append("(").append(block.getLocalizedName(), EnumChatFormatting.GOLD).append(") ").format("%s:%s", blockId, blockMetadata, EnumChatFormatting.GOLD).newLine()
                         .append("Block item: ").append(item == null ? "Unknown" : item.getItemDisplayName(itemStack), EnumChatFormatting.GOLD).append(" [").append(item == null ? "Unknown" : item.getClass().getSimpleName(), EnumChatFormatting.GOLD).append("]").newLine();
-
+                Icon blockIcon = block.getIcon(0, blockMetadata);
+                if(blockIcon != null){
+                    coloredText.append("Icon: ").append(blockIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
+                }
+                if(block instanceof BlockColoredPane){
+                    BlockColoredPane coloredPane = (BlockColoredPane) block;
+                    Icon sidedIcon = coloredPane.getSideIcon(0, blockMetadata);
+                    if(sidedIcon != null){
+                        coloredText.append("Icon side: ").append(sidedIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
+                    }
+                }
                 ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
                 if (heldItem != null) {
                     coloredText.append("---------------------------------------").newLine();
@@ -74,7 +89,9 @@ public class DecorativeMod {
                     coloredText.append("   Localized name: ").append(heldItem.getItem().getLocalizedName(heldItem), EnumChatFormatting.GOLD).newLine();
                     coloredText.append("   Display name: ").append(heldItem.getItem().getItemDisplayName(heldItem), EnumChatFormatting.GOLD).newLine();
                 }
-
+                coloredText.setDrawBackground(true);
+                coloredText.setBackgroundColor(Color.DARK_GRAY);
+                coloredText.setBackgroundPadding(4);
                 coloredText.draw(16, 16, resolution.getScaledWidth(), resolution.getScaledHeight());
             }
 

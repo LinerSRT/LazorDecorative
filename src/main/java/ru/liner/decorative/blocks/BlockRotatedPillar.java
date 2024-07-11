@@ -17,11 +17,11 @@ public abstract class BlockRotatedPillar extends Block {
         super(blockId, material);
     }
 
-    public Icon getTopBottomIcon(int side) {
+    public Icon getTopBottomIcon(int side, int metadata) {
         return topBottomIcon;
     }
 
-    public abstract Icon getSideIcon(int side);
+    public abstract Icon getSideIcon(int side, int metadata);
 
     @Override
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
@@ -47,12 +47,12 @@ public abstract class BlockRotatedPillar extends Block {
         int orientation = metadata & 12;
         int type = metadata & 3;
         if (orientation == 0 && (side == 1 || side == 0))
-            return getTopBottomIcon(type);
+            return getTopBottomIcon(type, metadata);
         if (orientation == 4 && (side == 5 || side == 4))
-            return getTopBottomIcon(type);
+            return getTopBottomIcon(type, metadata);
         if (orientation == 8 && (side == 2 || side == 3))
-            return getTopBottomIcon(type);
-        return getSideIcon(type);
+            return getTopBottomIcon(type, metadata);
+        return getSideIcon(type, metadata);
     }
 
     @Override

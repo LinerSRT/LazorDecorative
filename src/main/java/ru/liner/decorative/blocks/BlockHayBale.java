@@ -16,7 +16,7 @@ public class BlockHayBale extends BlockRotatedPillar {
     }
 
     @Override
-    public Icon getSideIcon(int side) {
+    public Icon getSideIcon(int side, int metadata) {
         return blockIcon;
     }
 

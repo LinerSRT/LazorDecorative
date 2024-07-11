@@ -4,12 +4,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.packet.Packet3Chat;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StringTranslate;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.*;
 import java.util.regex.Pattern;
+
+import static org.lwjgl.opengl.GL11.*;
 
 @SuppressWarnings({"unchecked", "UseJBColor"})
 public class ColoredText {
@@ -132,10 +135,16 @@ public class ColoredText {
     }
 
     public void drawCenterX(int x, int y){
+        if (drawBackground) {
+            drawRect(x - backgroundPadding, y - backgroundPadding, calculateTextWidth() + backgroundPadding * 2, calculateTextHeight() + backgroundPadding * 2, backgroundColor);
+        }
         minecraft.fontRenderer.drawString(get(), x - calculateTextWidth() / 2, y, textColor);
     }
     public void drawCenterXY(int x, int y){
         int startY = y;
+        if (drawBackground) {
+            drawRect(x - backgroundPadding, startY - backgroundPadding, calculateTextWidth() + backgroundPadding * 2, calculateTextHeight() + backgroundPadding * 2, backgroundColor);
+        }
         String[] strings = get().split("\n");
         for (String string : strings) {
             minecraft.fontRenderer.drawString(string, x - calculateTextWidth() / 2, startY, textColor);
@@ -146,6 +155,9 @@ public class ColoredText {
     public void draw(int x, int y, int windowWidth, int windowHeight) {
         List<String> stringToWidth = minecraft.fontRenderer.listFormattedStringToWidth(get(), windowWidth);
         int startY = y;
+        if (drawBackground) {
+            drawRect(x - backgroundPadding, startY - backgroundPadding, calculateTextWidth() + backgroundPadding * 2, calculateTextHeight() + backgroundPadding * 2, backgroundColor);
+        }
         for (String text : stringToWidth) {
             handleInteraction(text, x, startY, windowWidth, windowHeight);
             for (String obfuscatedPart : obfuscatedList) {
@@ -169,6 +181,10 @@ public class ColoredText {
     public void drawCentered(int x, int y, int windowWidth, int windowHeight, int padding) {
         List<String> stringToWidth = minecraft.fontRenderer.listFormattedStringToWidth(get(), windowWidth - padding);
         int startY = y - (minecraft.fontRenderer.FONT_HEIGHT * stringToWidth.size()) / 2;
+
+        if (drawBackground) {
+            drawRect((x - calculateTextWidth() / 2f) - backgroundPadding, startY - backgroundPadding, calculateTextWidth() + backgroundPadding * 2, calculateTextHeight() + backgroundPadding * 2, backgroundColor);
+        }
         for (String text : stringToWidth) {
             handleInteraction(text, x, startY, windowWidth, windowHeight);
             for (String obfuscatedPart : obfuscatedList) {
@@ -199,6 +215,9 @@ public class ColoredText {
 
         List<String> stringToWidth = minecraft.fontRenderer.listFormattedStringToWidth(get(), windowWidth - padding);
         int startY = y;
+        if (drawBackground) {
+            drawRect((x - calculateTextWidth() / 2f) - backgroundPadding, startY - backgroundPadding, calculateTextWidth() + backgroundPadding * 2, calculateTextHeight() + backgroundPadding * 2, backgroundColor);
+        }
         for (String text : stringToWidth) {
             handleInteraction(text, x, startY, windowWidth, windowHeight);
             for (String obfuscatedPart : obfuscatedList) {
@@ -293,6 +312,33 @@ public class ColoredText {
         }
     }
 
+
+
+    public static void drawRect(float x, float y, float width, float height, Color color) {
+        drawRect(x, y, width, height, color.getRGB());
+    }
+
+    public static void drawRect(float x, float y, float width, float height, int rgbColor) {
+        float alpha = (rgbColor >> 24 & 255) / 255.0f;
+        float red = (rgbColor >> 16 & 255) / 255.0f;
+        float green = (rgbColor >> 8 & 255) / 255.0f;
+        float blue = (rgbColor & 255) / 255.0f;
+        GL11.glEnable(GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glPushMatrix();
+        GL11.glColor4f(red, green, blue, alpha);
+        GL11.glBegin(7);
+        GL11.glVertex2d(x + width, y);
+        GL11.glVertex2d(x, y);
+        GL11.glVertex2d(x, y + height);
+        GL11.glVertex2d(x + width, y + height);
+        GL11.glEnd();
+        GL11.glPopMatrix();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+    }
     public static boolean containColor(String text) {
         return COLORS_PATTERN.matcher(text).find();
     }

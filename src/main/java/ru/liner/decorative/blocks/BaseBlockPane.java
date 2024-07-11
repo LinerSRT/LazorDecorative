@@ -3,18 +3,17 @@ package ru.liner.decorative.blocks;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockPane;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.util.Icon;
 
-public class BaseBlock extends Block {
+public class BaseBlockPane extends BlockPane {
     protected String textureName;
-
-    public BaseBlock(int itemId, Material material) {
-        super(itemId, material);
+    public BaseBlockPane(int blockId, String blockTexture, String blockSideTexture, Material material, boolean par5) {
+        super(blockId, blockTexture, blockSideTexture, material, par5);
     }
 
-    public BaseBlock setTextureName(String textureName) {
+    public BaseBlockPane setTextureName(String textureName) {
         this.textureName = textureName;
         return this;
     }
