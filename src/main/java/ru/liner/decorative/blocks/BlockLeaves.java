@@ -27,9 +27,9 @@ public class BlockLeaves extends BaseMultiBlock {
     int[] adjacentTreeBlocks;
 
     public BlockLeaves(int blockId) {
-        super(blockId, Material.wood);
-        registerType("acacia", "Листва акации");
-        registerType("big_oak", "Листва большого дуба");
+        super(blockId, Material.wood, Type.LEAVES);
+        registerType("acacia", "акации");
+        registerType("big_oak", "большого дуба");
         setCreativeTab(CreativeTabs.tabDecorations);
         setHardness(0.2f);
         setLightOpacity(1);

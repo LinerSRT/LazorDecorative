@@ -1,24 +1,14 @@
 package ru.liner.decorative;
 
-import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.*;
-import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDye;
 import ru.liner.decorative.blocks.*;
 import ru.liner.decorative.items.*;
-import ru.liner.decorative.utils.Reflection;
-import scala.collection.mutable.MultiMap;
-import scala.util.parsing.combinator.testing.Str;
-
-import java.lang.reflect.Constructor;
-import java.util.logging.Level;
 
 public class Decorative {
     public static int STAINED_GLASS_PANE_RENDER_ID;
@@ -33,13 +23,10 @@ public class Decorative {
     //public static BlockNewLog logBlock;
 
     public static BlockPlanks planksBlock;
-
-
-    public static BlockNewStairs acaciaStairs;
-
     public static BlockLog logBlock;
     public static BlockSapling saplingBlock;
     public static BlockLeaves leavesBlock;
+
 
 
 
@@ -113,7 +100,7 @@ public class Decorative {
 
         planksBlock = new BlockPlanks(163);
         saplingBlock = new BlockSapling(165);
-        acaciaStairs = (BlockNewStairs) new BlockNewStairs(166, planksBlock, 0).setUnlocalizedName("stairsWood");
+
 
         registerColoredBlock(carpetBlock, ItemCarpet.class,"Коврик", 0);
         registerBlock(hayBaleBlock, "Сноп сена");
@@ -129,14 +116,19 @@ public class Decorative {
         registerMultiBlock(leavesBlock, "Листва");
         registerMultiBlock(saplingBlock, "Сажанец");
         registerMultiBlock(planksBlock, "Доски");
-
-
-
-
-
-        registerBlock(acaciaStairs, "Хуета");
+        registerStairs(166, planksBlock, 0);
+        registerStairs(167, planksBlock, 1);
+        registerSlab(177, planksBlock, 0);
+        registerSlab(178, planksBlock, 1);
     }
 
+
+    private static void registerStairs(int blockID, BaseMultiBlock block, int subType){
+        registerMultiBlock((IMultiTexturedBlock) new BlockCustomStairs( blockID, block, subType).setUnlocalizedName("stairs."+block.typeAt(subType)), block.localizedAt(subType));
+    }
+    private static void registerSlab(int blockID, BaseMultiBlock block, int subType){
+        registerMultiBlock((IMultiTexturedBlock) new BlockCustomSlab( blockID, block, subType).setUnlocalizedName("slabs."+block.typeAt(subType)), block.localizedAt(subType));
+    }
 
     private static <B extends Block> void registerBlock(B block, String localizedName){
         LanguageRegistry.instance().addStringLocalization(block.getUnlocalizedName()+".name", localizedName);
@@ -154,8 +146,6 @@ public class Decorative {
             LanguageRegistry.instance().addStringLocalization(String.format("%s.%s.name", block.getUnlocalizedName(), block.typeAt(i)), block.localizedAt(i));
         GameRegistry.registerBlock((Block) block, BaseMultiItem.class, block.getUnlocalizedName());
     }
-
-
 
     private static <B extends Block, I extends ItemBlock> void registerMultiBlock(B block, Class<I> itemClass, String[] unlocalizedNames, String[] localizedNames){
         for (int i = 0; i < unlocalizedNames.length; i++) {

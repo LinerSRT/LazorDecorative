@@ -17,7 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BaseMultiBlock extends Block implements IMultiTexturedBlock{
-    protected final HashMap<String, String> types;
+    protected HashMap<String, String> types;
+    protected Type type;
     @SideOnly(Side.CLIENT)
     private Icon[] iconTypes;
     @SideOnly(Side.CLIENT)
@@ -26,13 +27,25 @@ public class BaseMultiBlock extends Block implements IMultiTexturedBlock{
     private Icon[] topBottomIcons;
     private boolean rotatedPillar;
 
-    public BaseMultiBlock(int blockId, Material material) {
+    public BaseMultiBlock(int blockId, Material material, Type type) {
         super(blockId, material);
         this.types = new HashMap<>();
+        this.type = type;
     }
 
     public BaseMultiBlock registerType(String type, String localizedName) {
         types.put(type, localizedName);
+        return this;
+    }
+
+    public BaseMultiBlock cloneTypes(Block otherBlock){
+        if(otherBlock instanceof BaseMultiBlock){
+            BaseMultiBlock otherMultiBlock = (BaseMultiBlock) otherBlock;
+            types.clear();;
+            for (int i = 0; i < otherMultiBlock.getTypesCount(); i++) {
+                types.put(otherMultiBlock.typeAt(i), otherMultiBlock.types.get(typeAt(i)));
+            }
+        }
         return this;
     }
 
@@ -100,7 +113,7 @@ public class BaseMultiBlock extends Block implements IMultiTexturedBlock{
     }
 
     public String typeAt(int index) {
-        return types.keySet().toArray(new String[0])[metaExcludeOrientation(index) % types.size()];
+        return types.keySet().toArray(new String[0])[types.size() == 0 ? metaExcludeOrientation(index) : metaExcludeOrientation(index) % types.size()];
     }
 
     public int getTypesCount() {
@@ -113,7 +126,7 @@ public class BaseMultiBlock extends Block implements IMultiTexturedBlock{
     }
 
     public String localizedAt(int index) {
-        return types.get(typeAt(index));
+        return String.format("%s %s", type.type, types.get(typeAt(index)));
     }
 
     @Override
@@ -128,5 +141,21 @@ public class BaseMultiBlock extends Block implements IMultiTexturedBlock{
 
     public int metaExcludeOrientation(int metadata) {
         return rotatedPillar ? metadata & 3 : metadata;
+    }
+
+    public enum Type{
+        BLOCK("Блок"),
+        LOG(""),
+        PLANKS("Доски"),
+        STAIRS("Ступеньки"),
+        LEAVES("Листва"),
+        SAPLING("Сажанец"),
+        SLABS("Полублок");
+
+        public String type;
+
+        Type(String type) {
+            this.type = type;
+        }
     }
 }

@@ -8,15 +8,15 @@ import net.minecraft.world.World;
 @SuppressWarnings("unchecked")
 public class BlockPlanks extends BaseMultiBlock {
     public BlockPlanks(int blockId) {
-        super(blockId, Material.wood);
+        super(blockId, Material.wood, Type.PLANKS);
         setHardness(2.0F);
         setResistance(5.0F);
         setCreativeTab(CreativeTabs.tabBlock);
         setStepSound(Block.soundWoodFootstep);
         setUnlocalizedName("newPlanks");
         setTextureName("planks");
-        registerType("acacia", "Доски из акации");
-        registerType("big_oak", "Доски из большого дуба");
+        registerType("acacia", "из акации");
+        registerType("big_oak", "из большого дуба");
     }
 
     @Override

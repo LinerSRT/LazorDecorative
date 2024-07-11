@@ -68,6 +68,8 @@ public class DecorativeMod {
                         .append("Look coordinates: ").format("x:%s y:%s z:%s", lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ, EnumChatFormatting.GOLD).newLine()
                         .append("Block: ").append("(").append(block.getLocalizedName(), EnumChatFormatting.GOLD).append(") ").format("%s:%s", blockId, blockMetadata, EnumChatFormatting.GOLD).newLine()
                         .append("Block item: ").append(item == null ? "Unknown" : item.getItemDisplayName(itemStack), EnumChatFormatting.GOLD).append(" [").append(item == null ? "Unknown" : item.getClass().getSimpleName(), EnumChatFormatting.GOLD).append("]").newLine();
+
+                coloredText.append("Block class: ").append(block.getClass().getSimpleName(), EnumChatFormatting.GOLD).newLine();
                 Icon blockIcon = block.getIcon(0, blockMetadata);
                 if(blockIcon != null){
                     coloredText.append("Icon: ").append(blockIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
