@@ -30,15 +30,20 @@ public class BlockRegister {
         registerMetaMultiBlock(glassStained);
         registerMetaMultiBlock(glassPaneStained);
         registerMetaMultiBlock(stone);
+        registerMetaMultiBlock(prismarine);
         registerStairs(stone);
         registerSlabs(stone);
+        registerStairs(prismarine);
+        registerSlabs(prismarine);
 
         registerMetaMultiBlock(leaves);
         registerMetaMultiBlock(woodenLog);
-        registerMetaMultiBlock(woodenDoor);
         registerMetaMultiBlock(planks);
         registerStairs(planks);
         registerSlabs(planks);
+
+
+        registerMetaMultiDoorBlock(woodenDoor);
 
 
         registerMetaBlock(hayBale);
@@ -54,6 +59,17 @@ public class BlockRegister {
             languageRegistry.addStringLocalization(String.format("%s.%s.name", metaBlock.getUnlocalizedName(), type), localization);
         }
         GameRegistry.registerBlock(metaBlock, BaseMultiMetaItem.class, metaBlock.getUnlocalizedName());
+    }
+
+    public static <MetaBlock extends BaseMultiMetaDoorBlock> void registerMetaMultiDoorBlock(MetaBlock metaBlock){
+        LanguageRegistry languageRegistry = LanguageRegistry.instance();
+        languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
+        for (int index = 0; index < metaBlock.getTypesCount(); index++) {
+            String type = metaBlock.getTypeByMetadata(index);
+            String localization = metaBlock.getLocalizationFor(type);
+            languageRegistry.addStringLocalization(String.format("%s.%s.name", metaBlock.getUnlocalizedName(), type), localization);
+        }
+        GameRegistry.registerBlock(metaBlock, BaseMultiMetaDoorItem.class, metaBlock.getUnlocalizedName());
     }
     public static <MetaBlock extends BaseMetaBlock> void registerMetaBlock(MetaBlock metaBlock){
         LanguageRegistry languageRegistry = LanguageRegistry.instance();

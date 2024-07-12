@@ -74,8 +74,12 @@ public class DecorativeMod {
                 coloredText.append("Block class: ").append(block.getClass().getSimpleName(), EnumChatFormatting.GOLD).newLine();
                 coloredText.append("Block unlocalized name: ").append(block.getUnlocalizedName(), EnumChatFormatting.GOLD).newLine();
                 Icon blockIcon = block.getIcon(0, blockMetadata);
+                Icon blockTexture = block.getBlockTexture(world, lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ, lookPosition.sideHit);
                 if (blockIcon != null) {
                     coloredText.append("Icon: ").append(blockIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
+                }
+                if(blockTexture != null){
+                    coloredText.append("Block texture: ").append(blockTexture.getIconName(), EnumChatFormatting.GOLD).newLine();
                 }
                 ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
                 if (heldItem != null) {

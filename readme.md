@@ -25,9 +25,9 @@ Flowers:
 ## Minecraft 1.8 
 Blocks:
 - [ ] Red sandstone (and polished)
-- [ ] Diorite (and polished)
-- [ ] Andesite (and polished)
-- [ ] Granite (and polished)
+- [x] Diorite (and polished)
+- [x] Andesite (and polished)
+- [x] Granite (and polished)
 - [ ] Prismarine
 - [ ] Dark prismarine
 - [ ] Banners

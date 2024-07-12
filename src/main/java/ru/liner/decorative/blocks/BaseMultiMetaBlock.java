@@ -88,10 +88,11 @@ public class BaseMultiMetaBlock extends Block {
     }
 
     public String getTypeByMetadata(int metadata) {
+        metadata &= 7;
         if (localizationMap.isEmpty())
             return getUnlocalizedName();
         String[] unlocalizedTypes = localizationMap.keySet().toArray(new String[0]);
-        if (metadata < 0 || metadata >= getTypesCount())
+        if (metadata >= getTypesCount())
             return unlocalizedTypes[0];
         return unlocalizedTypes[metadata];
     }
@@ -126,7 +127,6 @@ public class BaseMultiMetaBlock extends Block {
         String unlocalizedType = getTypeByMetadata(metadata);
         TextureData textureData = textureDataMap.get(unlocalizedType).get(0);
         String textureName = String.format("%s_%s", textureParent, textureData.textureName);
-        //TODO should i need check side here?
         return textureMap.get(textureName);
     }
 

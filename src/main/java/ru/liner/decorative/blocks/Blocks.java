@@ -22,4 +22,5 @@ public class Blocks {
     public static final BlockFlowerPlant flower= new BlockFlowerPlant(180);
     public static final BlockStoneNew stone = new BlockStoneNew(181);
     public static final BlockWoodenDoor woodenDoor = new BlockWoodenDoor(182);
+    public static final BlockDarkPrismarine prismarine = new BlockDarkPrismarine(1050);
 }
