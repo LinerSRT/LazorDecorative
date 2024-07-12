@@ -33,10 +33,10 @@ public class BlockLeaves extends BaseMultiMetaBlock implements IShearable {
         setBaseLocalizedName("Листва");
         setTextureParent("leaves");
         setUnlocalizedName("leaves");
-        registerType("acacia", "Листва из акации", 2, "acacia");
-        registerTexture("acacia", 2, "leaves_acacia_opaque");
-        registerType("big_oak", "Листва из темного дуба", 2, "big_oak");
-        registerTexture("big_oak", 2, "leaves_big_oak_opaque");
+        registerType("acacia", "Листва из акации",  "acacia");
+        registerTexture("acacia",  "leaves_acacia_opaque", 0, 1);
+        registerType("big_oak", "Листва из темного дуба",  "big_oak");
+        registerTexture("big_oak",  "leaves_big_oak_opaque", 0, 1);
     }
 
     @Override

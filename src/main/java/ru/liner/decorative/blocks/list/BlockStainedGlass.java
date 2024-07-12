@@ -23,7 +23,7 @@ public class BlockStainedGlass extends BaseMultiMetaBlock {
         setBaseLocalizedName("Стекло");
         setTextureParent("glass");
         for (int i = 0; i < ItemDye.dyeColorNames.length; i++) {
-            registerType(ItemDye.dyeColorNames[i], String.format("%s %s", Decorative.colorNames[i + (ItemDye.dyeColorNames.length * 2)], getBaseLocalizedName().toLowerCase()), 2, ItemDye.dyeColorNames[i]);
+            registerType(ItemDye.dyeColorNames[i], String.format("%s %s", Decorative.colorNames[i + (ItemDye.dyeColorNames.length * 2)], getBaseLocalizedName().toLowerCase()),  ItemDye.dyeColorNames[i]);
         }
     }
 

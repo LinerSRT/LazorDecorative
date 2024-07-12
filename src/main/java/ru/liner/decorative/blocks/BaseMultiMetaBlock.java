@@ -44,19 +44,19 @@ public class BaseMultiMetaBlock extends Block {
         return this;
     }
 
-    public BaseMultiMetaBlock registerType(String unlocalizedName, String localizedName, int textureSide, String textureName) {
+    public BaseMultiMetaBlock registerType(String unlocalizedName, String localizedName, String textureName, int... textureSides) {
         localizationMap.put(unlocalizedName, localizedName);
-        registerTexture(unlocalizedName, textureSide, textureName);
+        registerTexture(unlocalizedName, textureName, textureSides);
         return this;
     }
 
-    public BaseMultiMetaBlock registerTexture(String unlocalizedName, int textureSide, String textureName) {
+    public BaseMultiMetaBlock registerTexture(String unlocalizedName, String textureName, int... textureSides) {
         List<TextureData> textureDataList = new ArrayList<>();
         if (!textureDataMap.containsKey(unlocalizedName)) {
-            textureDataList.add(new TextureData(textureSide, textureName));
+            textureDataList.add(new TextureData(textureSides.length == 0 ? new int[]{-1} : textureSides, textureName));
         } else {
             textureDataList = textureDataMap.get(unlocalizedName);
-            textureDataList.add(new TextureData(textureSide, textureName));
+            textureDataList.add(new TextureData(textureSides.length == 0 ? new int[]{-1} : textureSides, textureName));
             textureDataMap.remove(unlocalizedName);
         }
         textureDataMap.put(unlocalizedName, textureDataList);
@@ -72,13 +72,21 @@ public class BaseMultiMetaBlock extends Block {
 
 
     public static class TextureData {
-        public int textureSide;
+        public int[] textureSides;
         public String textureName;
         public MapColor mapColor;
 
-        public TextureData(int textureSide, String textureName) {
-            this.textureSide = textureSide;
+        public TextureData(int[] textureSides, String textureName) {
+            this.textureSides = textureSides;
             this.textureName = textureName;
+        }
+
+        public boolean isMatchingSide(int side) {
+            for (int textureSide : textureSides) {
+                if (side == textureSide && textureSide != -1)
+                    return true;
+            }
+            return false;
         }
 
         public TextureData setMapColor(MapColor mapColor) {
@@ -125,8 +133,18 @@ public class BaseMultiMetaBlock extends Block {
     @Override
     public Icon getIcon(int side, int metadata) {
         String unlocalizedType = getTypeByMetadata(metadata);
-        TextureData textureData = textureDataMap.get(unlocalizedType).get(0);
-        String textureName = String.format("%s_%s", textureParent, textureData.textureName);
+        TextureData[] textureList = textureDataMap.get(unlocalizedType).toArray(new TextureData[0]);
+        String textureName = String.format("%s_%s", textureParent, textureList[0].textureName);
+        if (textureList.length > 1) {
+            String candidateTexture = textureList[0].textureName;
+            for (int i = 1; i < textureList.length; i++) {
+                if (textureList[i].isMatchingSide(side)) {
+                    candidateTexture = textureList[i].textureName;
+                    break;
+                }
+            }
+            textureName = String.format("%s_%s", textureParent, candidateTexture);
+        }
         return textureMap.get(textureName);
     }
 

@@ -23,8 +23,8 @@ public class BlockWoodenDoor extends BaseMultiMetaDoorBlock {
 
 
     private void registerDoor(String type, String localizedName, String textureName){
-        registerType(type, localizedName, 2, textureName);
-        registerTexture(type, 2, String.format("%s_lower",textureName));
-        registerTexture(type, 2, String.format("%s_upper",textureName));
+        registerType(type, localizedName,  textureName);
+        registerTexture(type, String.format("%s_lower",textureName));
+        registerTexture(type, String.format("%s_upper",textureName));
     }
 }

@@ -12,11 +12,11 @@ public class BlockStoneNew extends BaseMultiMetaBlock {
         setBaseLocalizedName("Камень");
         setTextureParent("stone");
         setUnlocalizedName("stone");
-        registerType("granite", "Гранит", 2, "granite");
-        registerType("diorite", "Диорит", 2, "diorite");
-        registerType("andesite", "Андезит", 2, "andesite");
-        registerType("granite_smooth", "Гладкий гранит", 2, "granite_smooth");
-        registerType("diorite_smooth", "Гладкий диорит", 2, "diorite_smooth");
-        registerType("andesite_smooth", "Гладкий андезит", 2, "andesite_smooth");
+        registerType("granite", "Гранит", "granite");
+        registerType("diorite", "Диорит",  "diorite");
+        registerType("andesite", "Андезит",  "andesite");
+        registerType("granite_smooth", "Гладкий гранит",  "granite_smooth");
+        registerType("diorite_smooth", "Гладкий диорит",  "diorite_smooth");
+        registerType("andesite_smooth", "Гладкий андезит",  "andesite_smooth");
     }
 }

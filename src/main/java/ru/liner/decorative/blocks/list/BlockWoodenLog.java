@@ -20,10 +20,10 @@ public class BlockWoodenLog extends BaseMultiMetaBlock {
         setTextureParent("new_log");
         setUnlocalizedName("log");
         setHardness(2f);
-        registerType("acacia", "Бревно из акации", 2, "acacia");
-        registerTexture("acacia", 2, "acacia_top");
-        registerType("big_oak", "Бревно из темного дуба", 2, "big_oak");
-        registerTexture("big_oak", 2, "big_oak_top");
+        registerType("acacia", "Бревно из акации",  "acacia");
+        registerTexture("acacia", "acacia_top", 0, 1);
+        registerType("big_oak", "Бревно из темного дуба",  "big_oak");
+        registerTexture("big_oak",  "big_oak_top", 0, 1);
     }
 
     @Override

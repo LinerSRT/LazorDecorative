@@ -22,7 +22,7 @@ public class BlockStainedClay extends BaseMultiMetaBlock {
         setBaseLocalizedName("Обожженая глина");
         setTextureParent("hardened_clay_stained");
         for (int i = 0; i < ItemDye.dyeColorNames.length; i++) {
-            registerType(ItemDye.dyeColorNames[i], String.format("%s %s", Decorative.colorNames[i + ItemDye.dyeColorNames.length], getBaseLocalizedName().toLowerCase()), 2, ItemDye.dyeColorNames[i]);
+            registerType(ItemDye.dyeColorNames[i], String.format("%s %s", Decorative.colorNames[i + ItemDye.dyeColorNames.length], getBaseLocalizedName().toLowerCase()),  ItemDye.dyeColorNames[i]);
         }
     }
 }

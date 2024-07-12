@@ -15,8 +15,8 @@ public class BlockWoodenPlank extends BaseMultiMetaBlock {
         setBaseLocalizedName("Доски");
         setTextureParent("planks");
         setUnlocalizedName("planks");
-        registerType("acacia", "Доски из акации", 2, "acacia");
-        registerType("big_oak", "Доски из темного дуба", 2, "big_oak");
+        registerType("acacia", "Доски из акации",  "acacia");
+        registerType("big_oak", "Доски из темного дуба",  "big_oak");
     }
 
     @Override

@@ -22,8 +22,8 @@ public class BlockStainedGlassPane extends BaseMultiMetaBlock {
         setBaseLocalizedName("Стеклянная панель");
         setTextureParent("glass");
         for (int i = 0; i < ItemDye.dyeColorNames.length; i++) {
-            registerType(ItemDye.dyeColorNames[i], String.format("%s %s", Decorative.colorNames[i + ItemDye.dyeColorNames.length ], getBaseLocalizedName().toLowerCase()), 2, ItemDye.dyeColorNames[i]);
-            registerTexture(ItemDye.dyeColorNames[i], 2, String.format("pane_top_%s", ItemDye.dyeColorNames[i]));
+            registerType(ItemDye.dyeColorNames[i], String.format("%s %s", Decorative.colorNames[i + ItemDye.dyeColorNames.length ], getBaseLocalizedName().toLowerCase()), ItemDye.dyeColorNames[i]);
+            registerTexture(ItemDye.dyeColorNames[i], String.format("pane_top_%s", ItemDye.dyeColorNames[i]));
         }
     }
 

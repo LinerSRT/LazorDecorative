@@ -31,6 +31,7 @@ public class BlockRegister {
         registerMetaMultiBlock(glassPaneStained);
         registerMetaMultiBlock(stone);
         registerMetaMultiBlock(prismarine);
+        registerMetaMultiBlock(redSandStone);
         registerStairs(stone);
         registerSlabs(stone);
         registerStairs(prismarine);

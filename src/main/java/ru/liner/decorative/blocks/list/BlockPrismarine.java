@@ -3,11 +3,10 @@ package ru.liner.decorative.blocks.list;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import ru.liner.decorative.blocks.BaseMetaBlock;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
 
-public class BlockDarkPrismarine extends BaseMultiMetaBlock {
-    public BlockDarkPrismarine(int itemId) {
+public class BlockPrismarine extends BaseMultiMetaBlock {
+    public BlockPrismarine(int itemId) {
         super(itemId, Material.rock);
         setHardness(1.5f);
         setResistance(10f);
@@ -16,7 +15,8 @@ public class BlockDarkPrismarine extends BaseMultiMetaBlock {
         setBaseLocalizedName("Призмарин");
         setUnlocalizedName("prismarine");
         setTextureParent("prismarine");
-        registerType("prismarine_dark", "Призмарин", 2, "dark");
-        registerType("prismarine_bricks", "Кирпичи из призмарина", 2, "bricks");
+        registerType("prismarine", "Призмарин", "rough");
+        registerType("prismarine_dark", "Темный призмарин",  "dark");
+        registerType("prismarine_bricks", "Кирпичи из призмарина", "bricks");
     }
 }
