@@ -6,12 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import ru.liner.decorative.utils.ColoredText;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,11 +17,11 @@ public class BaseMultiBlock extends Block implements IMultiTexturedBlock{
     protected HashMap<String, String> types;
     protected Type type;
     @SideOnly(Side.CLIENT)
-    private Icon[] iconTypes;
+    protected Icon[] iconTypes;
     @SideOnly(Side.CLIENT)
     protected String textureName;
     @SideOnly(Side.CLIENT)
-    private Icon[] topBottomIcons;
+    protected Icon[] topBottomIcons;
     private boolean rotatedPillar;
 
     public BaseMultiBlock(int blockId, Material material, Type type) {
@@ -145,7 +142,7 @@ public class BaseMultiBlock extends Block implements IMultiTexturedBlock{
 
     public enum Type{
         BLOCK("Блок"),
-        LOG(""),
+        EMPTY(""),
         PLANKS("Доски"),
         STAIRS("Ступеньки"),
         LEAVES("Листва"),

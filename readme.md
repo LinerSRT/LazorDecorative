@@ -13,16 +13,14 @@ Blocks:
 - [x] Acacia wood (planks, stairs, slabs)
 - [x] Dark oak wood (planks, stairs, slabs)
 - [x] Podzol
-- [ ] Coarse dirt ???
-- [ ] Red sand
 
 Flowers:
-- [ ] Red, orange, white and pink tulips
-- [ ] Blue orchid
-- [ ] Allium
-- [ ] Azure bluet
-- [ ] Oxeye daisy
-- [ ] Tall plants (Sunflowers, Peonies, Rose, Lilacs, Double tall grass, Large Ferns)
+- [x] Red, orange, white and pink tulips
+- [x] Blue orchid
+- [x] Allium
+- [x] Azure bluet
+- [x] Oxeye daisy
+- [x] Tall plants (Sunflowers, Peonies, Rose, Lilacs, Double tall grass, Large Ferns)
 
 ## Minecraft 1.8 
 Blocks:

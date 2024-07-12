@@ -2,13 +2,15 @@ package ru.liner.decorative.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -17,12 +19,11 @@ import java.util.List;
 public class BaseMultiBlockFlower extends BlockFlower implements IMultiTexturedBlock{
     protected final HashMap<String, String> types;
     @SideOnly(Side.CLIENT)
-    private Icon[] iconTypes;
+    protected Icon[] iconTypes;
     @SideOnly(Side.CLIENT)
     protected String textureName;
     @SideOnly(Side.CLIENT)
-    private Icon[] topBottomIcons;
-    private boolean rotatedPillar;
+    protected Icon[] topBottomIcons;
 
     public BaseMultiBlockFlower(int blockId, Material material) {
         super(blockId, material);
@@ -39,38 +40,9 @@ public class BaseMultiBlockFlower extends BlockFlower implements IMultiTexturedB
         return this;
     }
 
-    public BaseMultiBlockFlower setRotatedPillar(boolean rotatedPillar) {
-        this.rotatedPillar = rotatedPillar;
-        return this;
-    }
-
-    @Override
-    public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata) {
-        int orientationMetadata = 0;
-        if (rotatedPillar) {
-            switch (side) {
-                case 2:
-                case 3:
-                    orientationMetadata = 8;
-                    break;
-                case 4:
-                case 5:
-                    orientationMetadata = 4;
-                    break;
-                default:
-                    orientationMetadata = 0;
-            }
-        }
-        int finalMetadata = (metadata & 3) | orientationMetadata;
-        world.setBlockMetadataWithNotify(x, y, z, finalMetadata, 2);
-        return finalMetadata;
-    }
-
-
-
     @Override
     public int damageDropped(int metadata) {
-        return metaExcludeOrientation(metadata);
+        return getMetadataExcludeType(metadata);
     }
 
     @SuppressWarnings("unchecked")
@@ -83,22 +55,11 @@ public class BaseMultiBlockFlower extends BlockFlower implements IMultiTexturedB
     @SideOnly(Side.CLIENT)
     @Override
     public Icon getIcon(int side, int metadata) {
-        if (rotatedPillar) {
-            int orientation = metadata & 12;
-            int type = metadata & 3;
-            if (orientation == 0 && (side == 1 || side == 0))
-                return topBottomIcons[metadata % topBottomIcons.length];
-            if (orientation == 4 && (side == 5 || side == 4))
-                return topBottomIcons[metadata % topBottomIcons.length];
-            if (orientation == 8 && (side == 2 || side == 3))
-                return topBottomIcons[metadata % topBottomIcons.length];
-            return iconTypes[metadata % iconTypes.length];
-        }
-        return iconTypes[metadata % iconTypes.length];
+        return iconTypes[getMetadataExcludeType(metadata) % types.size()];
     }
 
     public String typeAt(int index) {
-        return types.keySet().toArray(new String[0])[metaExcludeOrientation(index) % types.size()];
+        return types.keySet().toArray(new String[0])[getMetadataExcludeType(index) % types.size()];
     }
 
     public int getTypesCount() {
@@ -124,7 +85,9 @@ public class BaseMultiBlockFlower extends BlockFlower implements IMultiTexturedB
         }
     }
 
-    public int metaExcludeOrientation(int metadata) {
-        return rotatedPillar ? metadata & 3 : metadata;
+    public int getMetadataExcludeType(int metadata) {
+        return metadata & 7;
     }
+
+
 }

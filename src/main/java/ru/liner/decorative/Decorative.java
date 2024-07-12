@@ -12,6 +12,7 @@ import ru.liner.decorative.items.*;
 
 public class Decorative {
     public static int STAINED_GLASS_PANE_RENDER_ID;
+    public static int DOUBLE_PLANT_RENDERER;
     public static BlockCarpet carpetBlock;
     public static BlockHayBale hayBaleBlock;
     public static BlockCoal coalBlock;
@@ -26,6 +27,7 @@ public class Decorative {
     public static BlockLog logBlock;
     public static BlockSapling saplingBlock;
     public static BlockLeaves leavesBlock;
+    public static BlockFlowerPlant flowerBlock;
 
 
 
@@ -80,11 +82,12 @@ public class Decorative {
             "Оранжевое",
             "Белое"
     };
-
+    public static BlockDoublePlant doublePlantBlock;
 
 
     public static void init(){
         STAINED_GLASS_PANE_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
+        DOUBLE_PLANT_RENDERER = RenderingRegistry.getNextAvailableRenderId();
         carpetBlock = new BlockCarpet(171);
         hayBaleBlock =  new BlockHayBale(170);
         blockStainedHardenedClay =  new BlockStainedHardenedClay(169);
@@ -100,6 +103,8 @@ public class Decorative {
 
         planksBlock = new BlockPlanks(163);
         saplingBlock = new BlockSapling(165);
+        doublePlantBlock = new BlockDoublePlant(179);
+        flowerBlock = new BlockFlowerPlant(180);
 
 
         registerColoredBlock(carpetBlock, ItemCarpet.class,"Коврик", 0);
@@ -110,6 +115,8 @@ public class Decorative {
         registerBlock(hardenedClayBlock, "Обожжёная глина");
         registerBlock(coalBlock, "Блок угля");
         registerBlock(podzolBlock, "Подзол");
+        registerMultiBlock(doublePlantBlock, "Цветок");
+        registerMultiBlock(flowerBlock, "Цветок");
 
 
         registerMultiBlock(logBlock, "Дерево");

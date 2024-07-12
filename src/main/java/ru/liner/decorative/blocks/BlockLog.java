@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class BlockLog extends BaseMultiBlock{
     public BlockLog(int blockId) {
-        super(blockId, Material.wood, Type.LOG);
+        super(blockId, Material.wood, Type.EMPTY);
         registerType("acacia", "Акация");
         registerType("big_oak", "Большой дуб");
         setRotatedPillar(true);

@@ -7,8 +7,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.world.ColorizerGrass;
 import ru.liner.decorative.blocks.BlockCustomSlab;
 import ru.liner.decorative.blocks.BlockCustomStairs;
+import ru.liner.decorative.blocks.BlockDoublePlant;
 import ru.liner.decorative.blocks.IMultiTexturedBlock;
 
 import java.util.List;
@@ -82,5 +84,15 @@ public class BaseMultiItem<B extends IMultiTexturedBlock> extends ItemBlock {
     @Override
     public int getMetadata(int metadata) {
         return metadata;
+    }
+
+    @Override
+    public int getColorFromItemStack(ItemStack itemStack, int par2) {
+        if(multiBlock instanceof BlockDoublePlant){
+            int type = ((BlockDoublePlant)multiBlock).getMetadataExcludeType(itemStack.getItemDamage());
+            if (type == 1 || type == 2)
+                return ColorizerGrass.getGrassColor(0.5d, 1.0d);
+        }
+        return super.getColorFromItemStack(itemStack, par2);
     }
 }
