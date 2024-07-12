@@ -64,7 +64,7 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
 
     @Override
     public EnumPlantType getPlantType(World world, int x, int y, int z) {
-        if (blockID == Decorative.doublePlantBlock.blockID)
+        if (blockID == Blocks.flowerDouble.blockID)
             return EnumPlantType.Plains;
         return super.getPlantType(world, x, y, z);
     }
@@ -81,7 +81,7 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
 
     @Override
     public int idDropped(int par1, Random par2Random, int par3) {
-        return Decorative.doublePlantBlock.blockID;
+        return Blocks.flowerDouble.blockID;
     }
 
     @Override
@@ -145,7 +145,7 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
 
     @Override
     protected boolean canThisPlantGrowOnThisBlockID(int par1) {
-        return super.canThisPlantGrowOnThisBlockID(par1) || par1 == blockID || Decorative.podzolBlock.blockID == par1;
+        return super.canThisPlantGrowOnThisBlockID(par1) || par1 == blockID || Blocks.podzol.blockID == par1;
     }
 
 

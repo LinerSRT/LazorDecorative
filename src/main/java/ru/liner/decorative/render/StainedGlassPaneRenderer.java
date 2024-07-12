@@ -11,22 +11,22 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeDirection;
 import ru.liner.decorative.Decorative;
-import ru.liner.decorative.blocks.BlockColoredPane;
+import ru.liner.decorative.blocks.list.BlockStainedGlassPane;
 
 public class StainedGlassPaneRenderer implements ISimpleBlockRenderingHandler {
     Tessellator tessellator;
 
     @Override // cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler
     public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
-        if (modelID == Decorative.STAINED_GLASS_PANE_RENDER_ID && block instanceof BlockColoredPane) {
+        if (modelID == Decorative.STAINED_GLASS_PANE_RENDER_ID && block instanceof BlockStainedGlassPane) {
             renderer.renderBlockAsItem(block, metadata, 1f);
         }
     }
 
     @Override // cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelID, RenderBlocks renderer) {
-        if (modelID == Decorative.STAINED_GLASS_PANE_RENDER_ID && block instanceof BlockColoredPane)
-            return renderColoredGlassPane(world, x, y, z, (BlockColoredPane) block, renderer);
+        if (modelID == Decorative.STAINED_GLASS_PANE_RENDER_ID && block instanceof BlockStainedGlassPane)
+            return renderColoredGlassPane(world, x, y, z, (BlockStainedGlassPane) block, renderer);
         return false;
     }
 
@@ -41,7 +41,7 @@ public class StainedGlassPaneRenderer implements ISimpleBlockRenderingHandler {
     }
 
     @SideOnly(Side.CLIENT)
-    private boolean renderColoredGlassPane(IBlockAccess world, int i, int j, int k, BlockColoredPane blockPane, RenderBlocks renderer) {
+    private boolean renderColoredGlassPane(IBlockAccess world, int i, int j, int k, BlockStainedGlassPane blockPane, RenderBlocks renderer) {
         int l = renderer.blockAccess.getHeight();
         this.tessellator = Tessellator.instance;
         this.tessellator.setBrightness(blockPane.getMixedBrightnessForBlock(renderer.blockAccess, i, j, k));

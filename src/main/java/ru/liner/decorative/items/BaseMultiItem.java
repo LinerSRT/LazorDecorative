@@ -8,8 +8,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.ColorizerGrass;
-import ru.liner.decorative.blocks.BlockCustomSlab;
-import ru.liner.decorative.blocks.BlockCustomStairs;
 import ru.liner.decorative.blocks.BlockDoublePlant;
 import ru.liner.decorative.blocks.IMultiTexturedBlock;
 
@@ -70,9 +68,6 @@ public class BaseMultiItem<B extends IMultiTexturedBlock> extends ItemBlock {
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
-        if(multiBlock instanceof BlockCustomSlab || multiBlock instanceof BlockCustomStairs){
-            return String.format("%s.name", super.getUnlocalizedName());
-        }
         return String.format("%s.%s.name", super.getUnlocalizedName(), multiBlock.typeAt(itemStack.getItemDamage()));
     }
 

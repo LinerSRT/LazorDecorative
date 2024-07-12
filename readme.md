@@ -24,6 +24,7 @@ Flowers:
 
 ## Minecraft 1.8 
 Blocks:
+- [ ] Red sandstone (and polished)
 - [ ] Diorite (and polished)
 - [ ] Andesite (and polished)
 - [ ] Granite (and polished)

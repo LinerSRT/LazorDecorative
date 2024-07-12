@@ -22,6 +22,6 @@ public class BlockSapling extends BaseMultiBlockFlower implements IPlantable {
     }
     @Override
     public boolean canThisPlantGrowOnThisBlockID(int par1) {
-        return par1 == Block.grass.blockID || par1 == Block.dirt.blockID || par1 == Block.tilledField.blockID || par1 == Decorative.podzolBlock.blockID;
+        return par1 == Block.grass.blockID || par1 == Block.dirt.blockID || par1 == Block.tilledField.blockID || par1 == Blocks.podzol.blockID;
     }
 }

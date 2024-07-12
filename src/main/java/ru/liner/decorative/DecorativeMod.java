@@ -18,7 +18,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import org.lwjgl.opengl.GL11;
-import ru.liner.decorative.blocks.BlockColoredPane;
+import ru.liner.decorative.blocks.BlockRegister;
+import ru.liner.decorative.items.BaseMultiMetaItem;
 import ru.liner.decorative.render.Renderers;
 import ru.liner.decorative.utils.ColoredText;
 
@@ -32,6 +33,7 @@ public class DecorativeMod {
     @Mod.PreInit
     public void preInit(FMLPreInitializationEvent e) {
         Decorative.init();
+        BlockRegister.init();
         Renderers.init();
     }
 
@@ -70,26 +72,28 @@ public class DecorativeMod {
                         .append("Block item: ").append(item == null ? "Unknown" : item.getItemDisplayName(itemStack), EnumChatFormatting.GOLD).append(" [").append(item == null ? "Unknown" : item.getClass().getSimpleName(), EnumChatFormatting.GOLD).append("]").newLine();
 
                 coloredText.append("Block class: ").append(block.getClass().getSimpleName(), EnumChatFormatting.GOLD).newLine();
+                coloredText.append("Block unlocalized name: ").append(block.getUnlocalizedName(), EnumChatFormatting.GOLD).newLine();
                 Icon blockIcon = block.getIcon(0, blockMetadata);
-                if(blockIcon != null){
+                if (blockIcon != null) {
                     coloredText.append("Icon: ").append(blockIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
-                }
-                if(block instanceof BlockColoredPane){
-                    BlockColoredPane coloredPane = (BlockColoredPane) block;
-                    Icon sidedIcon = coloredPane.getSideIcon(0, blockMetadata);
-                    if(sidedIcon != null){
-                        coloredText.append("Icon side: ").append(sidedIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
-                    }
                 }
                 ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
                 if (heldItem != null) {
                     coloredText.append("---------------------------------------").newLine();
-                    coloredText.append("Item: ").newLine();
+                    coloredText.append("Held item: ").newLine();
                     coloredText.append("   Class: ").append(heldItem.getItem().getClass().getSimpleName(), EnumChatFormatting.GOLD).newLine();
                     coloredText.append("   Id/meta: ").format("%s:%s", heldItem.itemID, heldItem.getItemDamage(), EnumChatFormatting.GOLD).newLine();
                     coloredText.append("   Unlocalized name: ").append(heldItem.getItem().getUnlocalizedName(heldItem), EnumChatFormatting.GOLD).newLine();
                     coloredText.append("   Localized name: ").append(heldItem.getItem().getLocalizedName(heldItem), EnumChatFormatting.GOLD).newLine();
                     coloredText.append("   Display name: ").append(heldItem.getItem().getItemDisplayName(heldItem), EnumChatFormatting.GOLD).newLine();
+                    Icon heldIcon = heldItem.getItem().getIconFromDamage(heldItem.getItemDamage());
+                    if (heldIcon != null)
+                        coloredText.append("   Icon name: ").append(heldIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
+                    Item currentItem = heldItem.getItem();
+                    if(currentItem instanceof BaseMultiMetaItem){
+                        BaseMultiMetaItem<?> multiMetaItem = (BaseMultiMetaItem<?>) currentItem;
+                        coloredText.append("   Multi-meta type: ").append(multiMetaItem.getMetaBlock().getTypeByMetadata(heldItem.getItemDamage()), EnumChatFormatting.GOLD).newLine();
+                    }
                 }
                 coloredText.setDrawBackground(true);
                 coloredText.setBackgroundColor(Color.DARK_GRAY);
