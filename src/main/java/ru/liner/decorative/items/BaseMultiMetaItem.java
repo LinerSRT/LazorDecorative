@@ -2,14 +2,16 @@ package ru.liner.decorative.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.world.World;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
 
 import java.util.List;
 
-public class BaseMultiMetaItem<MetaBlock extends BaseMultiMetaBlock> extends ItemBlock {
+public class BaseMultiMetaItem<MetaBlock extends BaseMultiMetaBlock>  extends ItemBlock {
     protected MetaBlock metaBlock;
     public BaseMultiMetaItem(MetaBlock block) {
         this(block.blockID, block);

@@ -7,8 +7,13 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
+import ru.liner.decorative.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +22,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class BaseMultiMetaBlock extends Block {
     @SideOnly(Side.CLIENT)
-    protected HashMap<String, String> localizationMap;
+    protected List<Pair<String, String>> localizationList;
     @SideOnly(Side.CLIENT)
     protected HashMap<String, List<TextureData>> textureDataMap;
     @SideOnly(Side.CLIENT)
@@ -29,7 +34,7 @@ public class BaseMultiMetaBlock extends Block {
 
     public BaseMultiMetaBlock(int blockID, Material material) {
         super(blockID, material);
-        localizationMap = new HashMap<>();
+        localizationList = new ArrayList<>();
         textureDataMap = new HashMap<>();
         textureMap = new HashMap<>();
     }
@@ -45,7 +50,7 @@ public class BaseMultiMetaBlock extends Block {
     }
 
     public BaseMultiMetaBlock registerType(String unlocalizedName, String localizedName, String textureName, int... textureSides) {
-        localizationMap.put(unlocalizedName, localizedName);
+        localizationList.add(new Pair<>(unlocalizedName, localizedName));
         registerTexture(unlocalizedName, textureName, textureSides);
         return this;
     }
@@ -65,8 +70,10 @@ public class BaseMultiMetaBlock extends Block {
 
 
     public String getLocalizationFor(String type) {
-        if (localizationMap.containsKey(type))
-            return localizationMap.get(type);
+        for (Pair<String, String> localization : localizationList) {
+            if(localization.key.equals(type))
+                return localization.value;
+        }
         return baseLocalizedName;
     }
 
@@ -96,22 +103,20 @@ public class BaseMultiMetaBlock extends Block {
     }
 
     public String getTypeByMetadata(int metadata) {
-        metadata &= 7;
-        if (localizationMap.isEmpty())
+        if (localizationList.isEmpty())
             return getUnlocalizedName();
-        String[] unlocalizedTypes = localizationMap.keySet().toArray(new String[0]);
-        if (metadata >= getTypesCount())
-            return unlocalizedTypes[0];
-        return unlocalizedTypes[metadata];
+        if (metadata < 0 || metadata >= getTypesCount())
+            return localizationList.get(0).key;
+        return localizationList.get(metadata).key;
     }
 
 
     public int getTypesCount() {
-        return localizationMap.size();
+        return localizationList.size();
     }
 
     public boolean hasTypes() {
-        return !localizationMap.isEmpty();
+        return !localizationList.isEmpty();
     }
 
     public String getBaseLocalizedName() {

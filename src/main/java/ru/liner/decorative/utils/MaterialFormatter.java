@@ -14,7 +14,8 @@ public class MaterialFormatter {
         endings.put("granite_smooth", "из гладкого гранита");
         endings.put("diorite_smooth", "из гладкого диорита");
         endings.put("andesite_smooth", "из гладкого андезита");
-        endings.put("prismarine_dark", "из призмарина");
+        endings.put("prismarine", "из призмарина");
+        endings.put("prismarine_dark", "из темного призмарина");
         endings.put("prismarine_bricks", "из призмариновых кирпичей");
     }
 

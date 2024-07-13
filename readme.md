@@ -24,12 +24,13 @@ Flowers:
 
 ## Minecraft 1.8 
 Blocks:
-- [ ] Red sandstone (and polished)
+- [x] Red sandstone (and polished)
+- [x] Red sand
 - [x] Diorite (and polished)
 - [x] Andesite (and polished)
 - [x] Granite (and polished)
-- [ ] Prismarine
-- [ ] Dark prismarine
+- [x] Prismarine
+- [x] Dark prismarine
 - [ ] Banners
 - [ ] New variants of fences, fence gates and doors, for all the different types of planks
 
