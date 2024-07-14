@@ -90,4 +90,8 @@ public class BaseMultiItem<B extends IMultiTexturedBlock> extends ItemBlock {
         }
         return super.getColorFromItemStack(itemStack, par2);
     }
+
+    public B getMultiBlock() {
+        return multiBlock;
+    }
 }

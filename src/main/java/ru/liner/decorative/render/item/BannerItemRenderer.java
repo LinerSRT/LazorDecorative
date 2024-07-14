@@ -1,4 +1,4 @@
-package ru.liner.decorative.render;
+package ru.liner.decorative.render.item;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 import ru.liner.decorative.render.models.Models;
-import ru.liner.decorative.tile.TileEntityBanner;
 
 public class BannerItemRenderer implements IItemRenderer {
     @Override
@@ -47,7 +46,12 @@ public class BannerItemRenderer implements IItemRenderer {
             GL11.glRotatef(-225f, 0f, 1f, 0f);
             GL11.glTranslatef(0f, -0.6f, -0.7f);
             GL11.glScalef(0.7f, 0.7f, 0.7f);
-            Models.banner.renderBanner(bannerColor, TileEntityBanner.PatternType.BASE);
+            GL11.glColor4f(red / 255f, green / 255f, blue / 255f, 1);
+            Models.banner.bannerSlate.rotationPointY = -32.0f;
+            Models.banner.bannerSlate.render(0.0625f);
+            GL11.glColor4f(1,1,1,1);
+            Models.banner.bannerStand.render(0.0625f);
+            Models.banner.bannerTop.render(0.0625f);
             GL11.glPopMatrix();
         } else {
             GL11.glPushMatrix();
@@ -55,7 +59,12 @@ public class BannerItemRenderer implements IItemRenderer {
             GL11.glRotatef(180, 0, 0, 1);
             GL11.glTranslatef(-.6f, -1f, 0.7f);
             GL11.glRotatef(30, 1, 0, 0);
-            Models.banner.renderBanner(bannerColor, TileEntityBanner.PatternType.BASE);
+            GL11.glColor4f(red / 255f, green / 255f, blue / 255f, 1);
+            Models.banner.bannerSlate.rotationPointY = -32.0f;
+            Models.banner.bannerSlate.render(0.0625f);
+            GL11.glColor4f(1,1,1,1);
+            Models.banner.bannerStand.render(0.0625f);
+            Models.banner.bannerTop.render(0.0625f);
             GL11.glPopMatrix();
         }
     }

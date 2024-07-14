@@ -5,10 +5,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
@@ -16,13 +15,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import org.lwjgl.opengl.GL11;
+import ru.liner.decorative.blocks.BaseMultiMetaBlock;
+import ru.liner.decorative.blocks.BaseMultiMetaSlabBlock;
+import ru.liner.decorative.blocks.BaseMultiMetaStairsBlock;
 import ru.liner.decorative.blocks.BlockRegister;
+import ru.liner.decorative.items.BaseMultiItem;
 import ru.liner.decorative.items.BaseMultiMetaItem;
+import ru.liner.decorative.recipes.BannerRecipes;
 import ru.liner.decorative.render.Renderers;
 import ru.liner.decorative.utils.ColoredText;
 
@@ -40,6 +44,8 @@ public class DecorativeMod {
         Decorative.init();
         BlockRegister.init();
         Renderers.init();
+        BannerRecipes bannerRecipes = new BannerRecipes();
+        bannerRecipes.addRecipes();
     }
 
     @Mod.Init
@@ -49,7 +55,7 @@ public class DecorativeMod {
 
     @Mod.PostInit
     public void postInit(final FMLPostInitializationEvent e) {
-        //System.out.println("PIDOR: "+Decorative.carpetItem.getUnlocalizedName());
+
     }
 
 
@@ -60,71 +66,133 @@ public class DecorativeMod {
             GL11.glPushMatrix();
             GL11.glTranslatef(0, 0, 999);
             GL11.glScaled(2.0D / resolution.getScaleFactor(), 2.0D / resolution.getScaleFactor(), 0);
-
-
-            MovingObjectPosition lookPosition = Minecraft.getMinecraft().renderViewEntity.rayTrace(200, 1f);
-            WorldClient world = Minecraft.getMinecraft().theWorld;
-            if (lookPosition != null && world != null) {
-                int blockId = world.getBlockId(lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ);
-                int blockMetadata = world.getBlockMetadata(lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ);
-                Material blockMaterial = world.getBlockMaterial(lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ);
-                Block block = Block.blocksList[blockId];
-                TileEntity tileEntity = world.getBlockTileEntity(lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ);
-                ItemStack itemStack = new ItemStack(block, 1, blockMetadata);
-                Item item = itemStack.getItem();
-                ColoredText coloredText = ColoredText.make()
-                        .append("Look coordinates: ").format("x:%s y:%s z:%s", lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ, EnumChatFormatting.GOLD).newLine()
-                        .append("Block: ").append("(").append(block.getLocalizedName(), EnumChatFormatting.GOLD).append(") ").format("%s:%s", blockId, blockMetadata, EnumChatFormatting.GOLD).newLine()
-                        .append("Block item: ").append(item == null ? "Unknown" : item.getItemDisplayName(itemStack), EnumChatFormatting.GOLD).append(" [").append(item == null ? "Unknown" : item.getClass().getSimpleName(), EnumChatFormatting.GOLD).append("]").newLine();
-
-                coloredText.append("Block class: ").append(block.getClass().getSimpleName(), EnumChatFormatting.GOLD).newLine();
-                coloredText.append("Block unlocalized name: ").append(block.getUnlocalizedName(), EnumChatFormatting.GOLD).newLine();
-                coloredText.append("Block orientation: ").append(String.valueOf(blockMetadata & 3), EnumChatFormatting.GOLD).newLine();
-                Icon blockIcon = block.getIcon(0, blockMetadata);
-                Icon blockTexture = block.getBlockTexture(world, lookPosition.blockX, lookPosition.blockY, lookPosition.blockZ, lookPosition.sideHit);
-                if (blockIcon != null) {
-                    coloredText.append("Icon: ").append(blockIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
-                }
-                if(blockTexture != null){
-                    coloredText.append("Block texture: ").append(blockTexture.getIconName(), EnumChatFormatting.GOLD).newLine();
-                }
-                ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
-                if (heldItem != null) {
-                    coloredText.append("---------------------------------------").newLine();
-                    coloredText.append("Held item: ").newLine();
-                    coloredText.append("   Class: ").append(heldItem.getItem().getClass().getSimpleName(), EnumChatFormatting.GOLD).newLine();
-                    coloredText.append("   Id/meta: ").format("%s:%s", heldItem.itemID, heldItem.getItemDamage(), EnumChatFormatting.GOLD).newLine();
-                    coloredText.append("   Unlocalized name: ").append(heldItem.getItem().getUnlocalizedName(heldItem), EnumChatFormatting.GOLD).newLine();
-                    coloredText.append("   Localized name: ").append(heldItem.getItem().getLocalizedName(heldItem), EnumChatFormatting.GOLD).newLine();
-                    coloredText.append("   Display name: ").append(heldItem.getItem().getItemDisplayName(heldItem), EnumChatFormatting.GOLD).newLine();
-                    Icon heldIcon = heldItem.getItem().getIconFromDamage(heldItem.getItemDamage());
-                    if (heldIcon != null)
-                        coloredText.append("   Icon name: ").append(heldIcon.getIconName(), EnumChatFormatting.GOLD).newLine();
-                    Item currentItem = heldItem.getItem();
-                    if(currentItem instanceof BaseMultiMetaItem){
-                        BaseMultiMetaItem<?> multiMetaItem = (BaseMultiMetaItem<?>) currentItem;
-                        coloredText.append("   Multi-meta type: ").append(multiMetaItem.getMetaBlock().getTypeByMetadata(heldItem.getItemDamage()), EnumChatFormatting.GOLD).newLine();
-                    }
-                }
-                if(tileEntity != null){
-                    coloredText.append("---------------------------------------").newLine();
-                    coloredText.append("Tile Entity").newLine();
-                    coloredText.append("   Class: ").append(tileEntity.getClass().getSimpleName(), EnumChatFormatting.GOLD).newLine();
-                    coloredText.append("   Block metadata: ").append(String.valueOf(tileEntity.blockMetadata), EnumChatFormatting.GOLD).newLine();
-                    NBTTagCompound tagCompound = new NBTTagCompound();
-                    tileEntity.writeToNBT(tagCompound);
-                    coloredText.append("   NTB tags: ").append(String.valueOf(tagCompound.getTags().size()), EnumChatFormatting.GOLD).newLine();
-                    nbtToString(tagCompound, 4, coloredText);
-
-                }
-                coloredText.setDrawBackground(true);
-                coloredText.setBackgroundColor(new Color(24, 28, 42, 195));
-                coloredText.setBackgroundPadding(4);
-                coloredText.draw(8, 8, resolution.getScaledWidth(), resolution.getScaledHeight());
-            }
-
+            int width = debugHeldItem(Minecraft.getMinecraft().thePlayer, 2, 2, resolution.getScaledWidth(), resolution.getScaledHeight());
+            width += debugViewingBlock(Minecraft.getMinecraft().theWorld, width + 10, 2, resolution.getScaledWidth(), resolution.getScaledHeight());
+            width += debugViewingTile(Minecraft.getMinecraft().theWorld, width + 18, 2, resolution.getScaledWidth(), resolution.getScaledHeight());
             GL11.glPopMatrix();
         }
+    }
+
+    private int debugViewingTile(World world, int x, int y, int windowWidth, int windowHeight) {
+        if(world == null)
+            return 0;
+        ColoredText debug = ColoredText.make();
+        debug.setBackgroundPadding(4);
+        debug.setBackgroundColor(new Color(22, 23, 30, 200));
+        debug.setDrawBackground(true);
+        debug.append(" Viewing tile", EnumChatFormatting.GREEN).newLine();
+        MovingObjectPosition movingObjectPosition = Minecraft.getMinecraft().renderViewEntity.rayTrace(20, 1f);
+        if (movingObjectPosition == null) {
+            debug.append("  You ").append("need ", EnumChatFormatting.DARK_RED).append("view at block to see more info...").newLine();
+        } else {
+            TileEntity tileEntity = world.getBlockTileEntity(movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ);
+            if(tileEntity != null) {
+                debug.append("  TileEntity: ").append(tileEntity.getBlockType().getLocalizedName(), EnumChatFormatting.AQUA).newLine();
+                debug.append("  TileEntity class: ").append(tileEntity.getClass().getSimpleName(), EnumChatFormatting.AQUA).newLine();
+                debug.append("  TileEntity unlocalized name: ").append(tileEntity.getBlockType().getUnlocalizedName(), EnumChatFormatting.AQUA).newLine();
+                NBTTagCompound tagCompound = new NBTTagCompound();
+                tileEntity.writeToNBT(tagCompound);
+                debug.append("  TileEntity has NBT: ").append(tagCompound.getTags().isEmpty() ? "false" : "true", tagCompound.getTags().isEmpty() ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+                if (!tagCompound.getTags().isEmpty()) {
+                    nbtToString(tagCompound, 4, debug);
+                }
+            } else {
+                debug.append("  You ").append("need ", EnumChatFormatting.DARK_RED).append("view at block to see more info...").newLine();
+            }
+        }
+        debug.draw(x, y, windowWidth, windowHeight);
+        return debug.calculateTextWidth();
+    }
+
+    private int debugViewingBlock(World world, int x, int y, int windowWidth, int windowHeight) {
+        if(world == null)
+            return 0;
+        ColoredText debug = ColoredText.make();
+        debug.setBackgroundPadding(4);
+        debug.setBackgroundColor(new Color(22, 23, 30, 200));
+        debug.setDrawBackground(true);
+        debug.append(" Viewing block", EnumChatFormatting.GREEN).newLine();
+        MovingObjectPosition movingObjectPosition = Minecraft.getMinecraft().renderViewEntity.rayTrace(20, 1f);
+        if (movingObjectPosition == null) {
+            debug.append("  You ").append("need ", EnumChatFormatting.DARK_RED).append("view at block to see more info...").newLine();
+        } else {
+            int blockId = world.getBlockId(movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ);
+            int blockMetadata = world.getBlockMetadata(movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ);
+            Block block = Block.blocksList[blockId];
+            Icon icon = block.getIcon(2, blockMetadata);
+            boolean isMetaBlock = (block instanceof BaseMultiMetaBlock || block.getClass().getSimpleName().contains("Meta") || block.getClass().getSimpleName().contains("Multi"));
+            debug.append("  Block: ").append(block.getLocalizedName(), EnumChatFormatting.AQUA).format(" [%s:%s]", blockId, blockMetadata, EnumChatFormatting.DARK_AQUA).newLine();
+            debug.append("  Block class: ").append(block.getClass().getSimpleName(), EnumChatFormatting.AQUA).newLine();
+            debug.append("  Block unlocalized name: ").append(block.getUnlocalizedName(), EnumChatFormatting.AQUA).newLine();
+            debug.append("  Block icon: ").append(icon == null ? "Unknown" : icon.getIconName(), EnumChatFormatting.AQUA).newLine();
+            debug.append("  Block render type: ").append(String.valueOf(block.getRenderType()), EnumChatFormatting.AQUA).newLine();
+            debug.append("  Meta block: ").append(isMetaBlock ? "true" : "false", !isMetaBlock ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+            if (isMetaBlock) {
+                if (block instanceof BaseMultiMetaBlock)
+                    debugMetaBlock((BaseMultiMetaBlock) block, debug, blockMetadata, icon);
+                if (block instanceof BaseMultiMetaSlabBlock)
+                    debugMetaBlock(((BaseMultiMetaSlabBlock<?>) block).getMetaBlock(), debug, blockMetadata, icon);
+                if (block instanceof BaseMultiMetaStairsBlock)
+                    debugMetaBlock(((BaseMultiMetaStairsBlock<?>) block).getMetaBlock(), debug, blockMetadata, icon);
+            }
+        }
+        debug.draw(x, y, windowWidth, windowHeight);
+        return debug.calculateTextWidth();
+    }
+
+    private void debugMetaBlock(BaseMultiMetaBlock metaBlock, ColoredText coloredText, int blockMetadata, Icon icon) {
+        coloredText.append("  Meta has types: ").append(!metaBlock.hasTypes() ? "false" : "true", !metaBlock.hasTypes() ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+        if (metaBlock.hasTypes()) {
+            coloredText.append("  Meta type count: ").append(String.valueOf(metaBlock.getTypesCount()), EnumChatFormatting.AQUA).newLine();
+            coloredText.append("  Meta type: ").append(metaBlock.getTypeByMetadata(blockMetadata), EnumChatFormatting.AQUA).newLine();
+            coloredText.append("  Meta icon: ").append(icon == null ? "Unknown" : metaBlock.getIcon(2, blockMetadata).getIconName(), EnumChatFormatting.AQUA).newLine();
+        }
+    }
+
+    private int debugHeldItem(EntityClientPlayerMP player, int x, int y, int windowWidth, int windowHeight) {
+        if(player == null)
+            return 0;
+        ColoredText debug = ColoredText.make();
+        debug.setBackgroundPadding(4);
+        debug.setBackgroundColor(new Color(22, 23, 30, 200));
+        debug.setDrawBackground(true);
+        debug.append(" Held item", EnumChatFormatting.GREEN).newLine();
+        ItemStack itemStack = player.getHeldItem();
+        if (itemStack == null) {
+            debug.append("  You ").append("need ", EnumChatFormatting.DARK_RED).append("hold an item to see more info...").newLine();
+        } else {
+            Item item = itemStack.getItem();
+            Icon icon = item == null ? null : item.getIconFromDamage(itemStack.getItemDamage());
+            debug.append("  Item: ").append(itemStack.getDisplayName(), EnumChatFormatting.AQUA).format(" [%s:%s]", itemStack.itemID, itemStack.getItemDamage(), EnumChatFormatting.DARK_AQUA).newLine();
+            debug.append("  Item class: ").append(item == null ? "Unknown" : item.getClass().getSimpleName(), item == null ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+            debug.append("  Item unlocalized name: ").append(item == null ? "Unknown" : item.getUnlocalizedName(itemStack), item == null ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+            debug.append("  Item icon: ").append(icon == null ? "Unknown" : icon.getIconName(), item == null ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+            debug.append("  Meta item: ").append((item instanceof BaseMultiMetaItem || item instanceof BaseMultiItem) ? "true" : "false", !(item instanceof BaseMultiMetaItem || item instanceof BaseMultiItem) ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+            if (item instanceof BaseMultiMetaItem) {
+                BaseMultiMetaItem<?> metaItem = (BaseMultiMetaItem<?>) item;
+                debug.append("  Meta has types: ").append(!metaItem.getMetaBlock().hasTypes() ? "false" : "true", !metaItem.getMetaBlock().hasTypes() ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+                if (metaItem.getMetaBlock().hasTypes()) {
+                    debug.append("  Meta type count: ").append(String.valueOf(metaItem.getMetaBlock().getTypesCount()), EnumChatFormatting.AQUA).newLine();
+                    debug.append("  Meta type: ").append(metaItem.getMetaBlock().getTypeByMetadata(itemStack.getItemDamage()), EnumChatFormatting.AQUA).newLine();
+                    debug.append("  Meta icon: ").append(icon == null ? "Unknown" : metaItem.getMetaBlock().getIcon(2, itemStack.getItemDamage()).getIconName(), EnumChatFormatting.AQUA).newLine();
+                }
+            }
+            if (item instanceof BaseMultiItem) {
+                BaseMultiItem multiItem = (BaseMultiItem) item;
+                debug.append("  Meta has types: ").append(multiItem.getMultiBlock().getTypesCount() == 0 ? "false" : "true", multiItem.getMultiBlock().getTypesCount() == 0 ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+                if (multiItem.getMultiBlock().getTypesCount() != 0) {
+                    debug.append("  Meta type count: ").append(String.valueOf(multiItem.getMultiBlock().getTypesCount()), EnumChatFormatting.AQUA).newLine();
+                    debug.append("  Meta type: ").append(multiItem.getMultiBlock().typeAt(itemStack.getItemDamage()), EnumChatFormatting.AQUA).newLine();
+                    debug.append("  Meta icon: ").append(icon == null ? "Unknown" : multiItem.getMultiBlock().getIcon(2, itemStack.getItemDamage()).getIconName(), EnumChatFormatting.AQUA).newLine();
+                }
+            }
+            debug.append("  Stack has NBT: ").append(!itemStack.hasTagCompound() ? "false" : "true", !itemStack.hasTagCompound() ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
+            if (itemStack.hasTagCompound()) {
+                nbtToString(itemStack.getTagCompound(), 4, debug);
+            }
+        }
+        debug.draw(x, y, windowWidth, windowHeight);
+        return debug.calculateTextWidth();
     }
 
     private static String repeat(String text, int b) {
@@ -133,13 +201,14 @@ public class DecorativeMod {
             stringBuilder.append(text);
         return stringBuilder.toString();
     }
+
     private ColoredText primitiveNbt(NBTBase base, int indent, ColoredText coloredText) {
         if (base instanceof NBTTagCompound) {
             coloredText.append(repeat(" ", indent)).append(base.getName()).append(": {");
-            if(!((NBTTagCompound) base).hasNoTags())
+            if (!((NBTTagCompound) base).hasNoTags())
                 coloredText.newLine();
             coloredText = nbtToString((NBTTagCompound) base, indent, coloredText);
-            coloredText.append(repeat(" ", indent)).append("}").append(" "+NBTBase.getTagName(base.getId()), EnumChatFormatting.GRAY);
+            coloredText.append(repeat(" ", indent)).append("}").append(" " + NBTBase.getTagName(base.getId()), EnumChatFormatting.GRAY);
             if (!((NBTTagCompound) base).getTags().isEmpty()) coloredText.newLine();
         } else if (base instanceof NBTTagByte) {
             coloredText.append(repeat(" ", indent)).append(base.getName()).append(": ").append(String.valueOf(((NBTTagByte) base).data), EnumChatFormatting.DARK_PURPLE).append(" (Byte)", EnumChatFormatting.GRAY).newLine();
@@ -170,10 +239,10 @@ public class DecorativeMod {
         for (NBTBase base : tags) {
             if (base instanceof NBTTagCompound) {
                 coloredText.append(repeat(" ", indent)).append(base.getName()).append(": {");
-                if(!((NBTTagCompound) base).hasNoTags())
+                if (!((NBTTagCompound) base).hasNoTags())
                     coloredText.newLine();
                 coloredText = nbtToString((NBTTagCompound) base, indent + 4, coloredText);
-                coloredText.append(repeat(" ", indent)).append("}").append(" "+NBTBase.getTagName(base.getId()), EnumChatFormatting.GRAY).newLine();
+                coloredText.append(repeat(" ", indent)).append("}").append(" " + NBTBase.getTagName(base.getId()), EnumChatFormatting.GRAY).newLine();
             } else if (base instanceof NBTTagList) {
                 NBTTagList nbtTagList = (NBTTagList) base;
                 coloredText.append(repeat(" ", indent)).append(base.getName()).append(": {");
@@ -186,7 +255,7 @@ public class DecorativeMod {
                         coloredText = primitiveNbt(tagAt, indent + 4, coloredText);
                     }
                 }
-                coloredText.append(repeat(" ", indent)).append("}").append(" "+NBTBase.getTagName(base.getId()), EnumChatFormatting.GRAY).newLine();
+                coloredText.append(repeat(" ", indent)).append("}").append(" " + NBTBase.getTagName(base.getId()), EnumChatFormatting.GRAY).newLine();
             } else {
                 coloredText = primitiveNbt(base, indent, coloredText);
             }

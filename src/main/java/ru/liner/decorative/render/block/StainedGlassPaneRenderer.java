@@ -1,4 +1,4 @@
-package ru.liner.decorative.render;
+package ru.liner.decorative.render.block;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;

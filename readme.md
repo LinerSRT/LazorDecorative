@@ -31,7 +31,7 @@ Blocks:
 - [x] Granite (and polished)
 - [x] Prismarine
 - [x] Dark prismarine
-- [ ] Banners
+- [x] Banners (with all patterns and layer support)
 - [ ] New variants of fences, fence gates and doors, for all the different types of planks
 
 ## Minecraft 1.9

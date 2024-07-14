@@ -197,7 +197,7 @@ public class ColoredText {
     }
 
 
-    private int calculateTextWidth() {
+    public int calculateTextWidth() {
         int width = 0;
         for (String line : get().split("\n")) {
             int lineWidth = minecraft.fontRenderer.getStringWidth(line);
@@ -207,7 +207,7 @@ public class ColoredText {
         return width;
     }
 
-    private int calculateTextHeight() {
+    public int calculateTextHeight() {
         return Math.max(minecraft.fontRenderer.FONT_HEIGHT, minecraft.fontRenderer.FONT_HEIGHT * get().split("\n").length);
     }
 

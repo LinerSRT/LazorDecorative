@@ -79,6 +79,7 @@ public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvid
         return world.getBlockMaterial(x, y - 1, z).isSolid();
     }
 
+
     private void checkCanStay(World world, int x, int y, int z) {
         if (!canBlockStay(world, x, y, z)) {
             dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 1);
@@ -137,29 +138,36 @@ public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvid
         return par1;
     }
 
-    public void onBlockHarvested(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer) {
-        if (par6EntityPlayer.capabilities.isCreativeMode) {
-            par5 |= 8;
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, par5, 4);
+    public void onBlockHarvested(World world, int x, int y, int z, int metadata, EntityPlayer player) {
+        if (player.capabilities.isCreativeMode) {
+            metadata |= 8;
+            world.setBlockMetadataWithNotify(x, y, z, metadata, 4);
         }
-
-        this.dropBlockAsItem(par1World, par2, par3, par4, par5, 0);
-        super.onBlockHarvested(par1World, par2, par3, par4, par5, par6EntityPlayer);
+        this.dropBlockAsItem(world, x, y, z, metadata, 0);
+        super.onBlockHarvested(world, x, y, z, metadata, player);
     }
+
+
 
     public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> drops = new ArrayList<>();
-        drops.add(new ItemStack(Blocks.banner.blockID, 1, getDamageValue(world, x, y, z)));
+        TileEntity e = world.getBlockTileEntity(x, y, z);
+        ItemStack droppedStack = new ItemStack(Blocks.banner.blockID, 1, getDamageValue(world, x, y, z));
+        if(e instanceof TileEntityBanner){
+            TileEntityBanner banner = (TileEntityBanner) e;
+            banner.writeToStack(droppedStack);
+        }
+        drops.add(droppedStack);
         return drops;
     }
 
-    @Override // net.minecraft.block.Block
+    @Override
     public boolean canPlaceBlockOnSide(World par1World, int par2, int par3, int par4, int par5) {
         ForgeDirection dir = ForgeDirection.getOrientation(par5);
         return (dir == ForgeDirection.DOWN && par1World.isBlockSolidOnSide(par2, par3 + 1, par4, ForgeDirection.DOWN)) || (dir == ForgeDirection.UP && par1World.isBlockSolidOnSide(par2, par3 - 1, par4, ForgeDirection.UP)) || ((dir == ForgeDirection.NORTH && par1World.isBlockSolidOnSide(par2, par3, par4 + 1, ForgeDirection.NORTH)) || ((dir == ForgeDirection.SOUTH && par1World.isBlockSolidOnSide(par2, par3, par4 - 1, ForgeDirection.SOUTH)) || ((dir == ForgeDirection.WEST && par1World.isBlockSolidOnSide(par2 + 1, par3, par4, ForgeDirection.WEST)) || (dir == ForgeDirection.EAST && par1World.isBlockSolidOnSide(par2 - 1, par3, par4, ForgeDirection.EAST)))));
     }
 
-    @Override // net.minecraft.block.Block
+    @Override
     public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4) {
         return par1World.isBlockSolidOnSide(par2 - 1, par3, par4, ForgeDirection.EAST) || par1World.isBlockSolidOnSide(par2 + 1, par3, par4, ForgeDirection.WEST) || par1World.isBlockSolidOnSide(par2, par3, par4 - 1, ForgeDirection.SOUTH) || par1World.isBlockSolidOnSide(par2, par3, par4 + 1, ForgeDirection.NORTH) || par1World.isBlockSolidOnSide(par2, par3 - 1, par4, ForgeDirection.UP) || par1World.isBlockSolidOnSide(par2, par3 + 1, par4, ForgeDirection.DOWN);
     }
