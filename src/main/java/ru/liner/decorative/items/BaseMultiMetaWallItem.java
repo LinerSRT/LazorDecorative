@@ -6,22 +6,25 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
-import ru.liner.decorative.blocks.BaseMultiMetaDoorBlock;
+import ru.liner.decorative.blocks.BaseMultiMetaLadderBlock;
+import ru.liner.decorative.blocks.BaseMultiMetaWallBlock;
 
 import java.util.List;
 
-public class BaseMultiMetaDoorItem<MetaBlock extends BaseMultiMetaDoorBlock> extends ItemBlock {
-    protected MetaBlock metaBlock;
-    public BaseMultiMetaDoorItem(MetaBlock block) {
+public class BaseMultiMetaWallItem<MetaBlock extends BaseMultiMetaBlock> extends ItemBlock {
+    protected BaseMultiMetaWallBlock<MetaBlock> metaBlock;
+    public BaseMultiMetaWallItem(MetaBlock block) {
         this(block.blockID, block);
     }
-    public BaseMultiMetaDoorItem(int blockID, Block block) {
+    public BaseMultiMetaWallItem(int blockID, Block block) {
         super(blockID);
-        this.metaBlock = (MetaBlock) block;
-        setHasSubtypes(metaBlock.hasTypes());
+        this.metaBlock = (BaseMultiMetaWallBlock<MetaBlock>) block;
+        setHasSubtypes(metaBlock.getMetaBlock().hasTypes());
         setMaxDamage(0);
-        setUnlocalizedName(metaBlock.getUnlocalizedName());
+        setUnlocalizedName(String.format("wall.%s", metaBlock.getUnlocalizedName()));
     }
+
+
 
     @Override
     public Icon getIconFromDamage(int metadata) {
@@ -35,8 +38,9 @@ public class BaseMultiMetaDoorItem<MetaBlock extends BaseMultiMetaDoorBlock> ext
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return String.format("%s.%s.name", getUnlocalizedName(), metaBlock.getTypeByMetadata(stack.getItemDamage()));
+        return String.format("tile.wall.%s.name", metaBlock.getMetaBlock().getTypeByMetadata(stack.getItemDamage()));
     }
+
     @Override
     public String getItemDisplayName(ItemStack itemStack) {
         return getLocalizedName(itemStack);
@@ -47,6 +51,6 @@ public class BaseMultiMetaDoorItem<MetaBlock extends BaseMultiMetaDoorBlock> ext
     }
 
     public MetaBlock getMetaBlock() {
-        return metaBlock;
+        return metaBlock.getMetaBlock();
     }
 }

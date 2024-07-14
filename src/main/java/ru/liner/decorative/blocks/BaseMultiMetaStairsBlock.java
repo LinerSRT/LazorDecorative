@@ -7,7 +7,7 @@ import ru.liner.decorative.utils.MaterialFormatter;
 public class BaseMultiMetaStairsBlock<MetaBlock extends BaseMultiMetaBlock> extends BlockStairs {
     private MetaBlock metaBlock;
     protected BaseMultiMetaStairsBlock(MetaBlock metaBlock, int metadata) {
-        super(metaBlock.blockID + 256 + ((metaBlock.blockID % metaBlock.getTypesCount()) + metadata), metaBlock, metadata);
+        super(BlockRegister.nextAvailableId(410 + metaBlock.blockID + metadata+1), metaBlock, metadata);
         this.metaBlock = metaBlock;
         setLightOpacity(0);
         setUnlocalizedName(String.format("stairs.%s", metaBlock.getTypeByMetadata(metadata)));

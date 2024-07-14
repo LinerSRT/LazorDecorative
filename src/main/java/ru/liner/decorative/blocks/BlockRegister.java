@@ -1,5 +1,8 @@
 package ru.liner.decorative.blocks;
 
+import com.google.common.collect.ArrayListMultimap;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
@@ -10,6 +13,7 @@ import ru.liner.decorative.blocks.list.BlockBanner;
 import ru.liner.decorative.blocks.list.BlockHayBale;
 import ru.liner.decorative.items.*;
 import ru.liner.decorative.tile.TileEntityBanner;
+import ru.liner.decorative.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +48,11 @@ public class BlockRegister {
         registerMetaMultiBlock(planks);
         registerStairs(planks);
         registerSlabs(planks);
+        registerFence(planks);
+        registerLadder(planks);
+        registerWall(planks);
 
 
-        registerMetaMultiDoorBlock(woodenDoor);
 
 
         registerMetaBlock(hayBale);
@@ -77,16 +83,6 @@ public class BlockRegister {
         GameRegistry.registerBlock(metaBlock, BaseMultiMetaBannerItem.class, metaBlock.getUnlocalizedName());
     }
 
-    public static <MetaBlock extends BaseMultiMetaDoorBlock> void registerMetaMultiDoorBlock(MetaBlock metaBlock){
-        LanguageRegistry.instance().addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
-        for (int index = 0; index < metaBlock.getTypesCount(); index++) {
-            String type = metaBlock.getTypeByMetadata(index);
-            String localization = metaBlock.getLocalizationFor(type);
-            LanguageRegistry.instance().addStringLocalization(String.format("%s.%s.name", metaBlock.getUnlocalizedName(), type), localization);
-        }
-        GameRegistry.registerBlock(metaBlock, BaseMultiMetaDoorItem.class, metaBlock.getUnlocalizedName());
-    }
-
     public static <MetaBlock extends BaseMetaBlock> void registerMetaBlock(MetaBlock metaBlock){
         LanguageRegistry languageRegistry = LanguageRegistry.instance();
         languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
@@ -97,6 +93,7 @@ public class BlockRegister {
         languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
         GameRegistry.registerBlock(metaBlock, itemClass, metaBlock.getUnlocalizedName());
     }
+
 
     public static <MetaBlock extends BaseMultiMetaBlock> List<BaseMultiMetaStairsBlock<MetaBlock>> registerStairs(MetaBlock metaBlock){
         List<BaseMultiMetaStairsBlock<MetaBlock>> stairsBlockList = new ArrayList<>();
@@ -120,6 +117,39 @@ public class BlockRegister {
             slabBlockList.add(slabBlock);
         }
         return slabBlockList;
+    }
+    public static <MetaBlock extends BaseMultiMetaBlock> List<BaseMultiMetaFenceBlock<MetaBlock>> registerFence(MetaBlock metaBlock){
+        List<BaseMultiMetaFenceBlock<MetaBlock>> fenceBlockList = new ArrayList<>();
+        LanguageRegistry languageRegistry = LanguageRegistry.instance();
+        for (int index = 0; index < metaBlock.getTypesCount(); index++) {
+            BaseMultiMetaFenceBlock<MetaBlock> fenceBlock = new BaseMultiMetaFenceBlock<>(metaBlock, index);
+            languageRegistry.addStringLocalization(String.format("%s.name", fenceBlock.getUnlocalizedName()), fenceBlock.getLocalizationFor(index));
+            GameRegistry.registerBlock(fenceBlock, BaseMultiMetaFenceItem.class, fenceBlock.getUnlocalizedName());
+            fenceBlockList.add(fenceBlock);
+        }
+        return fenceBlockList;
+    }
+    public static <MetaBlock extends BaseMultiMetaBlock> List<BaseMultiMetaLadderBlock<MetaBlock>> registerLadder(MetaBlock metaBlock){
+        List<BaseMultiMetaLadderBlock<MetaBlock>> ladderBlockList = new ArrayList<>();
+        LanguageRegistry languageRegistry = LanguageRegistry.instance();
+        for (int index = 0; index < metaBlock.getTypesCount(); index++) {
+            BaseMultiMetaLadderBlock<MetaBlock> ladderBlock = new BaseMultiMetaLadderBlock<>(metaBlock, index);
+            languageRegistry.addStringLocalization(String.format("%s.name", ladderBlock.getUnlocalizedName()), ladderBlock.getLocalizationFor(index));
+            GameRegistry.registerBlock(ladderBlock, BaseMultiMetaLadderItem.class, ladderBlock.getUnlocalizedName());
+            ladderBlockList.add(ladderBlock);
+        }
+        return ladderBlockList;
+    }
+    public static <MetaBlock extends BaseMultiMetaBlock> List<BaseMultiMetaWallBlock<MetaBlock>> registerWall(MetaBlock metaBlock){
+        List<BaseMultiMetaWallBlock<MetaBlock>> wallBlockList = new ArrayList<>();
+        LanguageRegistry languageRegistry = LanguageRegistry.instance();
+        for (int index = 0; index < metaBlock.getTypesCount(); index++) {
+            BaseMultiMetaWallBlock<MetaBlock> wallBlock = new BaseMultiMetaWallBlock<>(metaBlock, index);
+            languageRegistry.addStringLocalization(String.format("%s.name", wallBlock.getUnlocalizedName()), wallBlock.getLocalizationFor(index));
+            GameRegistry.registerBlock(wallBlock, BaseMultiMetaWallItem.class, wallBlock.getUnlocalizedName());
+            wallBlockList.add(wallBlock);
+        }
+        return wallBlockList;
     }
 
 
@@ -152,4 +182,12 @@ public class BlockRegister {
         GameRegistry.registerBlock((Block) block, BaseMultiItem.class, block.getUnlocalizedName());
     }
 
+
+    public static int nextAvailableId(int startFrom){
+        for (int i = startFrom; i < Block.blocksList.length; i++) {
+            if(Block.blocksList[i] == null)
+                return i;
+        }
+        return 0;
+    }
 }

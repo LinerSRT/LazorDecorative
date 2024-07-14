@@ -14,6 +14,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import ru.liner.decorative.utils.Pair;
+import scala.util.parsing.combinator.testing.Str;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,6 +152,12 @@ public class BaseMultiMetaBlock extends Block {
             textureName = String.format("%s_%s", textureParent, candidateTexture);
         }
         return textureMap.get(textureName);
+    }
+
+    public String getTextureFor(int metadata){
+        String unlocalizedType = getTypeByMetadata(metadata);
+        TextureData[] textureList = textureDataMap.get(unlocalizedType).toArray(new TextureData[0]);
+        return String.format("%s_%s", textureParent, textureList[0].textureName);
     }
 
     @Override

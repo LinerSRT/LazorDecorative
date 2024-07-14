@@ -27,7 +27,9 @@ public class MaterialFormatter {
         STAIRS("Ступеньки"),
         SLAB("Полублок"),
         FENCE("Забор"),
-        DOOR("Дверь");
+        DOOR("Дверь"),
+        LADDER("Лестница"),
+        WALL("Стена");
         private final String type;
         Type(String type) {
             this.type = type;

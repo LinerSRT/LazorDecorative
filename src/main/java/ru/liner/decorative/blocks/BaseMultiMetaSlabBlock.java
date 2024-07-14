@@ -11,7 +11,7 @@ public class BaseMultiMetaSlabBlock<MetaBlock extends BaseMultiMetaBlock> extend
     private int slabMetadata;
 
     protected BaseMultiMetaSlabBlock(MetaBlock metaBlock, int metadata) {
-        super(metaBlock.blockID + 356 + ((metaBlock.blockID % metaBlock.getTypesCount()) + metadata), false, metaBlock.blockMaterial);
+        super(BlockRegister.nextAvailableId(400 + metaBlock.blockID + metadata + 1), false, metaBlock.blockMaterial);
         this.metaBlock = metaBlock;
         this.slabMetadata = metadata;
         setLightOpacity(0);
