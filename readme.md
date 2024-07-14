@@ -32,17 +32,17 @@ Blocks:
 - [x] Prismarine
 - [x] Dark prismarine
 - [x] Banners (with all patterns and layer support)
-- [ ] New variants of fences, fence gates and doors, for all the different types of planks
+- [x] New variants of fences, fence gates and doors, for all the different types of planks
 
 ## Minecraft 1.9
 Blocks:
 - [ ] Chorus flowers
 - [ ] Chorus plants
-- [ ] End stone bricks
-- [ ] Purpur blocks
-- [ ] Purpur pillars
-- [ ] Purpur stairs
-- [ ] Purpur slabs
+- [x] End stone bricks
+- [x] Purpur blocks
+- [x] Purpur pillars
+- [x] Purpur stairs
+- [x] Purpur slabs
 
 ## Minecraft 1.10
 Blocks:

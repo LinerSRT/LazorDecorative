@@ -57,6 +57,10 @@ public class BlockRegister {
 
         registerMetaBlock(hayBale);
         registerMetaBlock(podzol);
+        registerMetaBlock(endstoneBricks);
+        registerMetaMultiBlock(purpur);
+        registerStairs(purpur);
+        registerSlabs(purpur);
 
         registerBanner(banner);
         GameRegistry.registerTileEntity(TileEntityBanner.class, TileEntityBanner.class.getName());

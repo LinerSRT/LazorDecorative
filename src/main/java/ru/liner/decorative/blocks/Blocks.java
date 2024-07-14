@@ -25,4 +25,6 @@ public class Blocks {
     public static final BlockRedSandStone redSandStone = new BlockRedSandStone(1051);
     public static final BlockRedSand sandRed = new BlockRedSand(1052);
     public static final BlockBanner banner = new BlockBanner(1053);
+    public static final BlockEndstoneBricks endstoneBricks = new BlockEndstoneBricks(1054);
+    public static final BlockPurpur purpur = new BlockPurpur(1055);
 }

@@ -17,6 +17,8 @@ public class MaterialFormatter {
         endings.put("prismarine", "из призмарина");
         endings.put("prismarine_dark", "из темного призмарина");
         endings.put("prismarine_bricks", "из призмариновых кирпичей");
+        endings.put("purpur_block", "из пурпурного блока");
+        endings.put("purpur_pillar", "из пурпурной колонны");
     }
 
     public static String formatMaterial(Type type, String material){
