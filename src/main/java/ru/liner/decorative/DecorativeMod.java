@@ -4,6 +4,7 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -24,6 +25,7 @@ import ru.liner.decorative.blocks.BaseMultiMetaBlock;
 import ru.liner.decorative.blocks.BaseMultiMetaSlabBlock;
 import ru.liner.decorative.blocks.BaseMultiMetaStairsBlock;
 import ru.liner.decorative.blocks.BlockRegister;
+import ru.liner.decorative.enity.Entities;
 import ru.liner.decorative.items.BaseMultiItem;
 import ru.liner.decorative.items.BaseMultiMetaItem;
 import ru.liner.decorative.recipes.BannerRecipes;
@@ -34,9 +36,11 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Collection;
 
-@Mod(modid = "lazor_decorative", version = "1.0", name = "Lazor Decorative")
+@Mod(modid = DecorativeMod.MOD_ID, version = "1.0", name = "Lazor Decorative")
+@NetworkMod
 public class DecorativeMod {
-    @Mod.Instance("lazor_decorative")
+    public static final String MOD_ID = "lazor_decorative";
+    @Mod.Instance(MOD_ID)
     public static DecorativeMod INSTANCE;
 
     @Mod.PreInit
@@ -44,6 +48,7 @@ public class DecorativeMod {
         Decorative.init();
         BlockRegister.init();
         Renderers.init();
+        Entities.init();
         BannerRecipes bannerRecipes = new BannerRecipes();
         bannerRecipes.addRecipes();
     }
@@ -74,7 +79,7 @@ public class DecorativeMod {
     }
 
     private int debugViewingTile(World world, int x, int y, int windowWidth, int windowHeight) {
-        if(world == null)
+        if (world == null)
             return 0;
         ColoredText debug = ColoredText.make();
         debug.setBackgroundPadding(4);
@@ -86,7 +91,7 @@ public class DecorativeMod {
             debug.append("  You ").append("need ", EnumChatFormatting.DARK_RED).append("view at block to see more info...").newLine();
         } else {
             TileEntity tileEntity = world.getBlockTileEntity(movingObjectPosition.blockX, movingObjectPosition.blockY, movingObjectPosition.blockZ);
-            if(tileEntity != null) {
+            if (tileEntity != null) {
                 debug.append("  TileEntity: ").append(tileEntity.getBlockType().getLocalizedName(), EnumChatFormatting.AQUA).newLine();
                 debug.append("  TileEntity class: ").append(tileEntity.getClass().getSimpleName(), EnumChatFormatting.AQUA).newLine();
                 debug.append("  TileEntity unlocalized name: ").append(tileEntity.getBlockType().getUnlocalizedName(), EnumChatFormatting.AQUA).newLine();
@@ -105,7 +110,7 @@ public class DecorativeMod {
     }
 
     private int debugViewingBlock(World world, int x, int y, int windowWidth, int windowHeight) {
-        if(world == null)
+        if (world == null)
             return 0;
         ColoredText debug = ColoredText.make();
         debug.setBackgroundPadding(4);
@@ -150,7 +155,7 @@ public class DecorativeMod {
     }
 
     private int debugHeldItem(EntityClientPlayerMP player, int x, int y, int windowWidth, int windowHeight) {
-        if(player == null)
+        if (player == null)
             return 0;
         ColoredText debug = ColoredText.make();
         debug.setBackgroundPadding(4);
