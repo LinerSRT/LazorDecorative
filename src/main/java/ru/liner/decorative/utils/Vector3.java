@@ -6,8 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.Packet15Place;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
@@ -17,6 +15,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class Vector3 {
+    private static Minecraft minecraft = Minecraft.getMinecraft();
     public static final Vector3 NEGATIVE = new Vector3(-1, -1, -1);
     public static final Vector3 ZERO = new Vector3(0, 0, 0);
     public double x;
@@ -54,17 +53,17 @@ public class Vector3 {
     }
 
     public static Vector3 playerLocation() {
-        EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+        EntityClientPlayerMP player = minecraft.thePlayer;
         return player == null ? new Vector3() : new Vector3(player.posX, player.posY - player.getEyeHeight(), player.posZ);
     }
 
     public static Vector3 playerEyeLocation() {
-        EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+        EntityClientPlayerMP player = minecraft.thePlayer;
         return player == null ? new Vector3() : new Vector3(player.posX, player.posY + player.getEyeHeight(), player.posZ);
     }
 
     public static Vector3 playerTickLocation(float partialTicks) {
-        EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+        EntityClientPlayerMP player = minecraft.thePlayer;
         float playerX = (float) (player.lastTickPosX + ((player.posX - player.lastTickPosX) * partialTicks));
         float playerY = (float) (player.lastTickPosY + ((player.posY - player.lastTickPosY) * partialTicks));
         float playerZ = (float) (player.lastTickPosZ + ((player.posZ - player.lastTickPosZ) * partialTicks));
@@ -81,6 +80,7 @@ public class Vector3 {
     public static Vector3 entityPosition(Entity entity) {
         return new Vector3(entity.posX, entity.posY, entity.posZ);
     }
+
     public static Vector3 entityCenterPosition(Entity entity) {
         return new Vector3(entity.posX, entity.posY, entity.posZ).add(0.5f, 0.5f, 0.5f);
     }
@@ -202,6 +202,36 @@ public class Vector3 {
         return block == null || block.blockMaterial == Material.air;
     }
 
+    public boolean hasAnyBlockAround(int... blocks) {
+        boolean founded = false;
+        for (EnumFacing facing : EnumFacing.values()) {
+            Vector3 offsetPosition = offset(facing);
+            if (offsetPosition.isAirBlock())
+                continue;
+            for (int id : blocks)
+                if (offsetPosition.blockId() == id) {
+                    founded = true;
+                    break;
+                }
+            if (founded)
+                break;
+        }
+        return founded;
+    }
+    public int countBlockAround(int... blocks) {
+        int count = 0;
+        for (EnumFacing facing : EnumFacing.values()) {
+            Vector3 offsetPosition = offset(facing);
+            if (offsetPosition.isAirBlock())
+                continue;
+            for (int id : blocks)
+                if (offsetPosition.blockId() == id) {
+                    count++;
+                }
+        }
+        return count;
+    }
+
     public void write(DataOutputStream stream) {
         try {
             stream.writeInt((int) x);
@@ -213,7 +243,7 @@ public class Vector3 {
     }
 
     public TileEntity asTile() {
-        Minecraft minecraft = Minecraft.getMinecraft();
+
         if (minecraft != null && minecraft.theWorld != null) {
             return minecraft.theWorld.getBlockTileEntity((int) x, (int) y, (int) z);
         }
@@ -225,26 +255,45 @@ public class Vector3 {
     }
 
     public Material asMaterial() {
-        Minecraft minecraft = Minecraft.getMinecraft();
+
         if (minecraft != null && minecraft.theWorld != null) {
             return minecraft.theWorld.getBlockMaterial((int) x, (int) y, (int) z);
         }
         return null;
     }
 
-    public int blockId(){
-        Minecraft minecraft = Minecraft.getMinecraft();
+    public int blockId() {
+
         if (minecraft != null && minecraft.theWorld != null) {
             return minecraft.theWorld.getBlockId((int) x, (int) y, (int) z);
         }
         return 0;
     }
-    public int blockMetadata(){
-        Minecraft minecraft = Minecraft.getMinecraft();
+
+    public int blockMetadata() {
+
         if (minecraft != null && minecraft.theWorld != null) {
             return minecraft.theWorld.getBlockMetadata((int) x, (int) y, (int) z);
         }
         return 0;
+    }
+
+    public void setAs(int blockID, int metadata) {
+        if (minecraft != null && minecraft.theWorld != null) {
+            minecraft.theWorld.setBlock((int) x, (int) y, (int) z, blockID, metadata, 2);
+        }
+    }
+
+    public void setEmptyBlock() {
+        if (minecraft != null && minecraft.theWorld != null) {
+            minecraft.theWorld.setBlock((int) x, (int) y, (int) z, 0, 0, 2);
+        }
+    }
+
+    public void applyMetadata(int metadata) {
+        if (minecraft != null && minecraft.theWorld != null) {
+            minecraft.theWorld.setBlockMetadataWithNotify((int) x, (int) y, (int) z, metadata, 2);
+        }
     }
 
     public Vec3 asMcVector() {
@@ -252,6 +301,13 @@ public class Vector3 {
     }
 
 
+    public boolean isBlock(Block block) {
+        return isBlock(block.blockID);
+    }
+
+    public boolean isBlock(int blockId) {
+        return blockId() == blockId;
+    }
 
 
     public Vector3 up() {
@@ -316,7 +372,7 @@ public class Vector3 {
         return offset(enumFacing, 1);
     }
 
-    public Vector3 offset(EnumFacing enumFacing, int amount){
+    public Vector3 offset(EnumFacing enumFacing, int amount) {
         if (amount == 0) {
             return this;
         }

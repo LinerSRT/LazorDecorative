@@ -45,13 +45,13 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft}"
     forge "net.minecraftforge:forge:${project.minecraft_forge}:universal@zip"
     mappings "net.minecraftforge:forge:${project.minecraft_forge}:src@zip"
-    modImplementation files("libs/industrialcraft-2_1.117.385-lf.jar")
-    modImplementation files("libs/buildcraft-A-3.7.2.jar")
-    modImplementation files("libs/CraftGuide-1.6.7.3-forge.zip")
-    modImplementation files("libs/appeng-rv14-dev2-mc15x.zip")
-    modImplementation files("libs/LazorPanel.zip")
-    modImplementation files("libs/IC2NuclearControl-1.5.1e.zip")
-    compileOnly files("libs/remapped_CustomNPCs.jar")
+    //modImplementation files("libs/industrialcraft-2_1.117.385-lf.jar")
+    //modImplementation files("libs/buildcraft-A-3.7.2.jar")
+    //modImplementation files("libs/CraftGuide-1.6.7.3-forge.zip")
+    //modImplementation files("libs/appeng-rv14-dev2-mc15x.zip")
+    //modImplementation files("libs/LazorPanel.zip")
+    //modImplementation files("libs/IC2NuclearControl-1.5.1e.zip")
+    //compileOnly files("libs/remapped_CustomNPCs.jar")
 }
 
 sourceSets {

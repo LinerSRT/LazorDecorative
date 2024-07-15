@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 
-public class BaseMetaBlock extends Block {
+public class BaseMetaBlock extends Block implements ILocalized{
     @SideOnly(Side.CLIENT)
     protected String textureName;
     @SideOnly(Side.CLIENT)

@@ -74,6 +74,7 @@ public class Input {
         return false;
     }
 
+
     public static boolean isShiftDown() {
         return Keyboard.isKeyDown(KEY_LSHIFT) || Keyboard.isKeyDown(KEY_RSHIFT);
     }

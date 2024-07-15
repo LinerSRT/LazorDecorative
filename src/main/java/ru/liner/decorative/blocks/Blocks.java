@@ -27,4 +27,6 @@ public class Blocks {
     public static final BlockBanner banner = new BlockBanner(1053);
     public static final BlockEndstoneBricks endstoneBricks = new BlockEndstoneBricks(1054);
     public static final BlockPurpur purpur = new BlockPurpur(1055);
+    public static final BlockChorusFlower chorusFlower = new BlockChorusFlower(1056);
+    public static final BlockChorusPlant chorusPlant = new BlockChorusPlant(1057);
 }

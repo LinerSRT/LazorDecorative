@@ -36,8 +36,8 @@ Blocks:
 
 ## Minecraft 1.9
 Blocks:
-- [ ] Chorus flowers
-- [ ] Chorus plants
+- [x] Chorus flowers
+- [x] Chorus plants
 - [x] End stone bricks
 - [x] Purpur blocks
 - [x] Purpur pillars

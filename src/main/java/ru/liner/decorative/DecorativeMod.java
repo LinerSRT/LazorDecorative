@@ -1,6 +1,7 @@
 package ru.liner.decorative;
 
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -9,9 +10,11 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
@@ -19,18 +22,22 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.Event;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.player.BonemealEvent;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import ru.liner.decorative.blocks.BaseMultiMetaBlock;
-import ru.liner.decorative.blocks.BaseMultiMetaSlabBlock;
-import ru.liner.decorative.blocks.BaseMultiMetaStairsBlock;
-import ru.liner.decorative.blocks.BlockRegister;
+import ru.liner.decorative.blocks.*;
 import ru.liner.decorative.enity.Entities;
 import ru.liner.decorative.items.BaseMultiItem;
 import ru.liner.decorative.items.BaseMultiMetaItem;
+import ru.liner.decorative.items.Items;
 import ru.liner.decorative.recipes.BannerRecipes;
 import ru.liner.decorative.render.Renderers;
 import ru.liner.decorative.utils.ColoredText;
+import ru.liner.decorative.utils.Input;
+import ru.liner.decorative.utils.MinecraftField;
+import ru.liner.decorative.utils.Ticker;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -42,11 +49,17 @@ public class DecorativeMod {
     public static final String MOD_ID = "lazor_decorative";
     @Mod.Instance(MOD_ID)
     public static DecorativeMod INSTANCE;
+    private static boolean alwaysDay = true;
+    private static boolean alwaysClearWeather = true;
+    private static float minecraftTickSpeed = 1;
+    private static float originalTickSpeed = -1;
+    private static boolean shouldBoosTickSpeed = false;
 
     @Mod.PreInit
     public void preInit(FMLPreInitializationEvent e) {
         Decorative.init();
         BlockRegister.init();
+        Items.init();
         Renderers.init();
         Entities.init();
         BannerRecipes bannerRecipes = new BannerRecipes();
@@ -60,9 +73,63 @@ public class DecorativeMod {
 
     @Mod.PostInit
     public void postInit(final FMLPostInitializationEvent e) {
+        Ticker.register(new Ticker.ITick() {
+            private int tickSpeed = 20;
 
+            @Override
+            public void onTick() {
+                if (Input.isKeyPressed(Keyboard.KEY_NUMPAD0))
+                    alwaysDay = !alwaysDay;
+                if (Input.isKeyPressed(Keyboard.KEY_NUMPAD1))
+                    alwaysClearWeather = !alwaysClearWeather;
+                if (Input.isKeyPressed(Keyboard.KEY_LEFT)) {
+                    minecraftTickSpeed = Math.max(0.1f, minecraftTickSpeed - .1f);
+                }
+                if (Input.isKeyPressed(Keyboard.KEY_RIGHT)) {
+                    minecraftTickSpeed = Math.min(20, minecraftTickSpeed + .1f);
+                }
+                shouldBoosTickSpeed = Input.isKeyDown(Keyboard.KEY_NUMPAD2);
+                if (shouldBoosTickSpeed) {
+                    MinecraftField.TIMER.get(Minecraft.getMinecraft()).timerSpeed = shouldBoosTickSpeed ? 20 : 1;
+                    if (originalTickSpeed == -1)
+                        originalTickSpeed = minecraftTickSpeed;
+                    minecraftTickSpeed = 20;
+                } else {
+                    if (originalTickSpeed != -1)
+                        minecraftTickSpeed = originalTickSpeed;
+                    originalTickSpeed = -1;
+                }
+                if (tickSpeed <= 0) {
+                    WorldClient world = Minecraft.getMinecraft().theWorld;
+                    if (world != null) {
+                        if (alwaysDay) {
+                            for (int i = 0; i < MinecraftServer.getServer().worldServers.length; ++i)
+                                MinecraftServer.getServer().worldServers[i].setWorldTime(1000);
+                        }
+                        if (alwaysClearWeather) {
+                            world.getWorldInfo().setRaining(false);
+                            world.getWorldInfo().setThundering(false);
+                        }
+                    }
+                    if (!shouldBoosTickSpeed) {
+                        MinecraftField.TIMER.get(Minecraft.getMinecraft()).timerSpeed = minecraftTickSpeed;
+                    }
+                    tickSpeed = 20;
+                }
+                tickSpeed--;
+            }
+        }, TickType.CLIENT);
     }
 
+    @ForgeSubscribe
+    public void onApplyBoneMail(BonemealEvent event) {
+        int blockId = event.world.getBlockId(event.X, event.Y, event.Z);
+        Block block = Block.blocksList[blockId];
+        if(block instanceof IUseBonemail){
+            event.setResult(Event.Result.ALLOW);
+            ((IUseBonemail)block).applyBonemail(event.world, event.X, event.Y, event.Z);
+        }
+    }
 
     @ForgeSubscribe
     public void onGameOverlay(RenderGameOverlayEvent.Post event) {
@@ -74,9 +141,24 @@ public class DecorativeMod {
             int width = debugHeldItem(Minecraft.getMinecraft().thePlayer, 2, 2, resolution.getScaledWidth(), resolution.getScaledHeight());
             width += debugViewingBlock(Minecraft.getMinecraft().theWorld, width + 10, 2, resolution.getScaledWidth(), resolution.getScaledHeight());
             width += debugViewingTile(Minecraft.getMinecraft().theWorld, width + 18, 2, resolution.getScaledWidth(), resolution.getScaledHeight());
+            ColoredText utilityDisplay = ColoredText.make()
+                    .setBackgroundPadding(4)
+                    .setBackgroundColor(new Color(22, 23, 30, 200))
+                    .setDrawBackground(true)
+                    .append("Tick speed: <[").append(String.valueOf(minecraftTickSpeed), EnumChatFormatting.GOLD).append("]> ").append("(arrow_left, arrow_right)", EnumChatFormatting.GRAY).newLine()
+                    .append("Always day: [").append(String.valueOf(alwaysDay), alwaysDay ? EnumChatFormatting.GREEN : EnumChatFormatting.RED).append("] ").append("(num0)", EnumChatFormatting.GRAY).newLine()
+                    .append("Always clear weather: [").append(String.valueOf(alwaysClearWeather), alwaysClearWeather ? EnumChatFormatting.GREEN : EnumChatFormatting.RED).append("] ").append("(num1)", EnumChatFormatting.GRAY).newLine()
+                    .append("Boost tick speed: [").append(String.valueOf(shouldBoosTickSpeed), shouldBoosTickSpeed ? EnumChatFormatting.GREEN : EnumChatFormatting.RED).append("] ").append("(num2)", EnumChatFormatting.GRAY).newLine();
+
+            int utilityWidth = utilityDisplay.calculateTextWidth();
+            int utilityHeight = utilityDisplay.calculateTextHeight();
+            utilityDisplay.draw(resolution.getScaledWidth() - utilityWidth - 2, resolution.getScaledHeight() - utilityHeight - 2, resolution.getScaledWidth(), resolution.getScaledHeight());
+
+
             GL11.glPopMatrix();
         }
     }
+
 
     private int debugViewingTile(World world, int x, int y, int windowWidth, int windowHeight) {
         if (world == null)
@@ -86,7 +168,7 @@ public class DecorativeMod {
         debug.setBackgroundColor(new Color(22, 23, 30, 200));
         debug.setDrawBackground(true);
         debug.append(" Viewing tile", EnumChatFormatting.GREEN).newLine();
-        MovingObjectPosition movingObjectPosition = Minecraft.getMinecraft().renderViewEntity.rayTrace(20, 1f);
+        MovingObjectPosition movingObjectPosition = Minecraft.getMinecraft().renderViewEntity.rayTrace(5, 1f);
         if (movingObjectPosition == null) {
             debug.append("  You ").append("need ", EnumChatFormatting.DARK_RED).append("view at block to see more info...").newLine();
         } else {
@@ -117,7 +199,7 @@ public class DecorativeMod {
         debug.setBackgroundColor(new Color(22, 23, 30, 200));
         debug.setDrawBackground(true);
         debug.append(" Viewing block", EnumChatFormatting.GREEN).newLine();
-        MovingObjectPosition movingObjectPosition = Minecraft.getMinecraft().renderViewEntity.rayTrace(20, 1f);
+        MovingObjectPosition movingObjectPosition = Minecraft.getMinecraft().renderViewEntity.rayTrace(5, 1f);
         if (movingObjectPosition == null) {
             debug.append("  You ").append("need ", EnumChatFormatting.DARK_RED).append("view at block to see more info...").newLine();
         } else {
@@ -131,6 +213,8 @@ public class DecorativeMod {
             debug.append("  Block unlocalized name: ").append(block.getUnlocalizedName(), EnumChatFormatting.AQUA).newLine();
             debug.append("  Block icon: ").append(icon == null ? "Unknown" : icon.getIconName(), EnumChatFormatting.AQUA).newLine();
             debug.append("  Block render type: ").append(String.valueOf(block.getRenderType()), EnumChatFormatting.AQUA).newLine();
+            debug.append("  Block random tick: ").append(String.valueOf(block.getTickRandomly()), EnumChatFormatting.AQUA).newLine();
+            debug.append("  Block random tick speed: ").append(String.valueOf(block.tickRate(world)), EnumChatFormatting.AQUA).newLine();
             debug.append("  Meta block: ").append(isMetaBlock ? "true" : "false", !isMetaBlock ? EnumChatFormatting.RED : EnumChatFormatting.AQUA).newLine();
             if (isMetaBlock) {
                 if (block instanceof BaseMultiMetaBlock)

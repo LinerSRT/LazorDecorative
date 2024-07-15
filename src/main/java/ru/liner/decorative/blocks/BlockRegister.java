@@ -6,8 +6,10 @@ import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDye;
+import net.minecraft.item.ItemStack;
 import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.list.BlockBanner;
 import ru.liner.decorative.blocks.list.BlockHayBale;
@@ -66,6 +68,9 @@ public class BlockRegister {
         GameRegistry.registerTileEntity(TileEntityBanner.class, TileEntityBanner.class.getName());
 
         registerBlock(sandRed, "Красный песок");
+
+        registerMetaBlock(chorusFlower);
+        registerMetaBlock(chorusPlant);
     }
 
     public static <MetaBlock extends BaseMultiMetaBlock> void registerMetaMultiBlock(MetaBlock metaBlock){
@@ -92,6 +97,11 @@ public class BlockRegister {
         languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
         GameRegistry.registerBlock(metaBlock, metaBlock.getUnlocalizedName());
     }
+    public static <B extends Block & ILocalized> void registerMetaBlock(B metaBlock){
+        LanguageRegistry languageRegistry = LanguageRegistry.instance();
+        languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
+        GameRegistry.registerBlock(metaBlock, metaBlock.getUnlocalizedName());
+    }
     public static <MetaBlock extends BaseMetaBlock, ItemClass extends ItemBlock> void registerMetaBlock(MetaBlock metaBlock, Class<ItemClass> itemClass){
         LanguageRegistry languageRegistry = LanguageRegistry.instance();
         languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
@@ -107,6 +117,13 @@ public class BlockRegister {
             languageRegistry.addStringLocalization(String.format("%s.name", stairsBlock.getUnlocalizedName()), stairsBlock.getLocalizationFor(index));
             GameRegistry.registerBlock(stairsBlock, BaseMultiMetaStairsItem.class, stairsBlock.getUnlocalizedName());
             stairsBlockList.add(stairsBlock);
+            GameRegistry.addRecipe(
+                    new ItemStack(stairsBlock.blockID, 4, 0),
+                    "#  ",
+                    "## ",
+                    "###",
+                    '#', new ItemStack(metaBlock.blockID, 1, index)
+            );
         }
         return stairsBlockList;
     }
@@ -119,6 +136,14 @@ public class BlockRegister {
             languageRegistry.addStringLocalization(String.format("%s.name", slabBlock.getUnlocalizedName()), slabBlock.getLocalizationFor(index));
             GameRegistry.registerBlock(slabBlock, BaseMultiMetaSlabItem.class, slabBlock.getUnlocalizedName());
             slabBlockList.add(slabBlock);
+            GameRegistry.addRecipe(
+                    new ItemStack(slabBlock.blockID, 6, 0),
+                    "   ",
+                            "###",
+                            "   ",
+                    '#', new ItemStack(metaBlock.blockID, 1, index)
+            );
+
         }
         return slabBlockList;
     }
@@ -130,6 +155,14 @@ public class BlockRegister {
             languageRegistry.addStringLocalization(String.format("%s.name", fenceBlock.getUnlocalizedName()), fenceBlock.getLocalizationFor(index));
             GameRegistry.registerBlock(fenceBlock, BaseMultiMetaFenceItem.class, fenceBlock.getUnlocalizedName());
             fenceBlockList.add(fenceBlock);
+            GameRegistry.addRecipe(
+                    new ItemStack(fenceBlock.blockID, 6, 0),
+                    "#I#",
+                    "#I#",
+                    "   ",
+                    '#', new ItemStack(metaBlock.blockID, 1, index),
+                    'I', new ItemStack(Item.stick.itemID, 1, index)
+            );
         }
         return fenceBlockList;
     }
@@ -141,6 +174,14 @@ public class BlockRegister {
             languageRegistry.addStringLocalization(String.format("%s.name", ladderBlock.getUnlocalizedName()), ladderBlock.getLocalizationFor(index));
             GameRegistry.registerBlock(ladderBlock, BaseMultiMetaLadderItem.class, ladderBlock.getUnlocalizedName());
             ladderBlockList.add(ladderBlock);
+            GameRegistry.addRecipe(
+                    new ItemStack(ladderBlock.blockID, 3, 0),
+                    "I#I",
+                    "I#I",
+                    "I#I",
+                    '#', new ItemStack(metaBlock.blockID, 1, index),
+                    'I', new ItemStack(Item.stick.itemID, 1, index)
+            );
         }
         return ladderBlockList;
     }
@@ -152,6 +193,13 @@ public class BlockRegister {
             languageRegistry.addStringLocalization(String.format("%s.name", wallBlock.getUnlocalizedName()), wallBlock.getLocalizationFor(index));
             GameRegistry.registerBlock(wallBlock, BaseMultiMetaWallItem.class, wallBlock.getUnlocalizedName());
             wallBlockList.add(wallBlock);
+            GameRegistry.addRecipe(
+                    new ItemStack(wallBlock.blockID, 6, 0),
+                    "###",
+                    "###",
+                    "   ",
+                    '#', new ItemStack(metaBlock.blockID, 1, index)
+            );
         }
         return wallBlockList;
     }
