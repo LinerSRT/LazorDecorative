@@ -28,7 +28,10 @@ public class BaseMultiMetaItem<MetaBlock extends BaseMultiMetaBlock>  extends It
     public Icon getIconFromDamage(int metadata) {
         return metaBlock.getIcon(2, metadata);
     }
-
+    @Override
+    public Icon getIconIndex(ItemStack stack) {
+        return getIconFromDamage(stack.getItemDamage());
+    }
     @Override
     public void getSubItems(int blockId, CreativeTabs creativeTabs, List itemList) {
         metaBlock.getSubBlocks(blockId, creativeTabs, itemList);

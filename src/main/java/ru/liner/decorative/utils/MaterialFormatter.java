@@ -26,6 +26,7 @@ public class MaterialFormatter {
     }
 
     public enum Type{
+        NONE(""),
         STAIRS("Ступеньки"),
         SLAB("Полублок"),
         FENCE("Забор"),

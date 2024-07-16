@@ -4,6 +4,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import ru.liner.decorative.blocks.list.BlockRedSandStone;
+import ru.liner.decorative.items.BaseMultiMetaItem;
 import ru.liner.decorative.items.ItemChorusFruit;
 import ru.liner.decorative.items.ItemChorusFruitPopped;
 

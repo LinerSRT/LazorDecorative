@@ -17,12 +17,11 @@ public class BlockWoodenLog extends BaseMultiMetaBlock {
         setCreativeTab(CreativeTabs.tabBlock);
         setStepSound(BlockWoodenLog.soundWoodFootstep);
         setBaseLocalizedName("Бревно");
-        setTextureParent("new_log");
         setUnlocalizedName("log");
         setHardness(2f);
         registerType("acacia", "Акация",  "acacia");
         registerTexture("acacia", "acacia_top", 0, 1);
-        registerType("big_oak", "Тёмный",  "big_oak");
+        registerType("big_oak", "Тёмный дуб",  "big_oak");
         registerTexture("big_oak",  "big_oak_top", 0, 1);
     }
 

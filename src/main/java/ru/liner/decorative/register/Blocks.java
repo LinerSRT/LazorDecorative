@@ -35,4 +35,6 @@ public class Blocks {
     public static final BlockChorusPlant chorusPlant = new BlockChorusPlant(1057);
     public static final BlockMagma magma = new BlockMagma(1058);
     public static final BlockNetherWart netherWart = new BlockNetherWart(1059);
+    public static final BlockWarpedNylium warpedNylium = new BlockWarpedNylium(1060);
+    public static final BlockNetherRack netherRack = new BlockNetherRack(1061);
 }

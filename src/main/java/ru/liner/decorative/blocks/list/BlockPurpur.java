@@ -3,7 +3,15 @@ package ru.liner.decorative.blocks.list;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
+import ru.liner.decorative.recipes.IProvideShapedRecipe;
+import ru.liner.decorative.register.Items;
+import ru.liner.decorative.utils.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BlockPurpur extends BaseMultiMetaBlock {
     public BlockPurpur(int itemId) {

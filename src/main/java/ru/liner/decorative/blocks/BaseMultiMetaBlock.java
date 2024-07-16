@@ -40,6 +40,12 @@ public class BaseMultiMetaBlock extends Block {
         textureMap = new HashMap<>();
     }
 
+    @Override
+    public Block setUnlocalizedName(String baseLocalizedName) {
+        textureParent = baseLocalizedName;
+        return super.setUnlocalizedName(baseLocalizedName);
+    }
+
     public BaseMultiMetaBlock setBaseLocalizedName(String localizedName) {
         this.baseLocalizedName = localizedName;
         return this;

@@ -1,5 +1,6 @@
 package ru.liner.decorative.register;
 
+import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
@@ -7,11 +8,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.*;
 import ru.liner.decorative.blocks.list.BlockBanner;
 import ru.liner.decorative.items.*;
 import ru.liner.decorative.recipes.IProvideShapedRecipe;
+import ru.liner.decorative.recipes.IProvideShapelessRecipe;
+import ru.liner.decorative.recipes.ISmellable;
 import ru.liner.decorative.recipes.RecipeUtils;
 import ru.liner.decorative.tile.TileEntityBanner;
 
@@ -64,16 +68,29 @@ public class BlockRegister {
         registerMetaBlock(chorusPlant);
         registerMetaBlock(magma);
         registerMetaBlock(netherWart);
+        registerMetaBlock(netherRack);
+        registerMetaMultiBlock(warpedNylium);
     }
 
 
+
+    private static void applyRecipes(Block block){
+        if(block instanceof IProvideShapedRecipe)
+            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) block);
+        if(block instanceof IProvideShapelessRecipe)
+            RecipeUtils.addShapelessRecipe((IProvideShapelessRecipe) block);
+        if(block instanceof ISmellable)
+            RecipeUtils.addSmellableRecipe((ISmellable) block);
+        if(block instanceof IFuelHandler){
+            GameRegistry.registerFuelHandler((IFuelHandler) block);
+        }
+    }
 
 
     private static <B extends Block> void registerBlock(B block, String localizedName){
         LanguageRegistry.instance().addStringLocalization(block.getUnlocalizedName()+".name", localizedName);
         GameRegistry.registerBlock(block, block.getUnlocalizedName());
-        if(block instanceof IProvideShapedRecipe)
-            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) block);
+        applyRecipes(block);
     }
 
     private static <B extends IMultiTexturedBlock> void registerMultiBlock(B block, String localizedName){
@@ -81,8 +98,7 @@ public class BlockRegister {
         for (int i = 0; i < block.getTypesCount(); i++)
             LanguageRegistry.instance().addStringLocalization(String.format("%s.%s.name", block.getUnlocalizedName(), block.typeAt(i)), block.localizedAt(i));
         GameRegistry.registerBlock((Block) block, BaseMultiItem.class, block.getUnlocalizedName());
-        if(block instanceof IProvideShapedRecipe)
-            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) block);
+        applyRecipes((Block) block);
     }
 
 
@@ -94,8 +110,7 @@ public class BlockRegister {
             LanguageRegistry.instance().addStringLocalization(String.format("%s.%s.name", metaBlock.getUnlocalizedName(), type), localization);
         }
         GameRegistry.registerBlock(metaBlock, BaseMultiMetaItem.class, metaBlock.getUnlocalizedName());
-        if(metaBlock instanceof IProvideShapedRecipe)
-            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) metaBlock);
+        applyRecipes(metaBlock);
     }
     public static <MetaBlock extends BaseMultiMetaBlock> void registerBanner(BlockBanner metaBlock){
         LanguageRegistry.instance().addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
@@ -111,9 +126,7 @@ public class BlockRegister {
         LanguageRegistry languageRegistry = LanguageRegistry.instance();
         languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
         GameRegistry.registerBlock(metaBlock, metaBlock.getUnlocalizedName());
-        if(metaBlock instanceof IProvideShapedRecipe)
-            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) metaBlock);
-
+        applyRecipes(metaBlock);
     }
 
     public static <MetaBlock extends BaseMultiMetaBlock> List<BaseMultiMetaStairsBlock<MetaBlock>> registerStairs(MetaBlock metaBlock){
