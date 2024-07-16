@@ -15,8 +15,8 @@ public class BlockPurpur extends BaseMultiMetaBlock {
         setBaseLocalizedName("Пурпурный блок");
         setUnlocalizedName("purpur");
         setTextureParent("purpur");
-        registerType("purpur_block", "Пурпурный блок",  "block");
-        registerType("purpur_pillar", "Пурпурная коллона",  "pillar");
+        registerType("purpur_block", "Пурпур-блок",  "block");
+        registerType("purpur_pillar", "Пурпуровый пилон",  "pillar");
         registerTexture("purpur_pillar", "pillar_top", 0, 1);
     }
 }

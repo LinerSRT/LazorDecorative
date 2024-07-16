@@ -14,5 +14,6 @@ public class BlockCoal extends BaseMetaBlock {
         setCreativeTab(CreativeTabs.tabBlock);
         setUnlocalizedName("blockCoal");
         setTextureName("coal_block");
+        setBaseLocalizedName("Блок угля");
     }
 }

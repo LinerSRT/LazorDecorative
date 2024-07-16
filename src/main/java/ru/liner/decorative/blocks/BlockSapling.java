@@ -10,7 +10,7 @@ public class BlockSapling extends BaseMultiBlockFlower implements IPlantable {
     public BlockSapling(int blockId) {
         super(blockId, Material.wood);
         registerType("acacia", "Сажанец акации");
-        registerType("big_oak", "Сажанец большого дуба");
+        registerType("big_oak", "Сажанец тёмного дуба");
         setCreativeTab(CreativeTabs.tabDecorations);
         setHardness(0);
         setStepSound(Block.soundGrassFootstep);

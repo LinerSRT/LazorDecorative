@@ -22,7 +22,7 @@ public class BlockCarpet extends BaseMultiMetaBlock {
         setStepSound(Block.soundClothFootstep);
         setLightOpacity(0);
         setUnlocalizedName("carpet");
-        setBaseLocalizedName("Коврик");
+        setBaseLocalizedName("Ковёр");
         setTextureParent("cloth");
         for (int i = 0; i < ItemDye.dyeColorNames.length; i++) {
             registerType(ItemDye.dyeColorNames[i], String.format("%s %s", Decorative.colorNames[i], getBaseLocalizedName().toLowerCase()),  String.valueOf(15 - i));

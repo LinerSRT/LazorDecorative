@@ -27,7 +27,7 @@ public class BlockChorusPlant extends BaseMetaBlock implements CutoutBlockRender
         setStepSound(soundWoodFootstep);
         setUnlocalizedName("flower.plant");
         setTextureName("chorus_plant");
-        setBaseLocalizedName("Ветвь хоруса");
+        setBaseLocalizedName("Хорус");
     }
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {

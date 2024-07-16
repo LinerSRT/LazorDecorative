@@ -13,5 +13,6 @@ public class MetaBlockHardenedClay extends BaseMetaBlock {
         setCreativeTab(CreativeTabs.tabBlock);
         setUnlocalizedName("clayHardened");
         setTextureName("hardened_clay");
+        setBaseLocalizedName("Обожжёная глина");
     }
 }

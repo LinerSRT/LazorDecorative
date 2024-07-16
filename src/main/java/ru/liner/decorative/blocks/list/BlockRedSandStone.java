@@ -19,8 +19,8 @@ public class BlockRedSandStone extends BaseMultiMetaBlock {
         setBaseLocalizedName("Призмарин");
         setUnlocalizedName("sandstone");
         setTextureParent("red_sandstone");
-        registerType("sandstone_smooth", "Гладкий песчаник",  "smooth");
-        registerType("sandstone_chiseled", "Резной песчаник",  "carved");
+        registerType("sandstone_smooth", "Гладкий красный песчаник",  "smooth");
+        registerType("sandstone_chiseled", "Резной красный песчаник",  "carved");
         registerType("sandstone_normal", "Красный песчаник",  "normal");
         registerTexture("sandstone_chiseled", "smooth", 0, 1);
         registerTexture("sandstone_smooth", "smooth", 0, 1);

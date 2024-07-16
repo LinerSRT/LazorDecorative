@@ -28,7 +28,7 @@ public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvid
         super(itemId, Material.wood);
         setBlockBounds(0.5f - 0.25f, 0.0f, 0.5f - 0.25f, 0.5f + 0.25f, 1.0f, 0.5f + 0.25f);
         setCreativeTab(CreativeTabs.tabDecorations);
-        setBaseLocalizedName("Баннер");
+        setBaseLocalizedName("Флаг");
         setTextureParent("banner");
         setUnlocalizedName("banner");
         for (int i = 0; i < ItemDye.dyeColorNames.length; i++) {

@@ -46,7 +46,7 @@ Blocks:
 
 ## Minecraft 1.10
 Blocks:
-- [ ] Magma blocks
+- [x] Magma blocks
 - [ ] Nether wart blocks
 - [ ] Red nether bricks
 - [ ] Bone blocks
