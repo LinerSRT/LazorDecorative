@@ -14,9 +14,6 @@ public class Blocks {
     public static final BlockStainedGlass glassStained = new BlockStainedGlass(175);
     public static final BlockStainedGlassPane glassPaneStained = new BlockStainedGlassPane(176);
     public static final BlockLeaves leaves= new BlockLeaves(164);
-
-
-
     public static final BlockSapling saplingBlock = new BlockSapling(165);
     public static final BlockHayBale hayBale = new BlockHayBale(170);
     public static final MetaBlockHardenedClay hardenedClay = new MetaBlockHardenedClay(172);

@@ -6,6 +6,7 @@ import net.minecraft.util.Icon;
 import java.util.List;
 
 public interface IMultiTexturedBlock {
+    String getLocalization();
     String getUnlocalizedName();
     String typeAt(int metadata);
     String localizedAt(int metadata);

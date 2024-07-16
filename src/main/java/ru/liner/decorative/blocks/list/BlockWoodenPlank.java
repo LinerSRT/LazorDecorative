@@ -4,8 +4,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.World;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
+import ru.liner.decorative.blocks.BlockFamilyTypes;
+import ru.liner.decorative.blocks.IBlockFamily;
 
-public class BlockWoodenPlank extends BaseMultiMetaBlock {
+public class BlockWoodenPlank extends BaseMultiMetaBlock implements IBlockFamily {
     public BlockWoodenPlank(int blockID) {
         super(blockID, Material.rock);
         setCreativeTab(CreativeTabs.tabBlock);
@@ -22,5 +24,16 @@ public class BlockWoodenPlank extends BaseMultiMetaBlock {
     @Override
     public boolean isWood(World world, int x, int y, int z) {
         return true;
+    }
+
+    @Override
+    public BlockFamilyTypes[] getFamiliarityWith() {
+        return new BlockFamilyTypes[]{
+                BlockFamilyTypes.STAIR,
+                BlockFamilyTypes.SLAB,
+                BlockFamilyTypes.WALL,
+                BlockFamilyTypes.LADDER,
+                BlockFamilyTypes.FENCE
+        };
     }
 }

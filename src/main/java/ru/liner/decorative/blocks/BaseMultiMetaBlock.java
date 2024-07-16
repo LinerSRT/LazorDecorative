@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class BaseMultiMetaBlock extends Block {
+public class BaseMultiMetaBlock extends Block implements ILocalized{
     @SideOnly(Side.CLIENT)
     protected List<Pair<String, String>> localizationList;
     @SideOnly(Side.CLIENT)

@@ -4,8 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
+import ru.liner.decorative.blocks.BlockFamilyTypes;
+import ru.liner.decorative.blocks.IBlockFamily;
 
-public class BlockPrismarine extends BaseMultiMetaBlock {
+public class BlockPrismarine extends BaseMultiMetaBlock implements IBlockFamily {
     public BlockPrismarine(int itemId) {
         super(itemId, Material.rock);
         setHardness(1.5f);
@@ -18,5 +20,13 @@ public class BlockPrismarine extends BaseMultiMetaBlock {
         registerType("prismarine", "Призмарин", "rough");
         registerType("prismarine_dark", "Темный призмарин",  "dark");
         registerType("prismarine_bricks", "Кирпичи из призмарина", "bricks");
+    }
+
+    @Override
+    public BlockFamilyTypes[] getFamiliarityWith() {
+        return new BlockFamilyTypes[]{
+                BlockFamilyTypes.STAIR,
+                BlockFamilyTypes.SLAB
+        };
     }
 }

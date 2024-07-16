@@ -45,6 +45,7 @@ import ru.liner.decorative.utils.Ticker;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 @Mod(modid = DecorativeMod.MOD_ID, version = "1.0", name = "Lazor Decorative")
 @NetworkMod
@@ -52,6 +53,7 @@ public class DecorativeMod {
     public static final String MOD_ID = "lazor_decorative";
     @Mod.Instance(MOD_ID)
     public static DecorativeMod INSTANCE;
+    public static Logger logger = Logger.getLogger(DecorativeMod.class.getName());
     private static boolean alwaysDay = true;
     private static boolean alwaysClearWeather = true;
     private static float minecraftTickSpeed = 1;

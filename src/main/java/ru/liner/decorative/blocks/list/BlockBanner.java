@@ -17,13 +17,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
+import ru.liner.decorative.items.BaseMultiMetaBannerItem;
 import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.register.IItemProvider;
 import ru.liner.decorative.tile.TileEntityBanner;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvider {
+public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvider, IItemProvider<BaseMultiMetaBannerItem> {
     public BlockBanner(int itemId) {
         super(itemId, Material.wood);
         setBlockBounds(0.5f - 0.25f, 0.0f, 0.5f - 0.25f, 0.5f + 0.25f, 1.0f, 0.5f + 0.25f);
@@ -173,4 +175,8 @@ public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvid
     }
 
 
+    @Override
+    public Class<BaseMultiMetaBannerItem> getItemClass() {
+        return BaseMultiMetaBannerItem.class;
+    }
 }

@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 import java.util.List;
 
-public class BaseMultiBlockFlower extends BlockFlower implements IMultiTexturedBlock{
+public abstract class BaseMultiBlockFlower extends BlockFlower implements IMultiTexturedBlock{
     protected final HashMap<String, String> types;
     @SideOnly(Side.CLIENT)
     protected Icon[] iconTypes;

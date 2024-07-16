@@ -10,11 +10,12 @@ import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.Icon;
+import ru.liner.decorative.blocks.ILocalized;
 import ru.liner.decorative.recipes.IProvideShapelessRecipe;
 import ru.liner.decorative.recipes.ISmellable;
 import ru.liner.decorative.register.Blocks;
 
-public class BlockRedSand extends BlockSand implements IProvideShapelessRecipe, ISmellable {
+public class BlockRedSand extends BlockSand implements IProvideShapelessRecipe, ISmellable, ILocalized {
     public BlockRedSand(int blockID) {
         super(blockID, Material.sand);
         setCreativeTab(CreativeTabs.tabBlock);
@@ -55,5 +56,10 @@ public class BlockRedSand extends BlockSand implements IProvideShapelessRecipe, 
     @Override
     public int getItemId() {
         return blockID;
+    }
+
+    @Override
+    public String getBaseLocalizedName() {
+        return "Красный песок";
     }
 }

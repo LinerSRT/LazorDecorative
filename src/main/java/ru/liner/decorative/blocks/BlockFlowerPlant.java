@@ -32,6 +32,12 @@ public class BlockFlowerPlant extends BaseMultiBlockFlower {
     }
 
     @Override
+    public String getLocalization() {
+        return "Цветок";
+    }
+
+
+    @Override
     public int getRenderType() {
         return 1;
     }

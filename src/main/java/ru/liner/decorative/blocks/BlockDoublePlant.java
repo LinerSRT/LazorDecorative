@@ -44,6 +44,11 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
     }
 
     @Override
+    public String getLocalization() {
+        return "Цветок";
+    }
+
+    @Override
     public Icon getIcon(int side, int metadata) {
         if (isTopIcon(metadata))
             return topBottomIcons[getMetadataExcludeType(metadata) % types.size()];
