@@ -32,12 +32,12 @@ public class RecipeUtils {
                 itemList.add((ItemStack) ingredient);
             }
         }
-        ShapelessRecipes shapelessRecipes = new ShapelessRecipes(provider.getCraftResult(), itemList);
+        ShapelessRecipes shapelessRecipes = new ShapelessRecipes(provider.getShapelessCraftResult(), itemList);
         Reflection.getSafety(CraftingManager.getInstance(), "recipes", new ArrayList<>()).add(shapelessRecipes);
     }
 
 
-    public static ShapedRecipes addShapedRecipe(IProvideShapedRecipe provider) {
+    public static ShapedRecipes addShapedRecipe(final IProvideShapedRecipe provider) {
         StringBuilder pattern = new StringBuilder();
         int width = 0;
         int height;

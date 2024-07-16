@@ -11,6 +11,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
@@ -45,6 +48,7 @@ import ru.liner.decorative.utils.Ticker;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Mod(modid = DecorativeMod.MOD_ID, version = "1.0", name = "Lazor Decorative")
@@ -86,6 +90,15 @@ public class DecorativeMod {
             public void onTick() {
                 if (Input.isKeyPressed(Keyboard.KEY_NUMPAD0))
                     alwaysDay = !alwaysDay;
+                if (Input.isKeyPressed(Keyboard.KEY_NUMPAD3)) {
+                    WorldClient world = Minecraft.getMinecraft().theWorld;
+                    for (Entity entity : (List<Entity>)world.loadedEntityList) {
+                        if(entity instanceof EntityMob){
+                            world.removeEntity(entity);
+                        }
+                    }
+
+                }
                 if (Input.isKeyPressed(Keyboard.KEY_NUMPAD1))
                     alwaysClearWeather = !alwaysClearWeather;
                 if (Input.isKeyPressed(Keyboard.KEY_LEFT)) {
@@ -154,7 +167,8 @@ public class DecorativeMod {
                     .append("Tick speed: <[").append(String.valueOf(minecraftTickSpeed), EnumChatFormatting.GOLD).append("]> ").append("(arrow_left, arrow_right)", EnumChatFormatting.GRAY).newLine()
                     .append("Always day: [").append(String.valueOf(alwaysDay), alwaysDay ? EnumChatFormatting.GREEN : EnumChatFormatting.RED).append("] ").append("(num0)", EnumChatFormatting.GRAY).newLine()
                     .append("Always clear weather: [").append(String.valueOf(alwaysClearWeather), alwaysClearWeather ? EnumChatFormatting.GREEN : EnumChatFormatting.RED).append("] ").append("(num1)", EnumChatFormatting.GRAY).newLine()
-                    .append("Boost tick speed: [").append(String.valueOf(shouldBoosTickSpeed), shouldBoosTickSpeed ? EnumChatFormatting.GREEN : EnumChatFormatting.RED).append("] ").append("(num2)", EnumChatFormatting.GRAY).newLine();
+                    .append("Boost tick speed: [").append(String.valueOf(shouldBoosTickSpeed), shouldBoosTickSpeed ? EnumChatFormatting.GREEN : EnumChatFormatting.RED).append("] ").append("(num2)", EnumChatFormatting.GRAY).newLine()
+                    .append("Kill all mobs").append("(num3)", EnumChatFormatting.GRAY).newLine();
 
             int utilityWidth = utilityDisplay.calculateTextWidth();
             int utilityHeight = utilityDisplay.calculateTextHeight();

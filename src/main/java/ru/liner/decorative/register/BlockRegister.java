@@ -36,6 +36,7 @@ public class BlockRegister {
                 .add(netherWart)
                 .add(netherRack)
                 .add(warpedNylium)
+                .add(bone)
                 .registerBlocks();
     }
 

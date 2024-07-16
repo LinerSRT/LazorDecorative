@@ -34,4 +34,5 @@ public class Blocks {
     public static final BlockNetherWart netherWart = new BlockNetherWart(1059);
     public static final BlockWarpedNylium warpedNylium = new BlockWarpedNylium(1060);
     public static final BlockNetherRack netherRack = new BlockNetherRack(1061);
+    public static final BlockBone bone = new BlockBone(1062);
 }

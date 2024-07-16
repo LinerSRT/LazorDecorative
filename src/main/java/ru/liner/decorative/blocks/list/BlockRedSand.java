@@ -31,7 +31,7 @@ public class BlockRedSand extends BlockSand implements IProvideShapelessRecipe, 
 
 
     @Override
-    public ItemStack getCraftResult() {
+    public ItemStack getShapelessCraftResult() {
         return new ItemStack(this);
     }
 
