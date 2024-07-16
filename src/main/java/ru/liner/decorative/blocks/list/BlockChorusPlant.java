@@ -6,16 +6,12 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Facing;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.BaseMetaBlock;
-import ru.liner.decorative.blocks.Blocks;
-import ru.liner.decorative.items.Items;
+import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.register.Items;
 import ru.liner.decorative.render.block.CutoutBlockRenderer;
-import ru.liner.decorative.utils.Vector3;
 
 import java.util.List;
 import java.util.Random;

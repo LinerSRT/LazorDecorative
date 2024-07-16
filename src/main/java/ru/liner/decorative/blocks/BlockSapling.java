@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.IPlantable;
-import ru.liner.decorative.Decorative;
+import ru.liner.decorative.register.Blocks;
 
 public class BlockSapling extends BaseMultiBlockFlower implements IPlantable {
     public BlockSapling(int blockId) {

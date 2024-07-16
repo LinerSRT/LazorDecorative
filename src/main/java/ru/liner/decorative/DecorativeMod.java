@@ -31,7 +31,9 @@ import ru.liner.decorative.blocks.*;
 import ru.liner.decorative.enity.Entities;
 import ru.liner.decorative.items.BaseMultiItem;
 import ru.liner.decorative.items.BaseMultiMetaItem;
-import ru.liner.decorative.items.Items;
+import ru.liner.decorative.register.BlockRegister;
+import ru.liner.decorative.register.DamageSources;
+import ru.liner.decorative.register.Items;
 import ru.liner.decorative.recipes.BannerRecipes;
 import ru.liner.decorative.render.Renderers;
 import ru.liner.decorative.utils.ColoredText;
@@ -57,13 +59,13 @@ public class DecorativeMod {
 
     @Mod.PreInit
     public void preInit(FMLPreInitializationEvent e) {
+        DamageSources.init();
         Decorative.init();
         BlockRegister.init();
         Items.init();
         Renderers.init();
         Entities.init();
-        BannerRecipes bannerRecipes = new BannerRecipes();
-        bannerRecipes.addRecipes();
+        BannerRecipes.addRecipes();
     }
 
     @Mod.Init

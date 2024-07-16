@@ -11,12 +11,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
-import ru.liner.decorative.blocks.Blocks;
+import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.tile.TileEntityBanner;
 import ru.liner.decorative.utils.Colored;
 
 public class BannerRecipes {
-    public void addRecipes() {
+    public static void addRecipes() {
         for (int i = 0; i < ItemDye.dyeColors.length; i++) {
             GameRegistry.addRecipe(
                     new ItemStack(Blocks.banner.blockID, 1, i),

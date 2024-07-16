@@ -3,6 +3,7 @@ package ru.liner.decorative.blocks;
 import net.minecraft.block.BlockHalfSlab;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import ru.liner.decorative.register.BlockRegister;
 import ru.liner.decorative.utils.MaterialFormatter;
 
 @SuppressWarnings("unchecked")
@@ -10,7 +11,7 @@ public class BaseMultiMetaSlabBlock<MetaBlock extends BaseMultiMetaBlock> extend
     private MetaBlock metaBlock;
     private int slabMetadata;
 
-    protected BaseMultiMetaSlabBlock(MetaBlock metaBlock, int metadata) {
+    public BaseMultiMetaSlabBlock(MetaBlock metaBlock, int metadata) {
         super(BlockRegister.nextAvailableId(400 + metaBlock.blockID + metadata + 1), false, metaBlock.blockMaterial);
         this.metaBlock = metaBlock;
         this.slabMetadata = metadata;

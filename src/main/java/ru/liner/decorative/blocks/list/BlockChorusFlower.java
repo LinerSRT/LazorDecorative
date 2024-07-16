@@ -1,9 +1,7 @@
 package ru.liner.decorative.blocks.list;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import ru.liner.decorative.blocks.BaseMetaBlock;
-import ru.liner.decorative.blocks.Blocks;
+import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.blocks.ILocalized;
 import ru.liner.decorative.blocks.IUseBonemail;
 import ru.liner.decorative.utils.Vector3;

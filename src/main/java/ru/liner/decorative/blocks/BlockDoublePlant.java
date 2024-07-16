@@ -19,6 +19,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import ru.liner.decorative.Decorative;
+import ru.liner.decorative.register.Blocks;
 
 import java.util.Random;
 

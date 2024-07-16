@@ -1,8 +1,5 @@
-package ru.liner.decorative.blocks;
+package ru.liner.decorative.register;
 
-import com.google.common.collect.ArrayListMultimap;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.BlockProxy;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
@@ -11,16 +8,15 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import ru.liner.decorative.Decorative;
+import ru.liner.decorative.blocks.*;
 import ru.liner.decorative.blocks.list.BlockBanner;
-import ru.liner.decorative.blocks.list.BlockHayBale;
 import ru.liner.decorative.items.*;
 import ru.liner.decorative.tile.TileEntityBanner;
-import ru.liner.decorative.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.liner.decorative.blocks.Blocks.*;
+import static ru.liner.decorative.register.Blocks.*;
 
 public class BlockRegister {
 
@@ -71,6 +67,7 @@ public class BlockRegister {
 
         registerMetaBlock(chorusFlower);
         registerMetaBlock(chorusPlant);
+        registerMetaBlock(magma);
     }
 
     public static <MetaBlock extends BaseMultiMetaBlock> void registerMetaMultiBlock(MetaBlock metaBlock){

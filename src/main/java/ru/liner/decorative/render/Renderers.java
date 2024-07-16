@@ -3,7 +3,7 @@ package ru.liner.decorative.render;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.client.MinecraftForgeClient;
-import ru.liner.decorative.blocks.Blocks;
+import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.render.block.CutoutBlockRenderer;
 import ru.liner.decorative.render.block.DoublePlantRenderer;
 import ru.liner.decorative.render.block.StainedGlassPaneRenderer;

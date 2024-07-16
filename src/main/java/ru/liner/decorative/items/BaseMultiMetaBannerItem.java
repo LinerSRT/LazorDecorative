@@ -11,7 +11,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import ru.liner.decorative.Decorative;
-import ru.liner.decorative.blocks.Blocks;
+import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.blocks.list.BlockBanner;
 import ru.liner.decorative.tile.TileEntityBanner;
 import ru.liner.decorative.utils.ColoredText;

@@ -1,12 +1,11 @@
-package ru.liner.decorative.items;
+package ru.liner.decorative.register;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import ru.liner.decorative.blocks.Blocks;
-import ru.liner.decorative.utils.Colored;
+import ru.liner.decorative.items.ItemChorusFruit;
+import ru.liner.decorative.items.ItemChorusFruitPopped;
 
 public class Items {
     public static ItemChorusFruit chorusFruit = new ItemChorusFruit(1058);

@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.client.renderer.texture.IconRegister;
+import ru.liner.decorative.register.BlockRegister;
 import ru.liner.decorative.utils.MaterialFormatter;
 
 @SuppressWarnings("unchecked")
@@ -11,7 +12,7 @@ public class BaseMultiMetaLadderBlock<MetaBlock extends BaseMultiMetaBlock> exte
     private MetaBlock metaBlock;
     private String texture;
 
-    protected BaseMultiMetaLadderBlock(MetaBlock metaBlock, int metadata) {
+    public BaseMultiMetaLadderBlock(MetaBlock metaBlock, int metadata) {
         super(BlockRegister.nextAvailableId(440 + metaBlock.blockID + metadata + 1));
         this.metaBlock = metaBlock;
         this.texture = String.format("ladder_%s", metaBlock.getTypeByMetadata(metadata));

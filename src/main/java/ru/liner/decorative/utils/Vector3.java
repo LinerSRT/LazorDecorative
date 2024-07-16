@@ -13,6 +13,8 @@ import net.minecraft.util.Vec3;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Vector3 {
     private static Minecraft minecraft = Minecraft.getMinecraft();
@@ -206,7 +208,7 @@ public class Vector3 {
         boolean founded = false;
         for (EnumFacing facing : EnumFacing.values()) {
             Vector3 offsetPosition = offset(facing);
-            if (offsetPosition.isAirBlock())
+            if (offsetPosition.isAirBlock() || offsetPosition.asBlock() == null)
                 continue;
             for (int id : blocks)
                 if (offsetPosition.blockId() == id) {
@@ -218,6 +220,36 @@ public class Vector3 {
         }
         return founded;
     }
+    public boolean hasAnyMaterialAround(Material... materials) {
+        boolean founded = false;
+        for (EnumFacing facing : EnumFacing.values()) {
+            Vector3 offsetPosition = offset(facing);
+            if (offsetPosition.isAirBlock() || offsetPosition.asBlock() == null)
+                continue;
+            for (Material material : materials)
+                if (offsetPosition.asBlock().blockMaterial == material) {
+                    founded = true;
+                    break;
+                }
+            if (founded)
+                break;
+        }
+        return founded;
+    }
+
+    public List<Vector3> locateMaterials(Material... materials){
+        List<Vector3> materialList = new ArrayList<>();
+        for (EnumFacing facing : EnumFacing.values()) {
+            Vector3 offsetPosition = offset(facing);
+            if (offsetPosition.isAirBlock() || offsetPosition.asBlock() == null)
+                continue;
+            for (Material material : materials)
+                if (offsetPosition.asBlock().blockMaterial == material)
+                    materialList.add(offsetPosition);
+        }
+        return materialList;
+    }
+
     public int countBlockAround(int... blocks) {
         int count = 0;
         for (EnumFacing facing : EnumFacing.values()) {

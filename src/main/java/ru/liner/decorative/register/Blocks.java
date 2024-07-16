@@ -1,5 +1,9 @@
-package ru.liner.decorative.blocks;
+package ru.liner.decorative.register;
 
+import ru.liner.decorative.blocks.BlockDoublePlant;
+import ru.liner.decorative.blocks.BlockFlowerPlant;
+import ru.liner.decorative.blocks.BlockSapling;
+import ru.liner.decorative.blocks.MetaBlockHardenedClay;
 import ru.liner.decorative.blocks.list.*;
 
 public class Blocks {
@@ -29,4 +33,5 @@ public class Blocks {
     public static final BlockPurpur purpur = new BlockPurpur(1055);
     public static final BlockChorusFlower chorusFlower = new BlockChorusFlower(1056);
     public static final BlockChorusPlant chorusPlant = new BlockChorusPlant(1057);
+    public static final BlockMagma magma = new BlockMagma(1058);
 }

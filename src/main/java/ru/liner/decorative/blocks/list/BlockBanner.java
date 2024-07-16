@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
-import ru.liner.decorative.blocks.Blocks;
+import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.tile.TileEntityBanner;
 
 import java.util.ArrayList;
