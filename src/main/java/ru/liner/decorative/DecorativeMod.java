@@ -35,6 +35,7 @@ import ru.liner.decorative.register.BlockRegister;
 import ru.liner.decorative.register.DamageSources;
 import ru.liner.decorative.register.Items;
 import ru.liner.decorative.recipes.BannerRecipes;
+import ru.liner.decorative.register.TileEntities;
 import ru.liner.decorative.render.Renderers;
 import ru.liner.decorative.utils.ColoredText;
 import ru.liner.decorative.utils.Input;
@@ -60,6 +61,7 @@ public class DecorativeMod {
     @Mod.PreInit
     public void preInit(FMLPreInitializationEvent e) {
         DamageSources.init();
+        TileEntities.init();
         Decorative.init();
         BlockRegister.init();
         Items.init();

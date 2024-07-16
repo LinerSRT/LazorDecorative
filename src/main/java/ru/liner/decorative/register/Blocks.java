@@ -34,4 +34,5 @@ public class Blocks {
     public static final BlockChorusFlower chorusFlower = new BlockChorusFlower(1056);
     public static final BlockChorusPlant chorusPlant = new BlockChorusPlant(1057);
     public static final BlockMagma magma = new BlockMagma(1058);
+    public static final BlockNetherWart netherWart = new BlockNetherWart(1059);
 }

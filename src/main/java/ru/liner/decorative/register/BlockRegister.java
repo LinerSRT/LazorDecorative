@@ -11,6 +11,8 @@ import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.*;
 import ru.liner.decorative.blocks.list.BlockBanner;
 import ru.liner.decorative.items.*;
+import ru.liner.decorative.recipes.IProvideShapedRecipe;
+import ru.liner.decorative.recipes.RecipeUtils;
 import ru.liner.decorative.tile.TileEntityBanner;
 
 import java.util.ArrayList;
@@ -21,13 +23,10 @@ import static ru.liner.decorative.register.Blocks.*;
 public class BlockRegister {
 
     public static void init(){
-        registerBlock(hardenedClay, "Обожжёная глина");
-        registerBlock(coal, "Блок угля");
         registerMultiBlock(flowerDouble, "Цветок");
         registerMultiBlock(flower, "Цветок");
         registerMultiBlock(saplingBlock, "Сажанец");
-
-
+        registerBlock(sandRed, "Красный песок");
 
         registerMetaMultiBlock(carpet);
         registerMetaMultiBlock(clayStained);
@@ -36,39 +35,56 @@ public class BlockRegister {
         registerMetaMultiBlock(stone);
         registerMetaMultiBlock(prismarine);
         registerMetaMultiBlock(redSandStone);
-        registerStairs(stone);
-        registerSlabs(stone);
-        registerStairs(prismarine);
-        registerSlabs(prismarine);
-
         registerMetaMultiBlock(leaves);
         registerMetaMultiBlock(woodenLog);
         registerMetaMultiBlock(planks);
+        registerMetaMultiBlock(purpur);
+
+        registerStairs(stone);
+        registerStairs(prismarine);
         registerStairs(planks);
-        registerSlabs(planks);
+        registerStairs(purpur);
+
         registerFence(planks);
         registerLadder(planks);
         registerWall(planks);
 
-
-
-
-        registerMetaBlock(hayBale);
-        registerMetaBlock(podzol);
-        registerMetaBlock(endstoneBricks);
-        registerMetaMultiBlock(purpur);
-        registerStairs(purpur);
+        registerSlabs(stone);
+        registerSlabs(prismarine);
+        registerSlabs(planks);
         registerSlabs(purpur);
 
         registerBanner(banner);
-        GameRegistry.registerTileEntity(TileEntityBanner.class, TileEntityBanner.class.getName());
-
-        registerBlock(sandRed, "Красный песок");
-
+        registerMetaBlock(hayBale);
+        registerMetaBlock(podzol);
+        registerMetaBlock(endstoneBricks);
+        registerMetaBlock(hardenedClay);
+        registerMetaBlock(coal);
         registerMetaBlock(chorusFlower);
         registerMetaBlock(chorusPlant);
         registerMetaBlock(magma);
+        registerMetaBlock(netherWart);
     }
+
+
+
+
+    private static <B extends Block> void registerBlock(B block, String localizedName){
+        LanguageRegistry.instance().addStringLocalization(block.getUnlocalizedName()+".name", localizedName);
+        GameRegistry.registerBlock(block, block.getUnlocalizedName());
+        if(block instanceof IProvideShapedRecipe)
+            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) block);
+    }
+
+    private static <B extends IMultiTexturedBlock> void registerMultiBlock(B block, String localizedName){
+        LanguageRegistry.instance().addStringLocalization(block.getUnlocalizedName()+".name", localizedName);
+        for (int i = 0; i < block.getTypesCount(); i++)
+            LanguageRegistry.instance().addStringLocalization(String.format("%s.%s.name", block.getUnlocalizedName(), block.typeAt(i)), block.localizedAt(i));
+        GameRegistry.registerBlock((Block) block, BaseMultiItem.class, block.getUnlocalizedName());
+        if(block instanceof IProvideShapedRecipe)
+            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) block);
+    }
+
 
     public static <MetaBlock extends BaseMultiMetaBlock> void registerMetaMultiBlock(MetaBlock metaBlock){
         LanguageRegistry.instance().addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
@@ -78,6 +94,8 @@ public class BlockRegister {
             LanguageRegistry.instance().addStringLocalization(String.format("%s.%s.name", metaBlock.getUnlocalizedName(), type), localization);
         }
         GameRegistry.registerBlock(metaBlock, BaseMultiMetaItem.class, metaBlock.getUnlocalizedName());
+        if(metaBlock instanceof IProvideShapedRecipe)
+            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) metaBlock);
     }
     public static <MetaBlock extends BaseMultiMetaBlock> void registerBanner(BlockBanner metaBlock){
         LanguageRegistry.instance().addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
@@ -93,18 +111,10 @@ public class BlockRegister {
         LanguageRegistry languageRegistry = LanguageRegistry.instance();
         languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
         GameRegistry.registerBlock(metaBlock, metaBlock.getUnlocalizedName());
-    }
-    public static <B extends Block & ILocalized> void registerMetaBlock(B metaBlock){
-        LanguageRegistry languageRegistry = LanguageRegistry.instance();
-        languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
-        GameRegistry.registerBlock(metaBlock, metaBlock.getUnlocalizedName());
-    }
-    public static <MetaBlock extends BaseMetaBlock, ItemClass extends ItemBlock> void registerMetaBlock(MetaBlock metaBlock, Class<ItemClass> itemClass){
-        LanguageRegistry languageRegistry = LanguageRegistry.instance();
-        languageRegistry.addStringLocalization(String.format("%s.name", metaBlock.getUnlocalizedName()), metaBlock.getBaseLocalizedName());
-        GameRegistry.registerBlock(metaBlock, itemClass, metaBlock.getUnlocalizedName());
-    }
+        if(metaBlock instanceof IProvideShapedRecipe)
+            RecipeUtils.addShapedRecipe((IProvideShapedRecipe) metaBlock);
 
+    }
 
     public static <MetaBlock extends BaseMultiMetaBlock> List<BaseMultiMetaStairsBlock<MetaBlock>> registerStairs(MetaBlock metaBlock){
         List<BaseMultiMetaStairsBlock<MetaBlock>> stairsBlockList = new ArrayList<>();
@@ -201,35 +211,6 @@ public class BlockRegister {
         return wallBlockList;
     }
 
-
-
-
-
-    private static <B extends Block, I extends ItemBlock> void registerColoredBlock(B block, Class<I> itemClass, String localizedName, int gender){
-        for (int i = 0; i < 16; i++) {
-            String key = String.format("%s.%s.name", block.getUnlocalizedName(), ItemDye.dyeColorNames[i]);
-            String translate = String.format("%s %s", Decorative.colorNames[i + (ItemDye.dyeColorNames.length * gender)], localizedName.toLowerCase());
-            LanguageRegistry.instance().addStringLocalization(key, translate);
-        }
-        registerBlock(block, itemClass, localizedName);
-    }
-
-    private static <B extends Block, I extends ItemBlock> void registerBlock(B block, Class<I> itemClass, String localizedName){
-        LanguageRegistry.instance().addStringLocalization(block.getUnlocalizedName()+".name", localizedName);
-        GameRegistry.registerBlock(block, itemClass, block.getUnlocalizedName());
-    }
-
-    private static <B extends Block> void registerBlock(B block, String localizedName){
-        LanguageRegistry.instance().addStringLocalization(block.getUnlocalizedName()+".name", localizedName);
-        GameRegistry.registerBlock(block, block.getUnlocalizedName());
-    }
-
-    private static <B extends IMultiTexturedBlock> void registerMultiBlock(B block, String localizedName){
-        LanguageRegistry.instance().addStringLocalization(block.getUnlocalizedName()+".name", localizedName);
-        for (int i = 0; i < block.getTypesCount(); i++)
-            LanguageRegistry.instance().addStringLocalization(String.format("%s.%s.name", block.getUnlocalizedName(), block.typeAt(i)), block.localizedAt(i));
-        GameRegistry.registerBlock((Block) block, BaseMultiItem.class, block.getUnlocalizedName());
-    }
 
 
     public static int nextAvailableId(int startFrom){
