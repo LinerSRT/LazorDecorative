@@ -52,7 +52,7 @@ Blocks:
 
 ## Minecraft 1.12
 Blocks:
-- [ ] Colored beds
+- [x] Colored beds
 - [ ] Concrete
 - [ ] Concrete powder
 - [ ] Glazed terracotta

@@ -8,20 +8,13 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
 import ru.liner.decorative.items.ItemBed;
-import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.register.IItemProvider;
 import ru.liner.decorative.tile.TileEntityBed;
-import ru.liner.decorative.utils.Vector3;
-
-import java.util.ArrayList;
 
 public class BlockBed extends BaseMultiMetaBlock implements ITileEntityProvider, IItemProvider<ItemBed> {
     public BlockBed(int blockId) {
@@ -29,7 +22,7 @@ public class BlockBed extends BaseMultiMetaBlock implements ITileEntityProvider,
         setCreativeTab(CreativeTabs.tabDecorations);
         setStepSound(soundClothFootstep);
         setUnlocalizedName("blockBed");
-        setBaseLocalizedName("Ебучая кровать");
+        setBaseLocalizedName("Кровать");
         setTextureParent("bed");
         setBlockBounds(0, 0, 0, 1, .5f, 1);
         for (int i = 0; i < ItemDye.dyeColorNames.length; i++) {
