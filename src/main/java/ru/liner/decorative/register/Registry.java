@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import ru.liner.decorative.DecorativeMod;
 import ru.liner.decorative.blocks.*;
+import ru.liner.decorative.blocks.list.BlockBed;
 import ru.liner.decorative.items.*;
 import ru.liner.decorative.recipes.IProvideShapedRecipe;
 import ru.liner.decorative.recipes.IProvideShapelessRecipe;

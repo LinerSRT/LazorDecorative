@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
+import ru.liner.decorative.tile.TileEntityBed;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -92,6 +93,10 @@ public class Vector3 {
         double posY = entity.posY + (entity.posY - entity.prevPosY) * partialTicks;
         double posZ = entity.posZ + (entity.posZ - entity.prevPosZ) * partialTicks;
         return new Vector3(posX, posY, posZ);
+    }
+
+    public static Vector3 tilePosition(TileEntity tileEntity) {
+        return new Vector3(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
     }
 
     public Vec3 toMinecraftVec3() {
