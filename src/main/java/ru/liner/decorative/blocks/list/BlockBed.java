@@ -24,7 +24,7 @@ public class BlockBed extends BaseMultiMetaBlock implements ITileEntityProvider,
         setUnlocalizedName("blockBed");
         setBaseLocalizedName("Кровать");
         setTextureParent("bed");
-        setBlockBounds(0, 0, 0, 1, .5f, 1);
+        setBlockBounds(0, 0, 0, 1, .56f, 1);
         for (int i = 0; i < ItemDye.dyeColorNames.length; i++) {
             registerType(ItemDye.dyeColorNames[i], String.format("%s %s", Decorative.colorNames[i + 16], getBaseLocalizedName().toLowerCase()), ItemDye.dyeColorNames[i]);
         }

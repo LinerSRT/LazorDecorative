@@ -3,13 +3,11 @@ package ru.liner.decorative.blocks.list;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.util.Icon;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
-import scala.util.parsing.combinator.testing.Str;
+import ru.liner.decorative.blocks.FamilarityType;
+import ru.liner.decorative.blocks.IBlockFamily;
 
-import java.util.List;
-
-public class BlockRedSandStone extends BaseMultiMetaBlock {
+public class BlockRedSandStone extends BaseMultiMetaBlock implements IBlockFamily {
     public BlockRedSandStone(int itemId) {
         super(itemId, Material.rock);
         setHardness(1.5f);
@@ -24,5 +22,13 @@ public class BlockRedSandStone extends BaseMultiMetaBlock {
         registerType("sandstone_normal", "Красный песчаник",  "normal");
         registerTexture("sandstone_chiseled", "smooth", 0, 1);
         registerTexture("sandstone_smooth", "smooth", 0, 1);
+    }
+
+    @Override
+    public FamilarityType[] getFamiliarityWith() {
+        return new FamilarityType[]{
+                FamilarityType.SLAB,
+                FamilarityType.STAIR
+        };
     }
 }

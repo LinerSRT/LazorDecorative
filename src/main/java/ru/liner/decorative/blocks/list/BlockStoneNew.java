@@ -3,7 +3,7 @@ package ru.liner.decorative.blocks.list;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
-import ru.liner.decorative.blocks.BlockFamilyTypes;
+import ru.liner.decorative.blocks.FamilarityType;
 import ru.liner.decorative.blocks.IBlockFamily;
 
 public class BlockStoneNew extends BaseMultiMetaBlock implements IBlockFamily {
@@ -23,10 +23,10 @@ public class BlockStoneNew extends BaseMultiMetaBlock implements IBlockFamily {
     }
 
     @Override
-    public BlockFamilyTypes[] getFamiliarityWith() {
-        return new BlockFamilyTypes[]{
-                BlockFamilyTypes.STAIR,
-                BlockFamilyTypes.SLAB
+    public FamilarityType[] getFamiliarityWith() {
+        return new FamilarityType[]{
+                FamilarityType.STAIR,
+                FamilarityType.SLAB
         };
     }
 }

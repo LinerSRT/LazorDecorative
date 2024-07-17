@@ -4,7 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.World;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
-import ru.liner.decorative.blocks.BlockFamilyTypes;
+import ru.liner.decorative.blocks.FamilarityType;
 import ru.liner.decorative.blocks.IBlockFamily;
 
 public class BlockWoodenPlank extends BaseMultiMetaBlock implements IBlockFamily {
@@ -27,13 +27,13 @@ public class BlockWoodenPlank extends BaseMultiMetaBlock implements IBlockFamily
     }
 
     @Override
-    public BlockFamilyTypes[] getFamiliarityWith() {
-        return new BlockFamilyTypes[]{
-                BlockFamilyTypes.STAIR,
-                BlockFamilyTypes.SLAB,
-                BlockFamilyTypes.WALL,
-                BlockFamilyTypes.LADDER,
-                BlockFamilyTypes.FENCE
+    public FamilarityType[] getFamiliarityWith() {
+        return new FamilarityType[]{
+                FamilarityType.STAIR,
+                FamilarityType.SLAB,
+                FamilarityType.WALL,
+                FamilarityType.LADDER,
+                FamilarityType.FENCE
         };
     }
 }

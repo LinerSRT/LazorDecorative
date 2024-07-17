@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import ru.liner.decorative.DecorativeMod;
 import ru.liner.decorative.blocks.*;
-import ru.liner.decorative.blocks.list.BlockBed;
 import ru.liner.decorative.items.*;
 import ru.liner.decorative.recipes.IProvideShapedRecipe;
 import ru.liner.decorative.recipes.IProvideShapelessRecipe;
@@ -76,9 +75,9 @@ public class Registry {
                 GameRegistry.registerBlock(block, block instanceof IItemProvider ? ((IItemProvider) block).getItemClass() : BaseMultiMetaItem.class, block.getUnlocalizedName());
                 applyRecipes(block);
                  if (block instanceof IBlockFamily) {
-                    BlockFamilyTypes[] types = ((IBlockFamily) block).getFamiliarityWith();
+                    FamilarityType[] types = ((IBlockFamily) block).getFamiliarityWith();
                     if (types != null) {
-                        for (BlockFamilyTypes type : types) {
+                        for (FamilarityType type : types) {
                             switch (type) {
                                 case STAIR:
                                     for (int i = 0; i < metaBlock.getTypesCount(); i++) {

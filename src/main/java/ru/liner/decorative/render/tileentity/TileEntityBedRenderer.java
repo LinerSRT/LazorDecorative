@@ -17,24 +17,25 @@ public class TileEntityBedRenderer extends TileEntitySpecialRenderer {
         renderFootPart(texture, x, y, z, bed.getRenderingRotation());
     }
 
-
     private void renderHeadPart(String texture, double x, double y, double z, float rotation) {
         GL11.glPushMatrix();
-        GL11.glTranslatef(((float) x) + 0.5f, ((float) y) + (0.55f), ((float) z) + 0.5f);
+        GL11.glTranslatef(((float) x) + 0.5f, ((float) y) + (0.56f), ((float) z) + 0.5f);
         GL11.glRotatef(180, 1, 0, 1);
         GL11.glRotatef(90 - rotation, 0, 1, 0);
         bindBedTexture(texture);
         Models.bed.head.render(0.0625f);
+        Models.bed.floor.render(0.0625f);
         GL11.glPopMatrix();
     }
 
     private void renderFootPart(String texture, double x, double y, double z, float rotation) {
         GL11.glPushMatrix();
-        GL11.glTranslatef(((float) x) + 0.5f, ((float) y) + (0.55f), ((float) z) + 0.5f);
+        GL11.glTranslatef(((float) x) + 0.5f, ((float) y) + (0.56f), ((float) z) + 0.5f);
         GL11.glRotatef(180, 1, 0, 1);
         GL11.glRotatef(90 - rotation, 0, 1, 0);
         bindBedTexture(texture);
         Models.bed.foot.render(0.0625f);
+        Models.bed.floor.render(0.0625f);
         GL11.glPopMatrix();
     }
 

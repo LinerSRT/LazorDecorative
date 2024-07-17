@@ -11,6 +11,7 @@ public class ModelBed extends ModelBase {
     public final RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
     public final ModelRenderer head;
     public final ModelRenderer foot;
+    public final ModelRenderer floor;
 
     public ModelBed() {
         textureWidth = 128;
@@ -27,6 +28,12 @@ public class ModelBed extends ModelBase {
         foot.cubeList.add(new ModelBox(foot, 48, 0, 5.0F, 2.0F, 11.0F, 3, 3, 3, 0.0F));
         foot.cubeList.add(new ModelBox(foot, 64, 0, -8.0F, -4.0F, 11.0F, 16, 16, 16, 0.0F));
         foot.cubeList.add(new ModelBox(foot, 48, 0, -8.0F, 2.0F, 11.0F, 3, 3, 3, 0.0F));
+
+
+        floor = new ModelRenderer(this);
+        floor.setRotationPoint(0.0F, 24.0F, 0.0F);
+        floor.cubeList.add(new ModelBox(floor, 0, 32, -8.0F, -18.0F, -8.0F, 16, 16, 16, 0.0F));
+        floor.cubeList.add(new ModelBox(floor, 64, 32, -8.0F, -18.0F, 8.0F, 16, 16, 16, 0.0F));
     }
 
 
