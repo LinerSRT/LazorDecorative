@@ -1,5 +1,6 @@
 package ru.liner.decorative;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -11,8 +12,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -44,11 +46,15 @@ import ru.liner.decorative.utils.ColoredText;
 import ru.liner.decorative.utils.Input;
 import ru.liner.decorative.utils.MinecraftField;
 import ru.liner.decorative.utils.Ticker;
+import ru.liner.decorative.world.Generator;
 
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Mod(modid = DecorativeMod.MOD_ID, version = "1.0", name = "Lazor Decorative")
@@ -57,12 +63,16 @@ public class DecorativeMod {
     public static final String MOD_ID = "lazor_decorative";
     @Mod.Instance(MOD_ID)
     public static DecorativeMod INSTANCE;
-    public static Logger logger = Logger.getLogger(DecorativeMod.class.getName());
+    public static Logger logger = Logger.getLogger(DecorativeMod.class.getSimpleName());
     private static boolean alwaysDay = true;
     private static boolean alwaysClearWeather = true;
     private static float minecraftTickSpeed = 1;
     private static float originalTickSpeed = -1;
     private static boolean shouldBoosTickSpeed = false;
+
+    public DecorativeMod() {
+        logger.setParent(FMLLog.getLogger());
+    }
 
     @Mod.PreInit
     public void preInit(FMLPreInitializationEvent e) {
@@ -74,6 +84,7 @@ public class DecorativeMod {
         Renderers.init();
         Entities.init();
         BannerRecipes.addRecipes();
+        Generator.init();
     }
 
     @Mod.Init

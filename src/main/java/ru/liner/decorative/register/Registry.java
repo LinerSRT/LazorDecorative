@@ -57,7 +57,7 @@ public class Registry {
     public Registry registerBlocks() {
         for (Block block : blockList) {
             languageRegistry.addStringLocalization(String.format("%s.name", block.getUnlocalizedName()), getLocalizedNameFor(block));
-            DecorativeMod.logger.log(Level.INFO, "Registering block: " + getLocalizedNameFor(block));
+            DecorativeMod.logger.log(Level.INFO,String.format("Registering %s with id %s as %s", block.getUnlocalizedName(), block.blockID, getLocalizedNameFor(block)));
             if(block instanceof IMultiTexturedBlock){
                 IMultiTexturedBlock multiTexturedBlock = (IMultiTexturedBlock) block;
                 languageRegistry.addStringLocalization(block.getUnlocalizedName()+".name", multiTexturedBlock.getLocalization());

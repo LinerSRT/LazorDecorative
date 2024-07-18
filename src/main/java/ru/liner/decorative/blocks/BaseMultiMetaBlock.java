@@ -7,21 +7,16 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 import ru.liner.decorative.utils.Pair;
-import scala.util.parsing.combinator.testing.Str;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class BaseMultiMetaBlock extends Block implements ILocalized{
+public class BaseMultiMetaBlock extends Block implements ILocalized {
     @SideOnly(Side.CLIENT)
     protected List<Pair<String, String>> localizationList;
     @SideOnly(Side.CLIENT)
@@ -78,7 +73,7 @@ public class BaseMultiMetaBlock extends Block implements ILocalized{
 
     public String getLocalizationFor(String type) {
         for (Pair<String, String> localization : localizationList) {
-            if(localization.key.equals(type))
+            if (localization.key.equals(type))
                 return localization.value;
         }
         return baseLocalizedName;
@@ -160,7 +155,7 @@ public class BaseMultiMetaBlock extends Block implements ILocalized{
         return textureMap.get(textureName);
     }
 
-    public String getTextureFor(int metadata){
+    public String getTextureFor(int metadata) {
         String unlocalizedType = getTypeByMetadata(metadata);
         TextureData[] textureList = textureDataMap.get(unlocalizedType).toArray(new TextureData[0]);
         return String.format("%s_%s", textureParent, textureList[0].textureName);
