@@ -5,8 +5,15 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
+import ru.liner.decorative.blocks.ILocalized;
+import ru.liner.decorative.recipes.IProvideShapedRecipe;
+import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.utils.Pair;
 
-public class ItemChorusFruitPopped extends Item {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItemChorusFruitPopped extends Item implements ILocalized, IProvideShapedRecipe {
     public ItemChorusFruitPopped(int itemId) {
         super(itemId);
         setCreativeTab(CreativeTabs.tabMisc);
@@ -27,5 +34,30 @@ public class ItemChorusFruitPopped extends Item {
     @Override
     public String getItemDisplayName(ItemStack stack) {
         return getLocalizedName(stack);
+    }
+
+    @Override
+    public String getBaseLocalizedName() {
+        return "Приготовленный плод хоруса";
+    }
+    @Override
+    public ItemStack getCraftResult() {
+        return new ItemStack(Blocks.purpur.blockID, 1, 0);
+    }
+
+    @Override
+    public String[] getCraftPattern() {
+        return new String[]{
+                "###",
+                "###",
+                "###"
+        };
+    }
+
+    @Override
+    public List<Pair<Character, ?>> getCraftDescription() {
+        List<Pair<Character, ?>> descriptionList = new ArrayList<>();
+        descriptionList.add(new Pair<Character, Object>('#', new ItemStack(this)));
+        return descriptionList;
     }
 }
