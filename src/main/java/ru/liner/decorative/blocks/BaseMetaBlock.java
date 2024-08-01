@@ -7,13 +7,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 
 public class BaseMetaBlock extends Block implements ILocalized{
-    @SideOnly(Side.CLIENT)
+    
     protected String textureName;
-    @SideOnly(Side.CLIENT)
+    
     protected String baseLocalizedName;
 
-    public BaseMetaBlock(int itemId, Material material) {
-        super(itemId, material);
+    public BaseMetaBlock(int blockId, Material material) {
+        super(blockId, material);
     }
 
     public BaseMetaBlock setTextureName(String textureName) {
@@ -30,7 +30,7 @@ public class BaseMetaBlock extends Block implements ILocalized{
         return baseLocalizedName;
     }
 
-    @SideOnly(Side.CLIENT)
+    
     @Override
     public void registerIcons(IconRegister register) {
         if(textureName != null) {

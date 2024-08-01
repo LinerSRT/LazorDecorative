@@ -29,7 +29,7 @@ public class BaseMultiMetaLadderBlock<MetaBlock extends BaseMultiMetaBlock> exte
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    
     public void registerIcons(IconRegister register) {
         this.blockIcon = register.registerIcon(this.texture);
     }

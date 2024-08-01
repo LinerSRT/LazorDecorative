@@ -20,6 +20,7 @@ java {
 compileJava {
     options.release.set(7)
     options.encoding = 'UTF-8'
+
 }
 
 archivesBaseName = project.modid
@@ -70,4 +71,54 @@ task clearBuild {
         }
         logger.log(LogLevel.INFO, "Clean complete")
     }
+}
+
+def isServerBuild(boolean isServerBuild) {
+    File file = file('src/main/java/ru/liner/decorative/BuildConfig.java')
+    if (file.exists()) {
+        file.text = file.text.replaceAll(/(public static final boolean SERVER_BUILD = )\w+;/, "\$1${isServerBuild};")
+        logger.lifecycle("Updated SERVER_BUILD to ${isServerBuild} in ${file}")
+    } else {
+        logger.lifecycle("BuildConfig does not exist!")
+    }
+}
+
+task renameClientJar {
+    doLast {
+        File build = file("build/libs/${archivesBaseName}-${version}.jar")
+        if (build.exists()) {
+            build.renameTo(file("build/libs/${archivesBaseName}-${version}-CLIENT.jar"))
+            logger.lifecycle("Renamed ${build} to ${archivesBaseName}-${version}-CLIENT.jar")
+        } else {
+            logger.lifecycle("File ${build} does not exist!")
+        }
+    }
+}
+
+task renameServerJar {
+    doLast {
+        File build = file("build/libs/${archivesBaseName}-${version}.jar")
+        if (build.exists()) {
+            build.renameTo(file("build/libs/${archivesBaseName}-${version}-SERVER.jar"))
+            logger.lifecycle("Renamed ${build} to ${archivesBaseName}-${version}-SERVER.jar")
+        } else {
+            logger.lifecycle("File ${build} does not exist!")
+        }
+    }
+}
+
+task buildClient {
+    doFirst {
+        isServerBuild(false)
+    }
+    dependsOn build
+    finalizedBy renameClientJar
+}
+
+task buildServer {
+    doFirst {
+        isServerBuild(true)
+    }
+    dependsOn build
+    finalizedBy renameServerJar
 }

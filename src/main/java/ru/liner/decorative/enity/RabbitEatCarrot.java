@@ -51,7 +51,7 @@ public class RabbitEatCarrot extends EntityAIMoveToBlock {
         if (getIsAboveDestination()) {
             World world = this.rabbit.worldObj;
             Vector3 up = this.destinationBlock.up();
-            Block block = up.asBlock();
+            Block block = up.asBlock(world);
             if (this.field_179499_e && (block instanceof BlockCarrot)) {
                 //BlockCarrot carrot = (BlockCarrot) block;
                 //carrot.
@@ -73,9 +73,9 @@ public class RabbitEatCarrot extends EntityAIMoveToBlock {
     @Override // net.minecraft.entity.ai.EntityAIMoveToBlock
     /* renamed from: a */
     protected boolean shouldMoveTo(World world, Vector3 blockPos) {
-        if (blockPos.blockId() == Block.grass.blockID && this.isCarrotWasEaten && !this.field_179499_e) {
-            Block block = blockPos.up().asBlock();
-            if ((block instanceof BlockCarrot) && blockPos.up().blockMetadata() >= 7) {
+        if (blockPos.blockId(world) == Block.grass.blockID && this.isCarrotWasEaten && !this.field_179499_e) {
+            Block block = blockPos.up().asBlock(world);
+            if ((block instanceof BlockCarrot) && blockPos.up().blockMetadata(world) >= 7) {
                 this.field_179499_e = true;
                 return true;
             }

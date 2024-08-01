@@ -2,6 +2,7 @@ package ru.liner.decorative.core;
 
 import com.google.common.collect.Iterators;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumFacing;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -58,6 +59,41 @@ public enum Direction {
         this.axis = axis;
         this.axisDirection = axisDirection;
         this.normal = normal;
+    }
+
+    public static Direction fromFacing(EnumFacing facing){
+        switch (facing){
+            case DOWN:
+                return DOWN;
+            case UP:
+                return UP;
+            case NORTH:
+                return NORTH;
+            case SOUTH:
+                return SOUTH;
+            case EAST:
+                return EAST;
+            case WEST:
+                return WEST;
+        }
+        return null;
+    }
+    public static EnumFacing toFacing(Direction direction){
+        switch (direction){
+            case DOWN:
+                return EnumFacing.DOWN;
+            case UP:
+                return EnumFacing.UP;
+            case NORTH:
+                return EnumFacing.NORTH;
+            case SOUTH:
+                return EnumFacing.SOUTH;
+            case EAST:
+                return EnumFacing.EAST;
+            case WEST:
+                return EnumFacing.WEST;
+        }
+        return null;
     }
 
     public static Direction[] orderedByNearest(Entity entity) {

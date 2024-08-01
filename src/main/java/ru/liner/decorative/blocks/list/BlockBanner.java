@@ -114,7 +114,7 @@ public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvid
     }
 
 
-    @SideOnly(Side.CLIENT)
+    
     @Override
     public int idPicked(World par1World, int par2, int par3, int par4) {
         return Blocks.banner.blockID;

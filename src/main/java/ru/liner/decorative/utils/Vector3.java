@@ -2,13 +2,13 @@ package ru.liner.decorative.utils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import ru.liner.decorative.tile.TileEntityBed;
 
 import java.io.DataInputStream;
@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vector3 {
-    private static Minecraft minecraft = Minecraft.getMinecraft();
     public static final Vector3 NEGATIVE = new Vector3(-1, -1, -1);
     public static final Vector3 ZERO = new Vector3(0, 0, 0);
     public double x;
@@ -55,23 +54,7 @@ public class Vector3 {
         }
     }
 
-    public static Vector3 playerLocation() {
-        EntityClientPlayerMP player = minecraft.thePlayer;
-        return player == null ? new Vector3() : new Vector3(player.posX, player.posY - player.getEyeHeight(), player.posZ);
-    }
 
-    public static Vector3 playerEyeLocation() {
-        EntityClientPlayerMP player = minecraft.thePlayer;
-        return player == null ? new Vector3() : new Vector3(player.posX, player.posY + player.getEyeHeight(), player.posZ);
-    }
-
-    public static Vector3 playerTickLocation(float partialTicks) {
-        EntityClientPlayerMP player = minecraft.thePlayer;
-        float playerX = (float) (player.lastTickPosX + ((player.posX - player.lastTickPosX) * partialTicks));
-        float playerY = (float) (player.lastTickPosY + ((player.posY - player.lastTickPosY) * partialTicks));
-        float playerZ = (float) (player.lastTickPosZ + ((player.posZ - player.lastTickPosZ) * partialTicks));
-        return new Vector3(playerX, playerY, playerZ);
-    }
 
     public static Vector3 entityEyeLocation(Entity entity) {
         double entityX = entity.posX;
@@ -204,19 +187,19 @@ public class Vector3 {
         return (float) -(Math.atan2(y, distance2d()) * 180d / Math.PI);
     }
 
-    public boolean isAirBlock() {
-        Block block = asBlock();
+    public boolean isAirBlock(IBlockAccess blockAccess) {
+        Block block = asBlock(blockAccess);
         return block == null || block.blockMaterial == Material.air;
     }
 
-    public boolean hasAnyBlockAround(int... blocks) {
+    public boolean hasAnyBlockAround(IBlockAccess blockAccess, int... blocks) {
         boolean founded = false;
         for (EnumFacing facing : EnumFacing.values()) {
             Vector3 offsetPosition = offset(facing);
-            if (offsetPosition.isAirBlock() || offsetPosition.asBlock() == null)
+            if (offsetPosition.isAirBlock(blockAccess) || offsetPosition.asBlock(blockAccess) == null)
                 continue;
             for (int id : blocks)
-                if (offsetPosition.blockId() == id) {
+                if (offsetPosition.blockId(blockAccess) == id) {
                     founded = true;
                     break;
                 }
@@ -225,14 +208,14 @@ public class Vector3 {
         }
         return founded;
     }
-    public boolean hasAnyMaterialAround(Material... materials) {
+    public boolean hasAnyMaterialAround(IBlockAccess blockAccess, Material... materials) {
         boolean founded = false;
         for (EnumFacing facing : EnumFacing.values()) {
             Vector3 offsetPosition = offset(facing);
-            if (offsetPosition.isAirBlock() || offsetPosition.asBlock() == null)
+            if (offsetPosition.isAirBlock(blockAccess) || offsetPosition.asBlock(blockAccess) == null)
                 continue;
             for (Material material : materials)
-                if (offsetPosition.asBlock().blockMaterial == material) {
+                if (offsetPosition.asBlock(blockAccess).blockMaterial == material) {
                     founded = true;
                     break;
                 }
@@ -242,27 +225,27 @@ public class Vector3 {
         return founded;
     }
 
-    public List<Vector3> locateMaterials(Material... materials){
+    public List<Vector3> locateMaterials(IBlockAccess blockAccess, Material... materials){
         List<Vector3> materialList = new ArrayList<>();
         for (EnumFacing facing : EnumFacing.values()) {
             Vector3 offsetPosition = offset(facing);
-            if (offsetPosition.isAirBlock() || offsetPosition.asBlock() == null)
+            if (offsetPosition.isAirBlock(blockAccess) || offsetPosition.asBlock(blockAccess) == null)
                 continue;
             for (Material material : materials)
-                if (offsetPosition.asBlock().blockMaterial == material)
+                if (offsetPosition.asBlock(blockAccess).blockMaterial == material)
                     materialList.add(offsetPosition);
         }
         return materialList;
     }
 
-    public int countBlockAround(int... blocks) {
+    public int countBlockAround(IBlockAccess blockAccess, int... blocks) {
         int count = 0;
         for (EnumFacing facing : EnumFacing.values()) {
             Vector3 offsetPosition = offset(facing);
-            if (offsetPosition.isAirBlock())
+            if (offsetPosition.isAirBlock(blockAccess))
                 continue;
             for (int id : blocks)
-                if (offsetPosition.blockId() == id) {
+                if (offsetPosition.blockId(blockAccess) == id) {
                     count++;
                 }
         }
@@ -279,71 +262,32 @@ public class Vector3 {
         }
     }
 
-    public TileEntity asTile() {
 
-        if (minecraft != null && minecraft.theWorld != null) {
-            return minecraft.theWorld.getBlockTileEntity((int) x, (int) y, (int) z);
-        }
-        return null;
+    public Block asBlock(IBlockAccess blockAccess) {
+        return Block.blocksList[blockId(blockAccess)];
     }
 
-    public Block asBlock() {
-        return Block.blocksList[blockId()];
+
+    public int blockId(IBlockAccess blockAccess) {
+
+            return blockAccess.getBlockId((int) x, (int) y, (int) z);
     }
 
-    public Material asMaterial() {
 
-        if (minecraft != null && minecraft.theWorld != null) {
-            return minecraft.theWorld.getBlockMaterial((int) x, (int) y, (int) z);
-        }
-        return null;
-    }
 
-    public int blockId() {
 
-        if (minecraft != null && minecraft.theWorld != null) {
-            return minecraft.theWorld.getBlockId((int) x, (int) y, (int) z);
-        }
-        return 0;
-    }
-
-    public int blockMetadata() {
-
-        if (minecraft != null && minecraft.theWorld != null) {
-            return minecraft.theWorld.getBlockMetadata((int) x, (int) y, (int) z);
-        }
-        return 0;
-    }
-
-    public void setAs(int blockID, int metadata) {
-        if (minecraft != null && minecraft.theWorld != null) {
-            minecraft.theWorld.setBlock((int) x, (int) y, (int) z, blockID, metadata, 2);
-        }
-    }
-
-    public void setEmptyBlock() {
-        if (minecraft != null && minecraft.theWorld != null) {
-            minecraft.theWorld.setBlock((int) x, (int) y, (int) z, 0, 0, 2);
-        }
-    }
-
-    public void applyMetadata(int metadata) {
-        if (minecraft != null && minecraft.theWorld != null) {
-            minecraft.theWorld.setBlockMetadataWithNotify((int) x, (int) y, (int) z, metadata, 2);
-        }
-    }
 
     public Vec3 asMcVector() {
         return Vec3.createVectorHelper(x, y, z);
     }
 
 
-    public boolean isBlock(Block block) {
-        return isBlock(block.blockID);
+    public boolean isBlock(IBlockAccess blockAccess, Block block) {
+        return isBlock(blockAccess,block.blockID);
     }
 
-    public boolean isBlock(int blockId) {
-        return blockId() == blockId;
+    public boolean isBlock(IBlockAccess blockAccess, int blockId) {
+        return blockId(blockAccess) == blockId;
     }
 
 
@@ -451,4 +395,7 @@ public class Vector3 {
                 '}';
     }
 
+    public int blockMetadata(IBlockAccess blockAccess) {
+        return blockAccess.getBlockMetadata((int) x, (int) y, (int) z);
+    }
 }

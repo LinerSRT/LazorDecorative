@@ -57,14 +57,14 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
             return;
         }
         Vector3 upPos = pos.up();
-        int age = pos.blockMetadata();
-        if (!upPos.isAirBlock() || upPos.y >= 256 || age >= 5) {
+        int age = pos.blockMetadata(world);
+        if (!upPos.isAirBlock(world) || upPos.y >= 256 || age >= 5) {
             return;
         }
         boolean canGrow = false;
         boolean canSupportGrowth = false;
 
-        Block belowBlock = pos.down().asBlock();
+        Block belowBlock = pos.down().asBlock(world);
         if (belowBlock == Block.whiteStone) {
             canGrow = true;
         } else if (belowBlock == Blocks.chorusPlant) {
@@ -72,7 +72,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
             int maxDepth = 4;
 
             while (depth <= maxDepth) {
-                Block blockBelow = pos.down(depth + 1).asBlock();
+                Block blockBelow = pos.down(depth + 1).asBlock(world);
                 if (blockBelow == Blocks.chorusPlant) {
                     depth++;
                 } else if (blockBelow == Block.whiteStone) {
@@ -95,7 +95,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
         }
 
 
-        if (canGrow && canPlaceChorusPlant(world, upPos) && pos.up(2).isAirBlock()) {
+        if (canGrow && canPlaceChorusPlant(world, upPos) && pos.up(2).isAirBlock(world)) {
             setBlockState(world, pos, Blocks.chorusPlant.blockID, 0);
             placeChorusFlower(world, upPos, age);
             return;
@@ -115,7 +115,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
         for (int i = 0; i < branches; i++) {
             EnumFacing direction = EnumFacing.values()[random.nextInt(3) + 2];
             Vector3 offsetPos = pos.offset(direction);
-            if (offsetPos.isAirBlock() && offsetPos.down().isAirBlock() && canPlaceChorusPlant(world, offsetPos, getOpposite(direction))) {
+            if (offsetPos.isAirBlock(world) && offsetPos.down().isAirBlock(world) && canPlaceChorusPlant(world, offsetPos, getOpposite(direction))) {
                 placeChorusFlower(world, offsetPos, age + 1);
                 branched = true;
             }
@@ -168,7 +168,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
         facings.add(EnumFacing.EAST);
         facings.add(EnumFacing.WEST);
         for (EnumFacing direction : facings) {
-            if (!pos.offset(direction).isAirBlock()) {
+            if (!pos.offset(direction).isAirBlock(world)) {
                 return false;
             }
         }
@@ -182,7 +182,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
         facings.add(EnumFacing.EAST);
         facings.add(EnumFacing.WEST);
         for (EnumFacing direction : facings) {
-            if (direction != excludeDirection && !pos.offset(direction).isAirBlock()) {
+            if (direction != excludeDirection && !pos.offset(direction).isAirBlock(world)) {
                 return false;
             }
         }
@@ -217,10 +217,10 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
         boolean foundValidBlock = false;
         for (EnumFacing face : EnumFacing.values()) {
             Vector3 position = pos.offset(face);
-            if (position.isAirBlock())
+            if (position.isAirBlock(world))
                 continue;
-            if(position.hasAnyBlockAround(Blocks.chorusPlant.blockID, Block.whiteStone.blockID)){
-                if(position.countBlockAround(Blocks.chorusPlant.blockID) < 2 && position.blockMetadata() > 1)
+            if(position.hasAnyBlockAround(world, Blocks.chorusPlant.blockID, Block.whiteStone.blockID)){
+                if(position.countBlockAround(world,Blocks.chorusPlant.blockID) < 2 && position.blockMetadata(world) > 1)
                     continue;
                 foundValidBlock = true;
                 break;
@@ -287,7 +287,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
                 Vector3 offsetPos = pos.up(height).offset(direction);
 
                 if (Math.abs(offsetPos.x - origin.x) < radius && Math.abs(offsetPos.z - origin.z) < radius
-                        && offsetPos.isAirBlock() && offsetPos.down().isAirBlock() && canPlaceChorusPlant(world, offsetPos, getOpposite(direction))) {
+                        && offsetPos.isAirBlock(world) && offsetPos.down().isAirBlock(world) && canPlaceChorusPlant(world, offsetPos, getOpposite(direction))) {
                     branched = true;
                     setBlockState(world, offsetPos, Blocks.chorusPlant.blockID, 0);
                     growChorusPlant(world, offsetPos, random, origin, radius, depth + 1);

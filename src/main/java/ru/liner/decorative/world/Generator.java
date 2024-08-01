@@ -1,4 +1,5 @@
 package ru.liner.decorative.world;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
@@ -7,9 +8,7 @@ import ru.liner.decorative.world.generator.FlowerGenerator;
 
 public class Generator {
     public static Generator instance;
-    private FlowerGenerator flowerGenerator;
     public Generator() {
-        flowerGenerator = new FlowerGenerator(Blocks.flower);
         MinecraftForge.TERRAIN_GEN_BUS.register(this);
     }
 
@@ -27,12 +26,13 @@ public class Generator {
             case LILYPAD:
                 break;
             case FLOWERS:
-                for(int flowerCount = 0; flowerCount < 2; ++flowerCount) {
-                    int x = event.chunkX + event.rand.nextInt(36) + 8;
-                    int y = event.rand.nextInt(128);
-                    int z = event.chunkZ + event.rand.nextInt(16) + 8;
-                    flowerGenerator.generate(event.world, event.rand, x, y, z);
-                }
+//                FlowerGenerator generator = new FlowerGenerator(Blocks.flower);
+//                for(int flowerCount = 0; flowerCount < 2; ++flowerCount) {
+//                    int x = event.chunkX + event.rand.nextInt(36) + 8;
+//                    int y = event.rand.nextInt(128);
+//                    int z = event.chunkZ + event.rand.nextInt(16) + 8;
+//                    generator.generate(event.world, event.rand, x, y, z);
+//                }
                 break;
             case GRASS:
                 break;

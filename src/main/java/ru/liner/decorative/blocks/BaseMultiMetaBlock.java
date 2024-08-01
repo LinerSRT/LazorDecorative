@@ -1,7 +1,5 @@
 package ru.liner.decorative.blocks;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -17,15 +15,11 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class BaseMultiMetaBlock extends Block implements ILocalized {
-    @SideOnly(Side.CLIENT)
     protected List<Pair<String, String>> localizationList;
-    @SideOnly(Side.CLIENT)
     protected HashMap<String, List<TextureData>> textureDataMap;
-    @SideOnly(Side.CLIENT)
     protected String textureParent;
-    @SideOnly(Side.CLIENT)
+
     protected HashMap<String, Icon> textureMap;
-    @SideOnly(Side.CLIENT)
     protected String baseLocalizedName;
 
     public BaseMultiMetaBlock(int blockID, Material material) {
@@ -39,6 +33,11 @@ public class BaseMultiMetaBlock extends Block implements ILocalized {
     public Block setUnlocalizedName(String baseLocalizedName) {
         textureParent = baseLocalizedName;
         return super.setUnlocalizedName(baseLocalizedName);
+    }
+
+    @Override
+    public CreativeTabs getCreativeTabToDisplayOn() {
+        return super.getCreativeTabToDisplayOn();
     }
 
     public BaseMultiMetaBlock setBaseLocalizedName(String localizedName) {

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BlockLeaves extends BaseMultiMetaBlock implements IShearable {
-    @SideOnly(Side.CLIENT)
+    
     private int graphicsDetails;
     int[] adjacentTreeBlocks;
     public BlockLeaves(int blockID) {
@@ -48,24 +48,24 @@ public class BlockLeaves extends BaseMultiMetaBlock implements IShearable {
     }
 
 
-    @SideOnly(Side.CLIENT)
+    
     public void setGraphicsLevel(boolean par1) {
         this.graphicsDetails = par1 ? 0 : 1;
     }
 
 
-    @SideOnly(Side.CLIENT)
+    
     public int getBlockColor() {
         double d0 = 0.5;
         double d1 = 1.0;
         return ColorizerFoliage.getFoliageColor(d0, d1);
     }
-    @SideOnly(Side.CLIENT)
+    
     public int getRenderColor(int par1) {
         return (par1 & 3) == 1 ? ColorizerFoliage.getFoliageColorPine() : ((par1 & 3) == 2 ? ColorizerFoliage.getFoliageColorBirch() : ColorizerFoliage.getFoliageColorBasic());
     }
 
-    @SideOnly(Side.CLIENT)
+    
     public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
         int l = par1IBlockAccess.getBlockMetadata(par2, par3, par4);
         if ((l & 3) == 1) {
@@ -202,7 +202,7 @@ public class BlockLeaves extends BaseMultiMetaBlock implements IShearable {
 
     }
 
-    @SideOnly(Side.CLIENT)
+    
     public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random) {
         if (par1World.canLightningStrikeAt(par2, par3 + 1, par4) && !par1World.doesBlockHaveSolidTopSurface(par2, par3 - 1, par4) && par5Random.nextInt(15) == 1) {
             double d0 = (double) ((float) par2 + par5Random.nextFloat());

@@ -18,11 +18,11 @@ import java.util.List;
 
 public abstract class BaseMultiBlockFlower extends BlockFlower implements IMultiTexturedBlock{
     protected final HashMap<String, String> types;
-    @SideOnly(Side.CLIENT)
+    
     protected Icon[] iconTypes;
-    @SideOnly(Side.CLIENT)
+    
     protected String textureName;
-    @SideOnly(Side.CLIENT)
+    
     protected Icon[] topBottomIcons;
 
     public BaseMultiBlockFlower(int blockId, Material material) {
@@ -52,7 +52,7 @@ public abstract class BaseMultiBlockFlower extends BlockFlower implements IMulti
             itemList.add(new ItemStack(blockId, 1, i));
     }
 
-    @SideOnly(Side.CLIENT)
+    
     @Override
     public Icon getIcon(int side, int metadata) {
         return iconTypes[getMetadataExcludeType(metadata) % types.size()];

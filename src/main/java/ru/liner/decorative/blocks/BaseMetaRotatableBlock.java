@@ -13,11 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BaseMetaRotatableBlock extends BaseMetaBlock {
-    @SideOnly(Side.CLIENT)
+    
     protected String sideTexture;
-    @SideOnly(Side.CLIENT)
+    
     protected String topTexture;
-    @SideOnly(Side.CLIENT)
+    
     protected Icon[] textures;
 
     public BaseMetaRotatableBlock(int itemId, Material material) {
@@ -65,7 +65,7 @@ public class BaseMetaRotatableBlock extends BaseMetaBlock {
         return finalMetadata;
     }
 
-    @SideOnly(Side.CLIENT)
+    
     @Override
     public void registerIcons(IconRegister register) {
         textures = new Icon[2];

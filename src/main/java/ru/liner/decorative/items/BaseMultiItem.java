@@ -55,7 +55,7 @@ public class BaseMultiItem<B extends IMultiTexturedBlock> extends ItemBlock {
         return this;
     }
 
-    @SideOnly(Side.CLIENT)
+    
     @Override
     public Icon getIconFromDamage(int metadata) {
         return multiBlock.getIcon(iconSide, metadata);

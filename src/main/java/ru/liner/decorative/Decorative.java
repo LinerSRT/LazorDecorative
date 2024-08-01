@@ -6,7 +6,9 @@ public class Decorative {
     public static int STAINED_GLASS_PANE_RENDER_ID;
     public static int DOUBLE_PLANT_RENDERER;
     public static int CUTOUT_BLOCK_RENDERER;
+    public static int REDSTONE_LOGIC_BLOCK_RENDERER;
     public static int BED_BLOCK_RENDERER;
+
     public static final String[] colorNames = new String[]{
             "Черный",
             "Красный",
@@ -63,5 +65,6 @@ public class Decorative {
         DOUBLE_PLANT_RENDERER = RenderingRegistry.getNextAvailableRenderId();
         CUTOUT_BLOCK_RENDERER = RenderingRegistry.getNextAvailableRenderId();
         BED_BLOCK_RENDERER = RenderingRegistry.getNextAvailableRenderId();
+        REDSTONE_LOGIC_BLOCK_RENDERER = RenderingRegistry.getNextAvailableRenderId();
     }
 }

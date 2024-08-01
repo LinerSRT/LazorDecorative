@@ -1,6 +1,9 @@
 package ru.liner.decorative.register;
 
 import net.minecraft.block.Block;
+import ru.liner.decorative.blocks.list.BlockBarrier;
+import ru.liner.decorative.blocks.list.BlockObserver;
+import ru.liner.decorative.blocks.list.BlockTest;
 
 import static ru.liner.decorative.register.Blocks.*;
 
@@ -38,6 +41,9 @@ public class BlockRegister {
                 .add(warpedNylium)
                 .add(bone)
                 .add(bed)
+                .add(new BlockBarrier(1064))
+                .add(new BlockObserver(1065))
+                .add(new BlockTest(1066))
                 .registerBlocks();
     }
 

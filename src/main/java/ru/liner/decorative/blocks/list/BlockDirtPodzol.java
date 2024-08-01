@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import ru.liner.decorative.blocks.BaseMetaRotatableBlock;
 
 public class BlockDirtPodzol extends BaseMetaRotatableBlock {
-    @SideOnly(Side.CLIENT)
+    
     protected Icon topIcon;
     public BlockDirtPodzol(int itemId) {
         super(itemId, Material.ground);

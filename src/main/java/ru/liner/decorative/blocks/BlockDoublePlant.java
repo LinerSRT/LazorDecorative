@@ -98,14 +98,14 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
     }
 
 
-    @SideOnly(Side.CLIENT)
+    
     public int getBlockColor() {
         double d0 = 0.5;
         double d1 = 1.0;
         return ColorizerGrass.getGrassColor(d0, d1);
     }
 
-    @SideOnly(Side.CLIENT)
+    
     public int getRenderColor(int metadata) {
         switch (getMetadataExcludeType(metadata)) {
             case 1:
@@ -116,7 +116,7 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    
     public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4) {
 
         switch (getMetadataExcludeType(par1IBlockAccess.getBlockMetadata(par2, par3, par4))) {

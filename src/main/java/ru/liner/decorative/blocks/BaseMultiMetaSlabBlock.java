@@ -17,7 +17,6 @@ public class BaseMultiMetaSlabBlock<MetaBlock extends BaseMultiMetaBlock> extend
         this.slabMetadata = metadata;
         setLightOpacity(0);
         setUnlocalizedName(String.format("slab.%s", metaBlock.getTypeByMetadata(metadata)));
-        setCreativeTab(metaBlock.getCreativeTabToDisplayOn());
     }
 
     @Override

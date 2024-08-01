@@ -40,7 +40,7 @@ public class StainedGlassPaneRenderer implements ISimpleBlockRenderingHandler {
         return Decorative.STAINED_GLASS_PANE_RENDER_ID;
     }
 
-    @SideOnly(Side.CLIENT)
+    
     private boolean renderColoredGlassPane(IBlockAccess world, int i, int j, int k, BlockStainedGlassPane blockPane, RenderBlocks renderer) {
         int l = renderer.blockAccess.getHeight();
         this.tessellator = Tessellator.instance;
