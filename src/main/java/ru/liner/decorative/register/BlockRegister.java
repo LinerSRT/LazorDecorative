@@ -41,9 +41,9 @@ public class BlockRegister {
                 .add(warpedNylium)
                 .add(bone)
                 .add(bed)
-                .add(new BlockBarrier(1064))
-                .add(new BlockObserver(1065))
-                .add(new BlockTest(1066))
+                //.add(new BlockBarrier(1064))
+                //.add(new BlockObserver(1065))
+                //.add(new BlockTest(1066))
                 .registerBlocks();
     }
 
