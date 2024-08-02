@@ -61,12 +61,6 @@ public class BaseMultiItem<B extends IMultiTexturedBlock> extends ItemBlock {
         return multiBlock.getIcon(iconSide, metadata);
     }
 
-
-    @Override
-    public Icon getIconIndex(ItemStack stack) {
-        return getIconFromDamage(stack.getItemDamage());
-    }
-
     @Override
     public void getSubItems(int blockID, CreativeTabs creativeTabs, List itemList) {
         multiBlock.getSubBlocks(blockID, creativeTabs, itemList);
