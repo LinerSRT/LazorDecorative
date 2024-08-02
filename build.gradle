@@ -1,3 +1,4 @@
+//file:noinspection GroovyAssignabilityCheck
 buildscript {
     repositories {
         mavenCentral()
@@ -86,11 +87,16 @@ def isServerBuild(boolean isServerBuild) {
 task renameClientJar {
     doLast {
         File build = file("build/libs/${archivesBaseName}-${version}.jar")
+        File devBuild = file("build/libs/${archivesBaseName}-${version}-dev.jar")
         if (build.exists()) {
             build.renameTo(file("build/libs/${archivesBaseName}-${version}-CLIENT.jar"))
-            logger.lifecycle("Renamed ${build} to ${archivesBaseName}-${version}-CLIENT.jar")
+            logger.lifecycle("Renamed ${build.getName()} to ${archivesBaseName}-${version}-CLIENT.jar")
         } else {
-            logger.lifecycle("File ${build} does not exist!")
+            logger.lifecycle("Cannot build! Check build status")
+        }
+        if(devBuild.exists()){
+            logger.lifecycle("Deleting dev build")
+            devBuild.delete()
         }
     }
 }
@@ -98,27 +104,41 @@ task renameClientJar {
 task renameServerJar {
     doLast {
         File build = file("build/libs/${archivesBaseName}-${version}.jar")
+        File devBuild = file("build/libs/${archivesBaseName}-${version}-dev.jar")
         if (build.exists()) {
             build.renameTo(file("build/libs/${archivesBaseName}-${version}-SERVER.jar"))
-            logger.lifecycle("Renamed ${build} to ${archivesBaseName}-${version}-SERVER.jar")
+            logger.lifecycle("Renamed ${build.getName()} to ${archivesBaseName}-${version}-SERVER.jar")
         } else {
-            logger.lifecycle("File ${build} does not exist!")
+            logger.lifecycle("Cannot build! Check build status")
+        }
+        if(devBuild.exists()){
+            logger.lifecycle("Deleting dev build")
+            devBuild.delete()
         }
     }
+}
+
+
+task buildClientInternal{
+    dependsOn build
+    finalizedBy renameClientJar
+}
+
+task buildServerInternal{
+    dependsOn build
+    finalizedBy renameServerJar
 }
 
 task buildClient {
     doFirst {
         isServerBuild(false)
     }
-    dependsOn build
-    finalizedBy renameClientJar
+    finalizedBy buildClientInternal
 }
 
 task buildServer {
     doFirst {
         isServerBuild(true)
     }
-    dependsOn build
-    finalizedBy renameServerJar
+    finalizedBy buildServerInternal
 }
