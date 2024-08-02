@@ -1,5 +1,8 @@
 package ru.liner.decorative.blocks;
 
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockHalfSlab;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -17,6 +20,12 @@ public class BaseMultiMetaSlabBlock<MetaBlock extends BaseMultiMetaBlock> extend
         this.slabMetadata = metadata;
         setLightOpacity(0);
         setUnlocalizedName(String.format("slab.%s", metaBlock.getTypeByMetadata(metadata)));
+        addToCreativeTab(metaBlock);
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void addToCreativeTab(MetaBlock metaBlock){
+        setCreativeTab(metaBlock.getCreativeTabToDisplayOn());
     }
 
     @Override
