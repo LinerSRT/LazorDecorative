@@ -20,8 +20,6 @@ import ru.liner.decorative.tile.TileEntityBed;
 
 public class Renderers {
     public static void init(){
-        if(BuildConfig.SERVER_BUILD)
-            return;
         RenderingRegistry.registerBlockHandler(new StainedGlassPaneRenderer());
         RenderingRegistry.registerBlockHandler(new DoublePlantRenderer());
         RenderingRegistry.registerBlockHandler(new CutoutBlockRenderer());
