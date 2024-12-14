@@ -11,7 +11,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.world.World;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.blocks.list.BlockBanner;
+import ru.liner.decorative.blocks.list.BlockBed;
+import ru.liner.decorative.register.Registry;
 import ru.liner.decorative.tile.TileEntityBanner;
 import ru.liner.decorative.utils.Colored;
 
@@ -19,7 +21,7 @@ public class BannerRecipes {
     public static void addRecipes() {
         for (int i = 0; i < ItemDye.dyeColors.length; i++) {
             GameRegistry.addRecipe(
-                    new ItemStack(Blocks.banner.blockID, 1, i),
+                    new ItemStack(Registry.getInstance().block(BlockBanner.class).blockID, 1, i),
                     "###",
                     "###",
                     " I ",
@@ -29,8 +31,8 @@ public class BannerRecipes {
             for (int j = 0; j < ItemDye.dyeColors.length; j++) {
                 if (i != j) {
                     GameRegistry.addShapelessRecipe(
-                            new ItemStack(Blocks.banner, 1, j),
-                            new ItemStack(Blocks.banner, 1, i),
+                            new ItemStack(Registry.getInstance().block(BlockBanner.class), 1, j),
+                            new ItemStack(Registry.getInstance().block(BlockBanner.class), 1, i),
                             new ItemStack(Item.dyePowder, 1, j)
                     );
                 }
@@ -145,7 +147,7 @@ public class BannerRecipes {
             boolean bannerFound = false;
             for (int i = 0; i < craftingInventory.getSizeInventory(); i++) {
                 ItemStack currentItem = craftingInventory.getStackInSlot(i);
-                if (currentItem != null && currentItem.itemID == Blocks.banner.blockID) {
+                if (currentItem != null && currentItem.itemID == Registry.getInstance().block(BlockBanner.class).blockID) {
                     if (bannerFound || getPatternCount(currentItem) >= 6) {
                         return false;
                     }
@@ -160,7 +162,7 @@ public class BannerRecipes {
             ItemStack bannerItem = null;
             for (int i = 0; i < craftingInventory.getSizeInventory(); i++) {
                 ItemStack currentItem = craftingInventory.getStackInSlot(i);
-                if (currentItem != null && currentItem.itemID == Blocks.banner.blockID) {
+                if (currentItem != null && currentItem.itemID == Registry.getInstance().block(BlockBanner.class).blockID) {
                     bannerItem = currentItem.copy();
                     bannerItem.stackSize = 1;
                     break;
@@ -205,7 +207,7 @@ public class BannerRecipes {
                         boolean dyeItemFound = false;
                         for (int i = 0; i < craftingInventory.getSizeInventory(); i++) {
                             ItemStack currentItem = craftingInventory.getStackInSlot(i);
-                            if (currentItem != null && currentItem.itemID != Blocks.banner.blockID) {
+                            if (currentItem != null && currentItem.itemID != Registry.getInstance().block(BlockBanner.class).blockID) {
                                 if (currentItem.itemID == Item.dyePowder.itemID) {
                                     if (dyeItemFound) {
                                         isValid = false;
@@ -228,7 +230,7 @@ public class BannerRecipes {
                             int row = i / 3;
                             int column = i % 3;
                             ItemStack currentItem = craftingInventory.getStackInSlot(i);
-                            if (currentItem == null || currentItem.itemID == Blocks.banner.blockID) {
+                            if (currentItem == null || currentItem.itemID == Registry.getInstance().block(BlockBanner.class).blockID) {
                                 if (pattern.getCraftingLayers()[row].charAt(column) != ' ') {
                                     isValid = false;
                                     break;
@@ -306,7 +308,7 @@ public class BannerRecipes {
 
 
     public static boolean isBannerStack(ItemStack stack) {
-        return stack != null && stack.itemID == Blocks.banner.blockID;
+        return stack != null && stack.itemID == Registry.getInstance().block(BlockBanner.class).blockID;
     }
 
     public static boolean isPowderStack(ItemStack stack) {

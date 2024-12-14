@@ -45,7 +45,6 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-core:2.23.0'
     implementation 'net.sourceforge.streamsupport:streamsupport:1.7.4'
     implementation fileTree(include: ['*.jar'], dir: 'dependencies')
-
     minecraft "com.mojang:minecraft:${project.minecraft}"
     forge "net.minecraftforge:forge:${project.minecraft_forge}:universal@zip"
     mappings "net.minecraftforge:forge:${project.minecraft_forge}:src@zip"
@@ -111,10 +110,6 @@ task renameServerJar {
         } else {
             logger.lifecycle("Cannot build! Check build status")
         }
-        if(devBuild.exists()){
-            logger.lifecycle("Deleting dev build")
-            devBuild.delete()
-        }
     }
 }
 
@@ -142,3 +137,5 @@ task buildServer {
     }
     finalizedBy buildServerInternal
 }
+
+

@@ -19,7 +19,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import ru.liner.decorative.Decorative;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.blocks.list.BlockDirtPodzol;
+import ru.liner.decorative.register.Registry;
 
 import java.util.Random;
 
@@ -70,7 +71,7 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
 
     @Override
     public EnumPlantType getPlantType(World world, int x, int y, int z) {
-        if (blockID == Blocks.flowerDouble.blockID)
+        if (blockID == Registry.getInstance().block(BlockDoublePlant.class).blockID)
             return EnumPlantType.Plains;
         return super.getPlantType(world, x, y, z);
     }
@@ -87,7 +88,7 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
 
     @Override
     public int idDropped(int par1, Random par2Random, int par3) {
-        return Blocks.flowerDouble.blockID;
+        return Registry.getInstance().block(BlockDoublePlant.class).blockID;
     }
 
     @Override
@@ -151,7 +152,7 @@ public class BlockDoublePlant extends BaseMultiBlockFlower {
 
     @Override
     protected boolean canThisPlantGrowOnThisBlockID(int par1) {
-        return super.canThisPlantGrowOnThisBlockID(par1) || par1 == blockID || Blocks.podzol.blockID == par1;
+        return super.canThisPlantGrowOnThisBlockID(par1) || par1 == blockID || Registry.getInstance().block(BlockDirtPodzol.class).blockID == par1;
     }
 
 

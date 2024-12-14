@@ -4,7 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.IPlantable;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.blocks.list.BlockDirtPodzol;
+import ru.liner.decorative.register.Registry;
 
 public class BlockSapling extends BaseMultiBlockFlower implements IPlantable {
     public BlockSapling(int blockId) {
@@ -22,7 +23,7 @@ public class BlockSapling extends BaseMultiBlockFlower implements IPlantable {
     }
     @Override
     public boolean canThisPlantGrowOnThisBlockID(int par1) {
-        return par1 == Block.grass.blockID || par1 == Block.dirt.blockID || par1 == Block.tilledField.blockID || par1 == Blocks.podzol.blockID;
+        return par1 == Block.grass.blockID || par1 == Block.dirt.blockID || par1 == Block.tilledField.blockID || par1 == Registry.getInstance().block(BlockDirtPodzol.class).blockID;
     }
 
     @Override

@@ -20,6 +20,11 @@ import java.util.logging.Level;
 
 @SuppressWarnings({"unchecked", "rawtypes", "UnusedReturnValue"})
 public class Registry {
+    public static int META_FENCE_LAST_ID= -1;
+    public static int META_LADDER_LAST_ID= -1;
+    public static int META_SLAB_LAST_ID = -1;
+    public static int META_STARS_LAST_ID = -1;
+    public static int META_WALL_LAST_ID= -1;
     private static Registry instance;
     private final LanguageRegistry languageRegistry;
     private final List<Block> blockList;
@@ -102,6 +107,8 @@ public class Registry {
 
 
     public Registry registerItems() {
+        if (DecorativeMod.configuration.hasChanged())
+            DecorativeMod.configuration.save();
         if (wasItemsRegistered) {
             DecorativeMod.logger.log(Level.WARNING, "You trying register items but it already was registered! Skipping...");
             return this;
@@ -116,6 +123,8 @@ public class Registry {
     }
 
     public Registry registerBlocks() {
+        if (DecorativeMod.configuration.hasChanged())
+            DecorativeMod.configuration.save();
         if (wasBlocksRegistered) {
             DecorativeMod.logger.log(Level.WARNING, "You trying register blocks but it already was registered! Skipping...");
             return this;
@@ -142,11 +151,15 @@ public class Registry {
                 if (block instanceof IBlockFamily) {
                     FamilarityType[] types = ((IBlockFamily) block).getFamiliarityWith();
                     if (types != null) {
+                        int idRangeStart;
+                        int idRangeEnd;
                         for (FamilarityType type : types) {
                             switch (type) {
                                 case STAIR:
+                                    idRangeStart = META_STARS_LAST_ID == -1 ? META_STARS_LAST_ID = metaBlock.blockID + DecorativeMod.configuration.get("block", "stairs_shift_id", 50).getInt() + 1 : META_STARS_LAST_ID + 1;
+                                    idRangeEnd = idRangeStart + metaBlock.getTypesCount();
                                     for (int i = 0; i < metaBlock.getTypesCount(); i++) {
-                                        BaseMultiMetaStairsBlock stairsBlock = new BaseMultiMetaStairsBlock<>(metaBlock, i);
+                                        BaseMultiMetaStairsBlock stairsBlock = new BaseMultiMetaStairsBlock<>(metaBlock, idRangeStart + i, i);
                                         languageRegistry.addStringLocalization(String.format("%s.name", stairsBlock.getUnlocalizedName()), stairsBlock.getLocalizationFor(i));
                                         GameRegistry.registerBlock(stairsBlock, BaseMultiMetaStairsItem.class, stairsBlock.getUnlocalizedName());
                                         GameRegistry.addRecipe(
@@ -157,10 +170,13 @@ public class Registry {
                                                 '#', new ItemStack(metaBlock.blockID, 1, i)
                                         );
                                     }
+                                    META_STARS_LAST_ID = idRangeEnd;
                                     break;
                                 case SLAB:
+                                    idRangeStart = META_SLAB_LAST_ID == -1 ? META_SLAB_LAST_ID = metaBlock.blockID + DecorativeMod.configuration.get("block", "slab_shift_id", 50).getInt() + 1 : META_SLAB_LAST_ID + 1;
+                                    idRangeEnd = idRangeStart + metaBlock.getTypesCount();
                                     for (int i = 0; i < metaBlock.getTypesCount(); i++) {
-                                        BaseMultiMetaSlabBlock slabBlock = new BaseMultiMetaSlabBlock<>(metaBlock, i);
+                                        BaseMultiMetaSlabBlock slabBlock = new BaseMultiMetaSlabBlock<>(metaBlock, idRangeStart + i, i);
                                         languageRegistry.addStringLocalization(String.format("%s.name", slabBlock.getUnlocalizedName()), slabBlock.getLocalizationFor(i));
                                         GameRegistry.registerBlock(slabBlock, BaseMultiMetaSlabItem.class, slabBlock.getUnlocalizedName());
                                         GameRegistry.addRecipe(
@@ -171,10 +187,13 @@ public class Registry {
                                                 '#', new ItemStack(metaBlock.blockID, 1, i)
                                         );
                                     }
+                                    META_SLAB_LAST_ID = idRangeEnd;
                                     break;
                                 case FENCE:
+                                    idRangeStart = META_FENCE_LAST_ID == -1 ? META_FENCE_LAST_ID = metaBlock.blockID + DecorativeMod.configuration.get("block", "fense_shift_id", 50).getInt() + 1 : META_FENCE_LAST_ID + 1;
+                                    idRangeEnd = idRangeStart + metaBlock.getTypesCount();
                                     for (int i = 0; i < metaBlock.getTypesCount(); i++) {
-                                        BaseMultiMetaFenceBlock fenceBlock = new BaseMultiMetaFenceBlock<>(metaBlock, i);
+                                        BaseMultiMetaFenceBlock fenceBlock = new BaseMultiMetaFenceBlock<>(metaBlock, idRangeStart + i,  i);
                                         languageRegistry.addStringLocalization(String.format("%s.name", fenceBlock.getUnlocalizedName()), fenceBlock.getLocalizationFor(i));
                                         GameRegistry.registerBlock(fenceBlock, BaseMultiMetaFenceItem.class, fenceBlock.getUnlocalizedName());
                                         GameRegistry.addRecipe(
@@ -194,10 +213,13 @@ public class Registry {
                                                 'I', new ItemStack(Item.stick.itemID, 1, i)
                                         );
                                     }
+                                    META_FENCE_LAST_ID = idRangeEnd;
                                     break;
                                 case LADDER:
+                                    idRangeStart = META_LADDER_LAST_ID == -1 ? META_LADDER_LAST_ID = metaBlock.blockID + DecorativeMod.configuration.get("block", "ladder_shift_id", 50).getInt() + 1 : META_LADDER_LAST_ID + 1;
+                                    idRangeEnd = idRangeStart + metaBlock.getTypesCount();
                                     for (int i = 0; i < metaBlock.getTypesCount(); i++) {
-                                        BaseMultiMetaLadderBlock ladderBlock = new BaseMultiMetaLadderBlock<>(metaBlock, i);
+                                        BaseMultiMetaLadderBlock ladderBlock = new BaseMultiMetaLadderBlock<>(metaBlock,idRangeStart + i, i);
                                         languageRegistry.addStringLocalization(String.format("%s.name", ladderBlock.getUnlocalizedName()), ladderBlock.getLocalizationFor(i));
                                         GameRegistry.registerBlock(ladderBlock, BaseMultiMetaLadderItem.class, ladderBlock.getUnlocalizedName());
                                         GameRegistry.addRecipe(
@@ -209,10 +231,13 @@ public class Registry {
                                                 'I', new ItemStack(Item.stick.itemID, 1, i)
                                         );
                                     }
+                                    META_LADDER_LAST_ID = idRangeEnd;
                                     break;
                                 case WALL:
+                                    idRangeStart = META_WALL_LAST_ID == -1 ? META_WALL_LAST_ID = metaBlock.blockID + DecorativeMod.configuration.get("block", "wall_shift_id", 50).getInt() + 1 : META_WALL_LAST_ID + 1;
+                                    idRangeEnd = idRangeStart + metaBlock.getTypesCount();
                                     for (int i = 0; i < metaBlock.getTypesCount(); i++) {
-                                        BaseMultiMetaWallBlock wallBlock = new BaseMultiMetaWallBlock<>(metaBlock, i);
+                                        BaseMultiMetaWallBlock wallBlock = new BaseMultiMetaWallBlock<>(metaBlock, idRangeStart + i,  i);
                                         languageRegistry.addStringLocalization(String.format("%s.name", wallBlock.getUnlocalizedName()), wallBlock.getLocalizationFor(i));
                                         GameRegistry.registerBlock(wallBlock, BaseMultiMetaWallItem.class, wallBlock.getUnlocalizedName());
                                         GameRegistry.addRecipe(
@@ -230,6 +255,7 @@ public class Registry {
                                                 '#', new ItemStack(metaBlock.blockID, 1, i)
                                         );
                                     }
+                                    META_WALL_LAST_ID = idRangeEnd;
                                     break;
                             }
                         }

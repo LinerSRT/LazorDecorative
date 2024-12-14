@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.register.Registry;
 
 import java.util.Random;
 
@@ -90,7 +90,7 @@ public class BlockWoodenLog extends BaseMultiMetaBlock {
     }
 
     public int idDropped(int par1, Random par2Random, int par3) {
-        return Blocks.planks.blockID;
+        return Registry.getInstance().block(BlockWoodenPlank.class).blockID;
     }
 
     @Override

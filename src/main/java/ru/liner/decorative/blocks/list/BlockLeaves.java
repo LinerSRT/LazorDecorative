@@ -15,7 +15,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.blocks.BlockSapling;
+import ru.liner.decorative.register.Registry;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -225,7 +226,7 @@ public class BlockLeaves extends BaseMultiMetaBlock implements IShearable {
 
 
     public int idDropped(int par1, Random par2Random, int par3) {
-        return Blocks.saplingBlock.blockID;
+        return Registry.getInstance().block(BlockSapling.class).blockID;
     }
 
 

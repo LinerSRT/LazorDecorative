@@ -18,8 +18,8 @@ import net.minecraftforge.common.ForgeDirection;
 import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.BaseMultiMetaBlock;
 import ru.liner.decorative.items.BaseMultiMetaBannerItem;
-import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.register.IItemProvider;
+import ru.liner.decorative.register.Registry;
 import ru.liner.decorative.tile.TileEntityBanner;
 
 import java.util.ArrayList;
@@ -117,12 +117,12 @@ public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvid
     
     @Override
     public int idPicked(World par1World, int par2, int par3, int par4) {
-        return Blocks.banner.blockID;
+        return Registry.getInstance().block(BlockBanner.class).blockID;
     }
 
     @Override
     public int idDropped(int par1, Random par2Random, int par3) {
-        return Blocks.banner.blockID;
+        return Registry.getInstance().block(BlockBanner.class).blockID;
     }
 
     @Override
@@ -154,7 +154,7 @@ public class BlockBanner extends BaseMultiMetaBlock implements ITileEntityProvid
     public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune) {
         ArrayList<ItemStack> drops = new ArrayList<>();
         TileEntity e = world.getBlockTileEntity(x, y, z);
-        ItemStack droppedStack = new ItemStack(Blocks.banner.blockID, 1, getDamageValue(world, x, y, z));
+        ItemStack droppedStack = new ItemStack(Registry.getInstance().block(BlockBanner.class).blockID, 1, getDamageValue(world, x, y, z));
         if(e instanceof TileEntityBanner){
             TileEntityBanner banner = (TileEntityBanner) e;
             banner.writeToStack(droppedStack);

@@ -9,8 +9,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import ru.liner.decorative.Decorative;
 import ru.liner.decorative.blocks.BaseMetaBlock;
-import ru.liner.decorative.register.Blocks;
-import ru.liner.decorative.register.Items;
+import ru.liner.decorative.items.ItemChorusFruit;
+import ru.liner.decorative.register.Registry;
 import ru.liner.decorative.render.block.CutoutBlockRenderer;
 
 import java.util.List;
@@ -74,7 +74,7 @@ public class BlockChorusPlant extends BaseMetaBlock implements CutoutBlockRender
 
     private boolean isConnectedTo(World world, int x, int y, int z, int offsetX, int offsetY, int offsetZ) {
         int blockID = world.getBlockId(x + offsetX, y + offsetY, z + offsetZ);
-        return blockID == this.blockID || blockID == Blocks.chorusFlower.blockID || (offsetY == -1 && blockID == Block.whiteStone.blockID);
+        return blockID == this.blockID || blockID == Registry.getInstance().block(BlockChorusFlower.class).blockID || (offsetY == -1 && blockID == Block.whiteStone.blockID);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class BlockChorusPlant extends BaseMetaBlock implements CutoutBlockRender
 
     @Override
     public int idDropped(int metadata, Random random, int fortune) {
-        return Items.chorusFruit.itemID;
+        return Registry.getInstance().item(ItemChorusFruit.class).itemID;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class BlockChorusPlant extends BaseMetaBlock implements CutoutBlockRender
 
     @Override
     public boolean allowRenderConnection(int blockId) {
-        return blockId == Blocks.chorusFlower.blockID || blockId == blockID || blockId == Block.whiteStone.blockID;
+        return blockId == Registry.getInstance().block(BlockChorusFlower.class).blockID || blockId == blockID || blockId == Block.whiteStone.blockID;
     }
 
     @Override

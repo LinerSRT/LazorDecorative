@@ -6,8 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import ru.liner.decorative.blocks.ILocalized;
+import ru.liner.decorative.blocks.list.BlockPurpur;
 import ru.liner.decorative.recipes.IProvideShapedRecipe;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.register.Registry;
 import ru.liner.decorative.utils.Pair;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class ItemChorusFruitPopped extends Item implements ILocalized, IProvideS
     }
     @Override
     public ItemStack getCraftResult() {
-        return new ItemStack(Blocks.purpur.blockID, 1, 0);
+        return new ItemStack(Registry.getInstance().block(BlockPurpur.class).blockID, 1, 0);
     }
 
     @Override

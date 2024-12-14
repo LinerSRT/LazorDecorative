@@ -10,9 +10,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import ru.liner.decorative.blocks.BaseMetaBlock;
-import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.blocks.ILocalized;
 import ru.liner.decorative.blocks.IUseBonemail;
+import ru.liner.decorative.register.Registry;
 import ru.liner.decorative.utils.Vector3;
 
 import java.util.ArrayList;
@@ -67,13 +67,13 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
         Block belowBlock = pos.down().asBlock(world);
         if (belowBlock == Block.whiteStone) {
             canGrow = true;
-        } else if (belowBlock == Blocks.chorusPlant) {
+        } else if (belowBlock == Registry.getInstance().block(BlockChorusPlant.class)) {
             int depth = 1;
             int maxDepth = 4;
 
             while (depth <= maxDepth) {
                 Block blockBelow = pos.down(depth + 1).asBlock(world);
-                if (blockBelow == Blocks.chorusPlant) {
+                if (blockBelow == Registry.getInstance().block(BlockChorusPlant.class)) {
                     depth++;
                 } else if (blockBelow == Block.whiteStone) {
                     canSupportGrowth = true;
@@ -96,7 +96,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
 
 
         if (canGrow && canPlaceChorusPlant(world, upPos) && pos.up(2).isAirBlock(world)) {
-            setBlockState(world, pos, Blocks.chorusPlant.blockID, 0);
+            setBlockState(world, pos, Registry.getInstance().block(BlockChorusPlant.class).blockID, 0);
             placeChorusFlower(world, upPos, age);
             return;
         }
@@ -122,7 +122,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
         }
 
         if (branched) {
-            setBlockState(world, pos, Blocks.chorusPlant.blockID, 0);
+            setBlockState(world, pos, Registry.getInstance().block(BlockChorusPlant.class).blockID, 0);
         } else {
             transformToChorusFlower(world, pos);
         }
@@ -151,14 +151,14 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
     }
 
     private void placeChorusFlower(World world, Vector3 pos, int age) {
-        setBlockState(world, pos, Blocks.chorusFlower.blockID, age);
+        setBlockState(world, pos, Registry.getInstance().block(BlockChorusFlower.class).blockID, age);
     }
 
     private void transformToChorusFlower(World world, Vector3 pos) {
-        setBlockState(world, pos, Blocks.chorusFlower.blockID, 5);
+        setBlockState(world, pos, Registry.getInstance().block(BlockChorusFlower.class).blockID, 5);
     }
     private void transformToChorusPlant(World world, Vector3 pos) {
-        setBlockState(world, pos, Blocks.chorusPlant.blockID, 5);
+        setBlockState(world, pos, Registry.getInstance().block(BlockChorusPlant.class).blockID, 5);
     }
 
     private static boolean canPlaceChorusPlant(World world, Vector3 pos) {
@@ -219,8 +219,8 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
             Vector3 position = pos.offset(face);
             if (position.isAirBlock(world))
                 continue;
-            if(position.hasAnyBlockAround(world, Blocks.chorusPlant.blockID, Block.whiteStone.blockID)){
-                if(position.countBlockAround(world,Blocks.chorusPlant.blockID) < 2 && position.blockMetadata(world) > 1)
+            if(position.hasAnyBlockAround(world, Registry.getInstance().block(BlockChorusPlant.class).blockID, Block.whiteStone.blockID)){
+                if(position.countBlockAround(world,Registry.getInstance().block(BlockChorusPlant.class).blockID) < 2 && position.blockMetadata(world) > 1)
                     continue;
                 foundValidBlock = true;
                 break;
@@ -257,7 +257,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
     }
 
     public void generateChorusPlant(World world, Vector3 pos, Random random, int radius) {
-        setBlockState(world, pos, Blocks.chorusPlant.blockID, 0);
+        setBlockState(world, pos, Registry.getInstance().block(BlockChorusPlant.class).blockID, 0);
         growChorusPlant(world, pos, random, pos, radius, 0);
     }
 
@@ -272,7 +272,7 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
             if (!canPlaceChorusPlant(world, upPos)) {
                 return;
             }
-            setBlockState(world, upPos, Blocks.chorusPlant.blockID, 0);
+            setBlockState(world, upPos, Registry.getInstance().block(BlockChorusPlant.class).blockID, 0);
         }
 
         boolean branched = false;
@@ -289,14 +289,14 @@ public class BlockChorusFlower extends BaseMetaBlock implements ILocalized, IUse
                 if (Math.abs(offsetPos.x - origin.x) < radius && Math.abs(offsetPos.z - origin.z) < radius
                         && offsetPos.isAirBlock(world) && offsetPos.down().isAirBlock(world) && canPlaceChorusPlant(world, offsetPos, getOpposite(direction))) {
                     branched = true;
-                    setBlockState(world, offsetPos, Blocks.chorusPlant.blockID, 0);
+                    setBlockState(world, offsetPos, Registry.getInstance().block(BlockChorusPlant.class).blockID, 0);
                     growChorusPlant(world, offsetPos, random, origin, radius, depth + 1);
                 }
             }
         }
 
         if (!branched) {
-            setBlockState(world, pos.up(height), Blocks.chorusFlower.blockID, 5);
+            setBlockState(world, pos.up(height), Registry.getInstance().block(BlockChorusFlower.class).blockID, 5);
         }
     }
 

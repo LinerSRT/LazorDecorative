@@ -11,8 +11,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import ru.liner.decorative.Decorative;
-import ru.liner.decorative.register.Blocks;
 import ru.liner.decorative.blocks.list.BlockBanner;
+import ru.liner.decorative.register.Registry;
 import ru.liner.decorative.tile.TileEntityBanner;
 import ru.liner.decorative.utils.ColoredText;
 
@@ -90,9 +90,9 @@ public class BaseMultiMetaBannerItem extends BaseMultiMetaItem<BlockBanner> {
                 ++x;
                 break;
         }
-        if (!entity.canPlayerEdit(x, y, z, side, itemStack) || !Blocks.banner.canPlaceBlockAt(world, x, y, z))
+        if (!entity.canPlayerEdit(x, y, z, side, itemStack) || !Registry.getInstance().block(BlockBanner.class).canPlaceBlockAt(world, x, y, z))
             return false;
-        world.setBlock(x, y, z, Blocks.banner.blockID, itemStack.getItemDamage(), 2);
+        world.setBlock(x, y, z, Registry.getInstance().block(BlockBanner.class).blockID, itemStack.getItemDamage(), 2);
         TileEntity e = world.getBlockTileEntity(x, y, z);
         if (!(e instanceof TileEntityBanner))
             return false;

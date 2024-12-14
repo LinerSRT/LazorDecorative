@@ -7,7 +7,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.MinecraftForgeClient;
 import ru.liner.decorative.BuildConfig;
 import ru.liner.decorative.Decorative;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.blocks.list.BlockBanner;
+import ru.liner.decorative.register.Registry;
 import ru.liner.decorative.render.block.CutoutBlockRenderer;
 import ru.liner.decorative.render.block.DoublePlantRenderer;
 import ru.liner.decorative.render.block.RedstoneLogicBlockRenderer;
@@ -26,7 +27,7 @@ public class Renderers {
         RenderingRegistry.registerBlockHandler(new RedstoneLogicBlockRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBanner.class, new TileEntityBannerRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBed.class, new TileEntityBedRenderer());
-        MinecraftForgeClient.registerItemRenderer(Blocks.banner.blockID, new BannerItemRenderer());
+        MinecraftForgeClient.registerItemRenderer(Registry.getInstance().block(BlockBanner.class).blockID, new BannerItemRenderer());
         //MinecraftForgeClient.registerItemRenderer(Blocks.bed.blockID, new BedItemRenderer());
     }
 }

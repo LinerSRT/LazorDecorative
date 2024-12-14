@@ -13,7 +13,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import ru.liner.decorative.blocks.list.BlockBed;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.register.Registry;
 import ru.liner.decorative.tile.TileEntityBanner;
 import ru.liner.decorative.tile.TileEntityBed;
 
@@ -47,9 +47,9 @@ public class ItemBed extends BaseMultiMetaItem<BlockBed>{
                 ++x;
                 break;
         }
-        if (!entity.canPlayerEdit(x, y, z, side, itemStack) || !Blocks.bed.canPlaceBlockAt(world, x, y, z))
+        if (!entity.canPlayerEdit(x, y, z, side, itemStack) || !Registry.getInstance().block(BlockBed.class).canPlaceBlockAt(world, x, y, z))
             return false;
-        world.setBlock(x, y, z, Blocks.bed.blockID, itemStack.getItemDamage(), 2);
+        world.setBlock(x, y, z, Registry.getInstance().block(BlockBed.class).blockID, itemStack.getItemDamage(), 2);
         TileEntity e = world.getBlockTileEntity(x, y, z);
         if (!(e instanceof TileEntityBed))
             return false;

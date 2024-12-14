@@ -13,7 +13,7 @@ import net.minecraft.util.Icon;
 import ru.liner.decorative.blocks.ILocalized;
 import ru.liner.decorative.recipes.IProvideShapelessRecipe;
 import ru.liner.decorative.recipes.ISmellable;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.register.Registry;
 
 public class BlockRedSand extends BlockSand implements IProvideShapelessRecipe, ISmellable, ILocalized {
     public BlockRedSand(int blockID) {
@@ -50,7 +50,7 @@ public class BlockRedSand extends BlockSand implements IProvideShapelessRecipe, 
 
     @Override
     public ItemStack getSmeltingResult() {
-        return new ItemStack(Blocks.redSandStone);
+        return new ItemStack(Registry.getInstance().block(BlockRedSand.class));
     }
 
     @Override

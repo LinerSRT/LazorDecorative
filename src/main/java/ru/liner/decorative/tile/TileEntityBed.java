@@ -6,7 +6,9 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
-import ru.liner.decorative.register.Blocks;
+import ru.liner.decorative.blocks.list.BlockBanner;
+import ru.liner.decorative.blocks.list.BlockBed;
+import ru.liner.decorative.register.Registry;
 
 public class TileEntityBed extends TileEntity {
     private int color;
@@ -43,7 +45,7 @@ public class TileEntityBed extends TileEntity {
     }
 
     public void writeToStack(ItemStack stack) {
-        if (stack != null && stack.itemID == Blocks.bed.blockID) {
+        if (stack != null && stack.itemID == Registry.getInstance().block(BlockBed.class).blockID) {
             NBTTagCompound tagCompound = new NBTTagCompound();
             stack.setItemDamage(color);
             tagCompound.setInteger("color", color);
